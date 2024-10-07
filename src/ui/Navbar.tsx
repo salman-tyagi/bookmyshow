@@ -5,7 +5,7 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 
 import Logo from './Logo';
 import SearchBar from './SearchBar';
-import Login from '../authentication/Login';
+import Login from '../authentication/MobileLogin';
 
 const Navbar = (): JSX.Element => {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -13,7 +13,7 @@ const Navbar = (): JSX.Element => {
   return (
     <>
       <section className='container mx-auto'>
-        <div className='mx-4 my-3 flex items-center gap-8 md:mx-6 xl:mx-48'>
+        <div className='mx-4 my-3 flex items-center gap-8 md:mx-6'>
           <Logo />
 
           <SearchBar placeholder='Search for Movies, Events, Plays, Sports and Activities' />
