@@ -1,7 +1,14 @@
+import { Toaster } from 'react-hot-toast';
+
 import Navbar from './ui/Navbar';
 
 const App = (): JSX.Element => {
-  return <Navbar />;
+  return (
+    <>
+      <Toaster />
+      <Navbar />
+    </>
+  );
 };
 
 export default App;
