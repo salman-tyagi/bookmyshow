@@ -3,18 +3,24 @@ import { useState } from 'react';
 import { GoChevronDown } from 'react-icons/go';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
+import { Link } from 'react-router-dom';
+
 import Logo from './Logo';
 import SearchBar from './SearchBar';
 import Login from '../authentication/MobileLogin';
+import HamburgerMenu from './HamburgerMenu';
 
 const Navbar = (): JSX.Element => {
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [openBurgerMenu, setOpenBurgerMenu] = useState(false);
 
   return (
     <>
       <section className='container mx-auto'>
         <div className='mx-4 my-3 flex items-center gap-8 md:mx-6'>
-          <Logo />
+          <Link to='/'>
+            <Logo />
+          </Link>
 
           <SearchBar placeholder='Search for Movies, Events, Plays, Sports and Activities' />
 
@@ -29,11 +35,15 @@ const Navbar = (): JSX.Element => {
           >
             Sign in
           </button>
-          <RxHamburgerMenu className='cursor-pointer text-lg text-gray-900' />
+          <RxHamburgerMenu
+            className='cursor-pointer text-lg text-gray-900'
+            onClick={() => setOpenBurgerMenu(true)}
+          />
         </div>
       </section>
 
       {showLoginModal && <Login setShowLoginModal={setShowLoginModal} />}
+      {openBurgerMenu && <HamburgerMenu />}
     </>
   );
 };

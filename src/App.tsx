@@ -1,14 +1,16 @@
-import { Toaster } from 'react-hot-toast';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import Navbar from './ui/Navbar';
+import Homepage from './pages/Homepage';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Homepage />
+  }
+]);
 
 const App = (): JSX.Element => {
-  return (
-    <>
-      <Toaster />
-      <Navbar />
-    </>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

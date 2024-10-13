@@ -3,7 +3,12 @@
 @tailwind utilities;
 
 body {
-  background-color: #f7f7f7;
   font-family: sans-serif;
   color: #555;
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
 }
