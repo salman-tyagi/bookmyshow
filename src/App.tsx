@@ -9,8 +9,8 @@ const router = createBrowserRouter([
   }
 ]);
 
-const App = (): JSX.Element => {
+function App(): JSX.Element {
   return <RouterProvider router={router} />;
-};
+}
 
 export default App;

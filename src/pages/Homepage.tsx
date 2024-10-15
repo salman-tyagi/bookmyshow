@@ -1,10 +1,10 @@
-import Navbar from '../ui/Navbar';
+import NavBar from '../ui/NavBar';
 import TopBar from '../ui/TopBar';
 
 const Homepage = (): JSX.Element => {
   return (
     <>
-      <Navbar />
+      <NavBar />
       <TopBar />
     </>
   );
