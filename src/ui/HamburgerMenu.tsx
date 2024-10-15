@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { IoChevronForward } from 'react-icons/io5';
 import { CiLock } from 'react-icons/ci';
@@ -47,47 +49,78 @@ const hamMenuList = [
   }
 ];
 
-function HamburgerMenu(): JSX.Element {
+interface HamburgerProps {
+  onClose(): void;
+  onOpenLoginModal(): void;
+}
+
+function HamburgerMenu({
+  onClose,
+  onOpenLoginModal
+}: HamburgerProps): JSX.Element {
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    overlayRef.current?.addEventListener('click', () => {
+      onClose();
+    });
+  }, [onClose]);
+
+  useEffect(() => {
+    const keyDownFn = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      onClose();
+    };
+
+    document.body.addEventListener('keydown', keyDownFn);
+    return () => document.body.removeEventListener('keydown', keyDownFn);
+  }, [onClose]);
+
   return (
-    <div className='no-scrollbar animate-slide-left absolute right-0 top-0 h-full w-96 overflow-y-auto bg-white shadow-[-2px_0_2px_2px_rgba(0,0,0,0.05)]'>
-      <div className='sticky top-0 bg-inherit'>
-        <p className='border-b p-4 text-2xl font-bold text-gray-800'>Hey!</p>
+    <div className='modal-overlay' ref={overlayRef}>
+      <div className='no-scrollbar absolute right-0 top-0 h-full w-96 animate-slide-left overflow-y-auto bg-white shadow-[-2px_0_2px_2px_rgba(0,0,0,0.05)]'>
+        <div className='sticky top-0 bg-inherit'>
+          <p className='border-b p-4 text-2xl font-bold text-gray-800'>Hey!</p>
 
-        <div className='flex items-center justify-between p-4 leading-none shadow-md'>
-          <img
-            className='w-[40px]'
-            src='/images/hamburgerMenu/rewards-login.png'
-            alt='rewards-img'
-          />
-          <p className='text-violet-500'>
-            Unlock special offers & <br /> great benefits
-          </p>
-          <button className='rounded-lg border border-red-500 p-2 text-xs font-bold text-red-500'>
-            Login / Register
-          </button>
+          <div className='flex items-center justify-between p-4 leading-none shadow-md'>
+            <img
+              className='w-[40px]'
+              src='/images/hamburgerMenu/rewards-login.png'
+              alt='rewards-img'
+            />
+            <p className='text-violet-500'>
+              Unlock special offers & <br /> great benefits
+            </p>
+            <button
+              className='rounded-lg border border-red-500 p-2 text-xs font-bold text-red-500'
+              onClick={onOpenLoginModal}
+            >
+              Login / Register
+            </button>
+          </div>
         </div>
-      </div>
 
-      <ul>
-        {hamMenuList.map(menu => (
-          <li
-            key={menu.desc}
-            className='flex cursor-pointer items-center gap-4 border-b p-4 hover:bg-gray-100'
-          >
-            {typeof menu.icon === 'string' ? (
-              <img
-                className='w-[20px]'
-                src={`${menu.icon}`}
-                alt={`${menu.desc}-img`}
-              />
-            ) : (
-              <span>{menu.icon}</span>
-            )}
-            <p>{menu.desc}</p>
-            <span className='ml-auto'>{menu.btn}</span>
-          </li>
-        ))}
-      </ul>
+        <ul>
+          {hamMenuList.map(menu => (
+            <li
+              key={menu.desc}
+              className='flex cursor-pointer items-center gap-4 border-b p-4 hover:bg-gray-100'
+            >
+              {typeof menu.icon === 'string' ? (
+                <img
+                  className='w-[20px]'
+                  src={`${menu.icon}`}
+                  alt={`${menu.desc}-img`}
+                />
+              ) : (
+                <span>{menu.icon}</span>
+              )}
+              <p>{menu.desc}</p>
+              <span className='ml-auto'>{menu.btn}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

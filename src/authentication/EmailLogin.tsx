@@ -1,7 +1,8 @@
 import { SetStateAction, useState } from 'react';
-import { IoChevronBackOutline } from 'react-icons/io5';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+
+import { IoChevronBackOutline } from 'react-icons/io5';
 
 import OTPLogin from './OTPLogin';
 
@@ -45,7 +46,7 @@ const EmailLogin = ({ setShowEmailLogin }: EmailLoginProps): JSX.Element => {
         <OTPLogin showEmailLoginHandler={showEmailLoginHandler} />
       ) : (
         <form
-          className={`mx-auto w-[27rem] rounded-lg bg-white p-8`}
+          className='w-[26rem] p-10'
           onSubmit={handleSubmit(emailLoginHandler)}
         >
           <IoChevronBackOutline

@@ -2,9 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: sans-serif;
-  color: #555;
+@layer base {
+  body {
+    @apply font-sans
+  }
+}
+
+@layer components {
+  .btn {
+    @apply text-white bg-red-500 text-sm font-semibold
+  }
+
+  .modal-overlay {
+    @apply fixed top-0 h-screen w-full bg-black/50 transition-all
+  }
+
+  .modal-centered {
+    @apply fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg bg-white shadow-md
+  }
 }
 
 @layer utilities {
