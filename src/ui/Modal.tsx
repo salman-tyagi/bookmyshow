@@ -7,7 +7,7 @@ interface ModalProps {
 function Modal({ children }: ModalProps): JSX.Element {
   return (
     <div className='modal-overlay'>
-      <div className='modal-centered'>{children}</div>
+      <div className='modal-centered animate-slide-bottom'>{children}</div>
     </div>
   );
 }

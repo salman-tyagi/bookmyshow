@@ -3,8 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply no-scrollbar
+  }
+
   body {
-    @apply font-sans
+    @apply font-sans text-stone-700
   }
 }
 
@@ -14,11 +18,11 @@
   }
 
   .modal-overlay {
-    @apply fixed top-0 h-screen w-full bg-black/50 transition-all
+    @apply fixed top-0 h-screen w-full bg-black/35 flex justify-center animate-overlay-smooth
   }
 
   .modal-centered {
-    @apply fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg bg-white shadow-md
+    @apply fixed top-24 overflow-hidden rounded-lg bg-white shadow-md
   }
 }
 

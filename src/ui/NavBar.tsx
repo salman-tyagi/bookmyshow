@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import Logo from './Logo';
 import SearchBar from './SearchBar';
 import Login from '../authentication/MobileLogin';
-import HamburgerMenu from './HamburgerMenu';
+import Hamburger from './Hamburger';
 
 const NavBar = (): JSX.Element => {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -49,7 +49,7 @@ const NavBar = (): JSX.Element => {
       {showLoginModal && <Login setShowLoginModal={setShowLoginModal} />}
 
       {openBurgerMenu && (
-        <HamburgerMenu
+        <Hamburger
           onClose={() => setOpenBurgerMenu(false)}
           onOpenLoginModal={openLoginModalHandler}
         />

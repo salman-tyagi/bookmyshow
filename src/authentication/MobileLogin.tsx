@@ -44,7 +44,7 @@ function Login({ setShowLoginModal }: LoginProps): JSX.Element {
               onClick={() => setShowLoginModal(false)}
             />
 
-            <div className='mb-6 flex flex-col gap-4 text-sm font-semibold'>
+            <div className='mb-6 flex flex-col gap-5 text-sm font-semibold'>
               <div className='cursor-pointer rounded border border-gray-400 px-3 py-3 transition-all hover:border-gray-200 hover:bg-gray-100'>
                 Continue with Google
               </div>
