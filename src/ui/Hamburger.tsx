@@ -26,8 +26,12 @@ function HamburgerMenu({
       onClose();
     };
 
+    document.body.style.overflow = 'hidden';
     document.body.addEventListener('keydown', keyDownFn);
-    return () => document.body.removeEventListener('keydown', keyDownFn);
+    return () => {
+      document.body.removeEventListener('keydown', keyDownFn);
+      document.body.style.overflow = 'auto';
+    };
   }, [onClose]);
 
   return (
