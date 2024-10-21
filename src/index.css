@@ -18,7 +18,7 @@
   }
 
   .modal-overlay {
-    @apply fixed top-0 h-screen w-full bg-black/35 flex justify-center animate-overlay-smooth
+    @apply fixed top-0 h-screen w-full bg-black/35 flex justify-center animate-overlay-smooth z-10
   }
 
   .modal-centered {
