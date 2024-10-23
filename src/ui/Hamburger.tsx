@@ -3,14 +3,11 @@ import { useEffect, useRef } from 'react';
 import HamburgerMenuList from './HamburgerMenuList';
 
 interface HamburgerMenuProps {
+  onShow(): void;
   onClose(): void;
-  onOpenLoginModal(): void;
 }
 
-function HamburgerMenu({
-  onClose,
-  onOpenLoginModal
-}: HamburgerMenuProps): JSX.Element {
+function HamburgerMenu({ onShow, onClose }: HamburgerMenuProps): JSX.Element {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   // useEffect(() => {
@@ -51,7 +48,7 @@ function HamburgerMenu({
             </p>
             <button
               className='rounded-lg border border-red-500 p-2 text-xs font-bold text-red-500'
-              onClick={onOpenLoginModal}
+              onClick={onShow}
             >
               Login / Register
             </button>
