@@ -46,12 +46,12 @@ const NavBar = (): JSX.Element => {
         />
       </div>
 
-      {showLoginModal && <Login setShowLoginModal={setShowLoginModal} />}
+      {showLoginModal && <Login onShow={setShowLoginModal} />}
 
       {openBurgerMenu && (
         <Hamburger
           onClose={() => setOpenBurgerMenu(false)}
-          onOpenLoginModal={openLoginModalHandler}
+          onShow={openLoginModalHandler}
         />
       )}
     </>

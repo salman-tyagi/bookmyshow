@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
@@ -18,11 +18,17 @@ interface FormValues {
 
 const EmailLogin = ({ setShowEmailLogin }: EmailLoginProps): JSX.Element => {
   const [showOTP, setShowOTP] = useState(false);
+
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, dirtyFields, isValid },
+    reset,
+    setFocus
   } = useForm<FormValues>();
+
+  const isEmailDirty = dirtyFields.email || false;
+  const validEmail = isEmailDirty && !isValid;
 
   const showEmailLoginHandler = (): void => {
     setShowEmailLogin(false);
@@ -38,7 +44,16 @@ const EmailLogin = ({ setShowEmailLogin }: EmailLoginProps): JSX.Element => {
 
     toast.success(res.message);
     setShowOTP(true);
+    return;
   };
+
+  const handleReset = (): void => {
+    reset();
+  };
+
+  useEffect(() => {
+    setFocus('email');
+  }, [setFocus]);
 
   return (
     <>
@@ -64,24 +79,45 @@ const EmailLogin = ({ setShowEmailLogin }: EmailLoginProps): JSX.Element => {
                 Email
               </label>
 
-              <input
-                id='email'
-                type='email'
-                className='w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none'
-                {...register('email', {
-                  required: 'Email is required',
-                  maxLength: 30
-                })}
-              />
+              <div className='relative'>
+                <input
+                  id='email'
+                  className={`text-md w-full rounded-md border border-gray-300 px-3 py-2 outline-none ${validEmail && 'border-red-600'} leading-none`}
+                  {...register('email', {
+                    required: 'Email is required',
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: 'Invalid Email'
+                    },
+                    maxLength: 30
+                  })}
+                />
+
+                {validEmail && (
+                  <button
+                    className='absolute right-2 top-1/2 -translate-y-1/2 text-3xl font-extralight leading-none'
+                    onClick={handleReset}
+                  >
+                    &times;
+                  </button>
+                )}
+              </div>
 
               {errors.email && (
-                <p className='mt-1 text-xs text-red-600'>
+                <p className='mt-1 text-sm text-red-600'>
                   {errors.email.message}
                 </p>
               )}
+
+              {validEmail && (
+                <p className='mt-1 text-sm text-red-600'>Invalid Email</p>
+              )}
             </div>
 
-            <button className='text-md mt-auto w-full rounded-lg bg-rose-400 py-2 font-semibold text-white transition-all hover:bg-rose-500 active:bg-rose-400'>
+            <button
+              className='text-md mt-auto w-full rounded-lg bg-rose-400 py-2 font-semibold text-white transition-all hover:bg-rose-500 active:bg-rose-400 disabled:bg-stone-300'
+              disabled={!isValid}
+            >
               Continue
             </button>
           </div>
