@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
@@ -23,7 +23,8 @@ const EmailLogin = ({ setShowEmailLogin }: EmailLoginProps): JSX.Element => {
     register,
     handleSubmit,
     formState: { errors, dirtyFields, isValid },
-    reset
+    reset,
+    setFocus
   } = useForm<FormValues>();
 
   const isEmailDirty = dirtyFields.email || false;
@@ -49,6 +50,10 @@ const EmailLogin = ({ setShowEmailLogin }: EmailLoginProps): JSX.Element => {
   const handleReset = (): void => {
     reset();
   };
+
+  useEffect(() => {
+    setFocus('email');
+  }, [setFocus]);
 
   return (
     <>

@@ -1,5 +1,8 @@
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+
 import { IoChevronBackOutline } from 'react-icons/io5';
 
 import { login } from '../services/auth/login';
@@ -13,15 +16,22 @@ interface FormValues {
 }
 
 const OTPLogin = ({ showEmailLoginHandler }: OTPLoginProps): JSX.Element => {
+  const [seconds, setSeconds] = useState(30);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    reset,
+    watch
   } = useForm<FormValues>();
 
-  const OTPSubmitHandler = async (data: FormValues): Promise<void> => {
-    const email = localStorage.getItem('email');
+  const email = localStorage.getItem('email');
+  const watchOTP = watch('OTP');
+  const OTPlength = watchOTP?.toString().length;
 
+  const OTPSubmitHandler = async (data: FormValues): Promise<void> => {
     if (!email) {
       toast.error('Email is required');
       return;
@@ -36,7 +46,20 @@ const OTPLogin = ({ showEmailLoginHandler }: OTPLoginProps): JSX.Element => {
 
     localStorage.setItem('token', JSON.stringify(res?.token));
     toast.success('Login successfully');
+
+    reset();
+    navigate('/');
   };
+
+  useEffect(() => {
+    if (seconds === 0) return;
+
+    const interval = setInterval(() => {
+      setSeconds(seconds => --seconds);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [seconds]);
 
   return (
     <form
@@ -52,20 +75,44 @@ const OTPLogin = ({ showEmailLoginHandler }: OTPLoginProps): JSX.Element => {
         Verify your Email Address
       </h3>
 
-      <p className='mb-10 text-sm'>Enter OTP sent to USER_EMAIL</p>
+      <p className='mb-6 text-sm'>
+        Enter OTP sent to <span className='font-semibold'>{email}</span>
+      </p>
 
       <input
         type='number'
         className='w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none'
-        {...register('OTP', { required: 'OTP is required', maxLength: 6 })}
+        {...register('OTP', {
+          required: 'OTP is required',
+          minLength: 6,
+          maxLength: 6
+        })}
       />
       {errors.OTP && (
         <p className='text-xs text-red-500'>{errors.OTP.message}</p>
       )}
 
-      <button className='text-md mt-auto w-full rounded-lg bg-rose-400 py-2 font-semibold text-white transition-all hover:bg-rose-500 active:bg-rose-400'>
-        Continue
-      </button>
+      <div className='mt-auto'>
+        {seconds !== 0 ? (
+          <p className='mb-3 text-center text-sm text-red-500'>
+            Expect OTP in {seconds} seconds
+          </p>
+        ) : (
+          <p className='mb-3 text-center text-sm'>
+            Didn't receive OTP?{' '}
+            <span className='cursor-pointer font-medium text-red-500'>
+              Resend OTP
+            </span>
+          </p>
+        )}
+
+        <button
+          className='text-md w-full rounded-lg bg-rose-400 py-2 font-semibold text-white transition-all hover:bg-rose-500 active:bg-rose-400 disabled:bg-rose-100'
+          disabled={OTPlength !== 6}
+        >
+          Continue
+        </button>
+      </div>
     </form>
   );
 };
