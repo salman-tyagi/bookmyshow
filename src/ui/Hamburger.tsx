@@ -10,12 +10,11 @@ interface HamburgerMenuProps {
 function HamburgerMenu({ onShow, onClose }: HamburgerMenuProps): JSX.Element {
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   overlayRef.current?.addEventListener('click', () => {
-  //     console.log('click');
-  //     onClose();
-  //   });
-  // }, [onClose]);
+  useEffect(() => {
+    overlayRef.current?.addEventListener('click', () => {
+      onClose();
+    });
+  }, [onClose]);
 
   useEffect(() => {
     const keyDownFn = (e: KeyboardEvent) => {
@@ -25,6 +24,7 @@ function HamburgerMenu({ onShow, onClose }: HamburgerMenuProps): JSX.Element {
 
     document.body.style.overflow = 'hidden';
     document.body.addEventListener('keydown', keyDownFn);
+
     return () => {
       document.body.removeEventListener('keydown', keyDownFn);
       document.body.style.overflow = 'auto';
@@ -32,8 +32,10 @@ function HamburgerMenu({ onShow, onClose }: HamburgerMenuProps): JSX.Element {
   }, [onClose]);
 
   return (
-    <div className='modal-overlay' ref={overlayRef}>
-      <div className='no-scrollbar absolute right-0 top-0 h-full w-96 animate-slide-left overflow-y-auto bg-white shadow-[-2px_0_2px_2px_rgba(0,0,0,0.05)]'>
+    <>
+      <div className='modal-overlay' ref={overlayRef}></div>
+
+      <div className='no-scrollbar absolute right-0 top-0 z-20 h-full w-96 animate-slide-left overflow-y-auto bg-white shadow-[-2px_0_2px_2px_rgba(0,0,0,0.05)]'>
         <div className='sticky top-0 bg-inherit'>
           <p className='border-b p-4 text-2xl font-bold text-gray-800'>Hey!</p>
 
@@ -57,7 +59,7 @@ function HamburgerMenu({ onShow, onClose }: HamburgerMenuProps): JSX.Element {
 
         <HamburgerMenuList />
       </div>
-    </div>
+    </>
   );
 }
 

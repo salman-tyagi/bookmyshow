@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 import { IoChevronBackOutline } from 'react-icons/io5';
@@ -17,7 +16,6 @@ interface FormValues {
 
 const OTPLogin = ({ showEmailLoginHandler }: OTPLoginProps): JSX.Element => {
   const [seconds, setSeconds] = useState(30);
-  const navigate = useNavigate();
 
   const {
     register,
@@ -48,7 +46,6 @@ const OTPLogin = ({ showEmailLoginHandler }: OTPLoginProps): JSX.Element => {
     toast.success('Login successfully');
 
     reset();
-    navigate('/');
   };
 
   useEffect(() => {

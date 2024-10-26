@@ -1,9 +1,7 @@
 import { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 import { GoChevronDown } from 'react-icons/go';
 import { RxHamburgerMenu } from 'react-icons/rx';
-
-import { Link } from 'react-router-dom';
 
 import Logo from './Logo';
 import SearchBar from './SearchBar';
