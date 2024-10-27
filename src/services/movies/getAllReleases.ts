@@ -31,9 +31,7 @@ export const getAllReleases = async (): Promise<
   ReleasesResponse | undefined
 > => {
   try {
-    const res = await axios.get<ReleasesResponse>(
-      `${API_URL}/api/v1/releases?sort=price`
-    );
+    const res = await axios.get<ReleasesResponse>(`${API_URL}/api/v1/releases`);
     if (res.status === 200) return res.data;
   } catch (err) {
     if (err instanceof AxiosError) {

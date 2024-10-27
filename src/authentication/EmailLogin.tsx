@@ -1,23 +1,27 @@
 import { SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-
 import { IoChevronBackOutline } from 'react-icons/io5';
 
 import OTPLogin from './OTPLogin';
 
+import { useAppDispatch } from '../hooks/hooks';
 import { signup } from '../services/auth/signup';
 
 interface EmailLoginProps {
   setShowEmailLogin: React.Dispatch<SetStateAction<boolean>>;
+  onClose(): void;
 }
 
 interface FormValues {
   email: string;
 }
 
-const EmailLogin = ({ setShowEmailLogin }: EmailLoginProps): JSX.Element => {
+const EmailLogin = ({
+  setShowEmailLogin,
+  onClose
+}: EmailLoginProps): JSX.Element => {
   const [showOTP, setShowOTP] = useState(false);
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -35,16 +39,9 @@ const EmailLogin = ({ setShowEmailLogin }: EmailLoginProps): JSX.Element => {
   };
 
   const emailLoginHandler = async (data: FormValues): Promise<void> => {
-    const res = await signup(data);
+    dispatch(signup(data));
 
-    if (res?.status !== 'success') {
-      toast.error('Failed to create account!', { id: 'failed' });
-      return;
-    }
-
-    toast.success(res.message);
     setShowOTP(true);
-    return;
   };
 
   const handleReset = (): void => {
@@ -58,7 +55,10 @@ const EmailLogin = ({ setShowEmailLogin }: EmailLoginProps): JSX.Element => {
   return (
     <>
       {showOTP ? (
-        <OTPLogin showEmailLoginHandler={showEmailLoginHandler} />
+        <OTPLogin
+          onClose={onClose}
+          showEmailLoginHandler={showEmailLoginHandler}
+        />
       ) : (
         <form
           className='w-[26rem] p-10'

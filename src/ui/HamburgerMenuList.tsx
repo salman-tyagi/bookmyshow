@@ -1,6 +1,4 @@
 import { IoMdNotificationsOutline } from 'react-icons/io';
-import { IoChevronForward } from 'react-icons/io5';
-import { CiLock } from 'react-icons/ci';
 import { CiSettings } from 'react-icons/ci';
 import { HiOutlineGift } from 'react-icons/hi2';
 
@@ -9,51 +7,43 @@ import HamburgerMenuItem from './HamburgerMenuItem';
 const menuList = [
   {
     icon: <IoMdNotificationsOutline size={22} />,
-    desc: 'Notifications',
-    btn: <IoChevronForward />
+    desc: 'Notifications'
   },
   {
     icon: '/images/hamburgerMenu/purchase-history.png',
-    desc: 'Your orders',
-    btn: <IoChevronForward />
+    desc: 'Your orders'
   },
   {
     icon: '/images/hamburgerMenu/stream-library.png',
-    desc: 'Stream library',
-    btn: <CiLock />
+    desc: 'Stream library'
   },
   {
     icon: '/images/hamburgerMenu/play-credit-card.png',
-    desc: 'Play credit card',
-    btn: <IoChevronForward />
+    desc: 'Play credit card'
   },
   {
     icon: '/images/hamburgerMenu/help-and-support.png',
-    desc: 'Help & support',
-    btn: <IoChevronForward />
+    desc: 'Help & support'
   },
   {
     icon: <CiSettings size={22} />,
-    desc: 'Account & settings',
-    btn: <IoChevronForward />
+    desc: 'Account & settings'
   },
   {
     icon: <HiOutlineGift size={22} />,
-    desc: 'Rewards',
-    btn: <IoChevronForward />
+    desc: 'Rewards'
   },
   {
     icon: '/images/hamburgerMenu/book-a-change.png',
-    desc: 'BookAChange',
-    btn: <IoChevronForward />
+    desc: 'BookAChange'
   }
 ];
 
 const HamburgerMenuList = (): JSX.Element => {
   return (
     <ul>
-      {menuList.map(menu => (
-        <HamburgerMenuItem key={menu.desc} menu={menu} />
+      {menuList.map((menu, i) => (
+        <HamburgerMenuItem index={i} key={menu.desc} menu={menu} />
       ))}
     </ul>
   );
