@@ -5,15 +5,21 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 
 import Logo from './Logo';
 import SearchBar from './SearchBar';
-import Login from '../authentication/MobileLogin';
 import Hamburger from './Hamburger';
+import SignIn from '../authentication/SignIn';
+
+import isAuthenticated from '../utils/isAuthenticated';
+import getEmail from '../utils/getEmail';
 
 const NavBar = (): JSX.Element => {
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignInModal, setShowSignInModal] = useState(false);
   const [openBurgerMenu, setOpenBurgerMenu] = useState(false);
 
-  const openLoginModalHandler = (): void => {
-    setShowLoginModal(true);
+  const user = isAuthenticated();
+  const email = getEmail();
+
+  const openSignInModalHandler = (): void => {
+    setShowSignInModal(true);
     setOpenBurgerMenu(false);
   };
 
@@ -31,25 +37,44 @@ const NavBar = (): JSX.Element => {
           <GoChevronDown />
         </div>
 
-        <button
-          className='rounded bg-rose-500 px-4 py-1 text-xs text-white transition-all hover:bg-rose-600 active:bg-rose-500'
-          onClick={() => setShowLoginModal(true)}
-        >
-          Sign in
-        </button>
-        <RxHamburgerMenu
-          size={24}
-          className='cursor-pointer text-gray-900'
-          onClick={() => setOpenBurgerMenu(true)}
-        />
+        {!user ? (
+          <>
+            <button
+              className='rounded bg-rose-500 px-4 py-1 text-xs text-white transition-all hover:bg-rose-600 active:bg-rose-500'
+              onClick={() => setShowSignInModal(true)}
+            >
+              Sign in
+            </button>
+            <RxHamburgerMenu
+              size={24}
+              className='cursor-pointer text-gray-900'
+              onClick={() => setOpenBurgerMenu(true)}
+            />
+          </>
+        ) : (
+          <button
+            className='flex items-center gap-3'
+            onClick={() => setOpenBurgerMenu(true)}
+          >
+            <img className='w-7' src='/images/default-photo.webp' alt='photo' />
+            <span className='max-w-24 truncate text-sm font-medium'>
+              Hi, {email}
+            </span>
+          </button>
+        )}
       </div>
 
-      {showLoginModal && <Login onShow={setShowLoginModal} />}
+      {showSignInModal && (
+        <SignIn
+          onShow={setShowSignInModal}
+          onClose={() => setShowSignInModal(false)}
+        />
+      )}
 
       {openBurgerMenu && (
         <Hamburger
+          onShowSignIn={openSignInModalHandler}
           onClose={() => setOpenBurgerMenu(false)}
-          onShow={openLoginModalHandler}
         />
       )}
     </>

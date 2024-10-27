@@ -1,52 +1,65 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-
 import { IoChevronBackOutline } from 'react-icons/io5';
+
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 import { login } from '../services/auth/login';
 
 interface OTPLoginProps {
   showEmailLoginHandler: () => void;
+  onClose(): void;
 }
 
 interface FormValues {
   OTP: number;
 }
 
-const OTPLogin = ({ showEmailLoginHandler }: OTPLoginProps): JSX.Element => {
+const OTPLogin = ({
+  showEmailLoginHandler,
+  onClose
+}: OTPLoginProps): JSX.Element => {
   const [seconds, setSeconds] = useState(30);
+  const { email } = useAppSelector(state => state.auth);
+
+  const dispatch = useAppDispatch();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-    watch
+    watch,
+    setFocus
   } = useForm<FormValues>();
 
-  const email = localStorage.getItem('email');
   const watchOTP = watch('OTP');
   const OTPlength = watchOTP?.toString().length;
 
-  const OTPSubmitHandler = async (data: FormValues): Promise<void> => {
-    if (!email) {
-      toast.error('Email is required');
-      return;
+  const OTPSubmitHandler = async (formData: FormValues): Promise<void> => {
+    try {
+      if (!email) {
+        toast.error('Email is required');
+        return;
+      }
+
+      const data = await dispatch(login({ ...formData, email }));
+
+      if (!data.payload) {
+        toast.error(data.error.message, { id: 'failed' });
+        return;
+      }
+
+      toast.success('Logged in successfully');
+      onClose();
+    } catch (err) {
+      console.log(err);
     }
-
-    const res = await login({ ...data, email });
-
-    if (res?.status !== 'success') {
-      toast.error('Failed to login', { id: 'failed' });
-      return;
-    }
-
-    localStorage.setItem('token', JSON.stringify(res?.token));
-    toast.success('Login successfully');
-
-    reset();
   };
+
+  useEffect(() => {
+    setFocus('OTP');
+  }, [setFocus]);
 
   useEffect(() => {
     if (seconds === 0) return;
@@ -91,8 +104,9 @@ const OTPLogin = ({ showEmailLoginHandler }: OTPLoginProps): JSX.Element => {
 
       <div className='mt-auto'>
         {seconds !== 0 ? (
-          <p className='mb-3 text-center text-sm text-red-500'>
-            Expect OTP in {seconds} seconds
+          <p className='mb-3 text-center text-sm'>
+            Expect OTP in <span className='font-medium'>{seconds} </span>
+            seconds
           </p>
         ) : (
           <p className='mb-3 text-center text-sm'>
@@ -104,7 +118,7 @@ const OTPLogin = ({ showEmailLoginHandler }: OTPLoginProps): JSX.Element => {
         )}
 
         <button
-          className='text-md w-full rounded-lg bg-rose-400 py-2 font-semibold text-white transition-all hover:bg-rose-500 active:bg-rose-400 disabled:bg-rose-100'
+          className='text-md w-full rounded-lg bg-rose-500 py-2 font-semibold text-white transition-all hover:bg-rose-600 active:bg-rose-500 disabled:bg-rose-100'
           disabled={OTPlength !== 6}
         >
           Continue

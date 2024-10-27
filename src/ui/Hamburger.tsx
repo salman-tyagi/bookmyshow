@@ -1,14 +1,24 @@
 import { useEffect, useRef } from 'react';
 
 import HamburgerMenuList from './HamburgerMenuList';
+import { IoChevronForward } from 'react-icons/io5';
+
+import isAuthenticated from '../utils/isAuthenticated';
+import getEmail from '../utils/getEmail';
 
 interface HamburgerMenuProps {
-  onShow(): void;
+  onShowSignIn(): void;
   onClose(): void;
 }
 
-function HamburgerMenu({ onShow, onClose }: HamburgerMenuProps): JSX.Element {
+function HamburgerMenu({
+  onShowSignIn,
+  onClose
+}: HamburgerMenuProps): JSX.Element {
   const overlayRef = useRef<HTMLDivElement>(null);
+
+  const user = isAuthenticated();
+  const email = getEmail();
 
   useEffect(() => {
     overlayRef.current?.addEventListener('click', () => {
@@ -36,28 +46,64 @@ function HamburgerMenu({ onShow, onClose }: HamburgerMenuProps): JSX.Element {
       <div className='modal-overlay' ref={overlayRef}></div>
 
       <div className='no-scrollbar absolute right-0 top-0 z-20 h-full w-96 animate-slide-left overflow-y-auto bg-white shadow-[-2px_0_2px_2px_rgba(0,0,0,0.05)]'>
-        <div className='sticky top-0 bg-inherit'>
-          <p className='border-b p-4 text-2xl font-bold text-gray-800'>Hey!</p>
-
-          <div className='flex items-center justify-between p-4 leading-none shadow-md'>
-            <img
-              className='w-[40px]'
-              src='/images/hamburgerMenu/rewards-login.png'
-              alt='rewards-img'
-            />
-            <p className='text-violet-500'>
-              Unlock special offers & <br /> great benefits
+        <div className='sticky top-0 z-10 bg-inherit'>
+          {!user ? (
+            <p className='border-b p-4 text-2xl font-bold text-gray-800'>
+              Hey!
             </p>
-            <button
-              className='rounded-lg border border-red-500 p-2 text-xs font-bold text-red-500'
-              onClick={onShow}
-            >
-              Login / Register
-            </button>
-          </div>
+          ) : (
+            <div className='flex items-center justify-between border-b px-4 py-3'>
+              <div>
+                <p className='text-xl font-bold text-gray-800'>Hi, {email}</p>
+                <button className='flex items-center text-xs'>
+                  <span>Edit Profile</span>
+                  <IoChevronForward />
+                </button>
+              </div>
+
+              <img
+                className='max-w-10'
+                src='/images/default-photo.webp'
+                alt="user's photo"
+              />
+            </div>
+          )}
+
+          {!user && (
+            <div className='flex items-center justify-between p-4 leading-none shadow-md'>
+              <img
+                className='w-[40px]'
+                src='/images/hamburgerMenu/rewards-login.png'
+                alt='rewards-img'
+              />
+              <p className='text-violet-500'>
+                Unlock special offers & <br /> great benefits
+              </p>
+              <button
+                className='rounded-lg border border-red-500 p-2 text-xs font-bold text-red-500'
+                onClick={onShowSignIn}
+              >
+                Login / Register
+              </button>
+            </div>
+          )}
         </div>
 
         <HamburgerMenuList />
+
+        {user && (
+          <div className='absolute bottom-0 w-full border bg-white p-3'>
+            <button
+              className='w-full rounded border border-red-500 py-2 text-lg font-semibold text-rose-500'
+              onClick={() => {
+                localStorage.clear();
+                location.href = '/';
+              }}
+            >
+              Sign out
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

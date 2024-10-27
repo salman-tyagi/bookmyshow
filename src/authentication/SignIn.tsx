@@ -8,9 +8,10 @@ import Modal from '../ui/Modal';
 
 interface LoginProps {
   onShow: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose(): void;
 }
 
-function Login({ onShow }: LoginProps): JSX.Element {
+function SignIn({ onShow, onClose }: LoginProps): JSX.Element {
   const [showContinue, setShowContinue] = useState(false);
   const [showEmailLogin, setShowEmailLogin] = useState(false);
 
@@ -31,7 +32,7 @@ function Login({ onShow }: LoginProps): JSX.Element {
     <>
       {showEmailLogin ? (
         <Modal>
-          <EmailLogin setShowEmailLogin={setShowEmailLogin} />
+          <EmailLogin onClose={onClose} setShowEmailLogin={setShowEmailLogin} />
         </Modal>
       ) : (
         <Modal open={showEmailLogin} onClose={() => onShow(false)}>
@@ -107,4 +108,4 @@ function Login({ onShow }: LoginProps): JSX.Element {
   );
 }
 
-export default Login;
+export default SignIn;
