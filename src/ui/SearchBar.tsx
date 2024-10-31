@@ -1,18 +1,34 @@
 import { GoSearch } from 'react-icons/go';
 
-const SearchBar = ({ placeholder }: { placeholder: string }): JSX.Element => {
+type Size = 'sm' | 'md' | 'lg' | 'xl';
+
+interface SearchBarProps {
+  placeholder: string;
+  rounded?: Size;
+  width?: string;
+  text?: Size;
+  boldness?: 'semibold' | 'medium' | 'bold';
+}
+
+const SearchBar = ({
+  placeholder,
+  rounded,
+  width,
+  text,
+  boldness
+}: SearchBarProps): JSX.Element => {
   return (
-    <div
-      className={`flex w-[34.5rem] items-center gap-4 rounded-md border bg-white px-3 py-2`}
+    <form
+      className={`flex w-[${width}] items-center gap-4 rounded-${rounded} border bg-white px-3 py-2`}
     >
       <GoSearch className='text-gray-500' />
 
       <input
-        className='w-full text-[1.4rem] text-sm font-medium text-gray-500 outline-none'
+        className={`w-full text-${text} font-${boldness} text-gray-500 outline-none`}
         type='text'
         placeholder={placeholder}
       />
-    </div>
+    </form>
   );
 };
 

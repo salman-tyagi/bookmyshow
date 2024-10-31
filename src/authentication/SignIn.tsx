@@ -31,11 +31,16 @@ function SignIn({ onShow, onClose }: LoginProps): JSX.Element {
   return (
     <>
       {showEmailLogin ? (
-        <Modal>
+        <Modal rounded='lg' animation='animate-slide-bottom'>
           <EmailLogin onClose={onClose} setShowEmailLogin={setShowEmailLogin} />
         </Modal>
       ) : (
-        <Modal open={showEmailLogin} onClose={() => onShow(false)}>
+        <Modal
+          open={showEmailLogin}
+          onClose={() => onShow(false)}
+          rounded='lg'
+          animation='animate-slide-bottom'
+        >
           <form className='w-[26rem] p-10 text-center' onSubmit={submitHandler}>
             <h3 className='mb-8 w-full text-lg font-bold capitalize text-gray-800'>
               Get started
