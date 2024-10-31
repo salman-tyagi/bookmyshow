@@ -8,21 +8,25 @@
   }
 
   body {
-    @apply font-sans text-stone-700
+    @apply font-sans text-stone-800
   }
 }
 
 @layer components {
-  .btn {
-    @apply text-white bg-red-500 text-sm font-semibold
+  .overlay {
+    @apply fixed top-0 h-screen w-full bg-black/35 animate-overlay-smooth z-10 flex
   }
 
-  .modal-overlay {
-    @apply fixed top-0 h-screen w-full bg-black/35 flex justify-center items-center animate-overlay-smooth z-10
+  .centered {
+    @apply justify-center
   }
 
-  .modal-centered {
-    @apply fixed overflow-hidden rounded-lg bg-white shadow-md
+  .right {
+    @apply justify-end
+  }
+
+  .bottom {
+    @apply items-end
   }
 }
 

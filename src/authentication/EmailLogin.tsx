@@ -2,10 +2,10 @@ import { SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IoChevronBackOutline } from 'react-icons/io5';
 
-import OTPLogin from './OTPLogin';
+import VerifyEmail from './VerifyEmail';
 
 import { useAppDispatch } from '../hooks/hooks';
-import { signup } from '../services/auth/signup';
+import { signup } from '../services/authentication/signup';
 
 interface EmailLoginProps {
   setShowEmailLogin: React.Dispatch<SetStateAction<boolean>>;
@@ -55,13 +55,13 @@ const EmailLogin = ({
   return (
     <>
       {showOTP ? (
-        <OTPLogin
+        <VerifyEmail
           onClose={onClose}
           showEmailLoginHandler={showEmailLoginHandler}
         />
       ) : (
         <form
-          className='w-[26rem] p-10'
+          className='w-[26rem] rounded-lg p-10'
           onSubmit={handleSubmit(emailLoginHandler)}
         >
           <IoChevronBackOutline

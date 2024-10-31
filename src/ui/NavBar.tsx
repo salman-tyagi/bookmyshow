@@ -7,6 +7,7 @@ import Logo from './Logo';
 import SearchBar from './SearchBar';
 import Hamburger from './Hamburger';
 import SignIn from '../authentication/SignIn';
+import Cities from '../cities/Cities';
 
 import isAuthenticated from '../utils/isAuthenticated';
 import getEmail from '../utils/getEmail';
@@ -14,6 +15,7 @@ import getEmail from '../utils/getEmail';
 const NavBar = (): JSX.Element => {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [openBurgerMenu, setOpenBurgerMenu] = useState(false);
+  const [showCities, setShowCities] = useState(false);
 
   const user = isAuthenticated();
   const email = getEmail();
@@ -30,9 +32,18 @@ const NavBar = (): JSX.Element => {
           <Logo />
         </Link>
 
-        <SearchBar placeholder='Search for Movies, Events, Plays, Sports and Activities' />
+        <SearchBar
+          placeholder='Search for Movies, Events, Plays, Sports and Activities'
+          width='34.5rem'
+          rounded='md'
+          text='sm'
+          boldness='medium'
+        />
 
-        <div className='ml-auto flex items-center gap-4 text-sm'>
+        <div
+          className='ml-auto flex items-center gap-4 text-sm'
+          onClick={() => setShowCities(true)}
+        >
           <button>Delhi-NCR</button>
           <GoChevronDown />
         </div>
@@ -77,6 +88,8 @@ const NavBar = (): JSX.Element => {
           onClose={() => setOpenBurgerMenu(false)}
         />
       )}
+
+      {showCities && <Cities />}
     </>
   );
 };

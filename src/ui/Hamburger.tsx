@@ -43,7 +43,7 @@ function HamburgerMenu({
 
   return (
     <>
-      <div className='modal-overlay' ref={overlayRef}></div>
+      <div className='overlay' ref={overlayRef}></div>
 
       <div className='no-scrollbar absolute right-0 top-0 z-20 h-full w-96 animate-slide-left overflow-y-auto bg-white shadow-[-2px_0_2px_2px_rgba(0,0,0,0.05)]'>
         <div className='sticky top-0 z-10 bg-inherit'>

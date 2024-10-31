@@ -7,7 +7,7 @@ interface Signup {
   email: string;
 }
 
-interface ResData {
+export interface ResData {
   status: string;
   message: string;
   email: string;

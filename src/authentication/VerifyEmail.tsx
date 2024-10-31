@@ -5,9 +5,9 @@ import { IoChevronBackOutline } from 'react-icons/io5';
 
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
-import { login } from '../services/auth/login';
+import { login } from '../services/authentication/login';
 
-interface OTPLoginProps {
+interface VerifyEmailProps {
   showEmailLoginHandler: () => void;
   onClose(): void;
 }
@@ -16,10 +16,10 @@ interface FormValues {
   OTP: number;
 }
 
-const OTPLogin = ({
+const VerifyEmail = ({
   showEmailLoginHandler,
   onClose
-}: OTPLoginProps): JSX.Element => {
+}: VerifyEmailProps): JSX.Element => {
   const [seconds, setSeconds] = useState(30);
   const { email } = useAppSelector(state => state.auth);
 
@@ -73,7 +73,7 @@ const OTPLogin = ({
 
   return (
     <form
-      className={`mx-auto flex h-[557px] w-[27rem] flex-col rounded-lg bg-white p-8`}
+      className={`mx-auto flex h-[557px] w-[26rem] flex-col p-10`}
       onSubmit={handleSubmit(OTPSubmitHandler)}
     >
       <IoChevronBackOutline
@@ -128,4 +128,4 @@ const OTPLogin = ({
   );
 };
 
-export default OTPLogin;
+export default VerifyEmail;
