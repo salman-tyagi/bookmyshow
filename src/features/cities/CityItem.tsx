@@ -2,11 +2,20 @@ import { City } from './citiesSlice';
 
 interface CityItemProps {
   city: City;
+  onCloseCitiesModal(): void;
 }
 
-function CityItem({ city }: CityItemProps): JSX.Element {
+function CityItem({ city, onCloseCitiesModal }: CityItemProps): JSX.Element {
+  const handleSelectCity = (city: string): void => {
+    localStorage.setItem('city', city);
+    onCloseCitiesModal();
+  };
+
   return (
-    <li className='group cursor-pointer text-center'>
+    <li
+      className='group cursor-pointer text-center'
+      onClick={() => handleSelectCity(city.city)}
+    >
       <div className='mb-1 max-w-16 justify-self-center'>
         <img
           className='w-full'
@@ -14,6 +23,7 @@ function CityItem({ city }: CityItemProps): JSX.Element {
           alt={`${city.city}-image`}
         />
       </div>
+
       <p className='text-sm font-medium text-stone-500 group-hover:text-stone-700'>
         {city.city}
       </p>

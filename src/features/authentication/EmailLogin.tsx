@@ -1,11 +1,11 @@
 import { SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IoChevronBackOutline } from 'react-icons/io5';
+import { useAppDispatch } from '../hooks/hooks';
 
 import VerifyEmail from './VerifyEmail';
 
-import { useAppDispatch } from '../hooks/hooks';
-import { signup } from '../services/authentication/signup';
+import { signup } from '../../services/authentication/signup';
 
 interface EmailLoginProps {
   setShowEmailLogin: React.Dispatch<SetStateAction<boolean>>;

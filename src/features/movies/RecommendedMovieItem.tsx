@@ -1,4 +1,4 @@
-import { Release } from '../services/movies/getAllReleases';
+import { Release } from '../../services/movies/getAllReleases';
 
 import { FaStar } from 'react-icons/fa';
 

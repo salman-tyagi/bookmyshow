@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 
-import Homepage from './pages/Homepage';
+import Homepage from './features/pages/Homepage';
 
 import store from './store';
 

@@ -1,3 +1,4 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -27,15 +28,19 @@ export interface ReleasesResponse {
   message?: string;
 }
 
-export const getAllReleases = async (): Promise<
-  ReleasesResponse | undefined
-> => {
-  try {
-    const res = await axios.get<ReleasesResponse>(`${API_URL}/api/v1/releases`);
-    if (res.status === 200) return res.data;
-  } catch (err) {
-    if (err instanceof AxiosError) {
-      return err.response?.data;
+export const getAllReleases = createAsyncThunk(
+  'movies/fetched',
+  async (): Promise<Release[] | void> => {
+    try {
+      const res = await axios.get<ReleasesResponse>(
+        `${API_URL}/api/v1/releases`
+      );
+
+      if (res.status === 200) return res.data.data;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return err.response?.data;
+      }
     }
   }
-};
+);

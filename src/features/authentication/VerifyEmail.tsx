@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { IoChevronBackOutline } from 'react-icons/io5';
-
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
-import { login } from '../services/authentication/login';
+import { IoChevronBackOutline } from 'react-icons/io5';
+
+import { login } from '../../services/authentication/login';
 
 interface VerifyEmailProps {
   showEmailLoginHandler: () => void;
