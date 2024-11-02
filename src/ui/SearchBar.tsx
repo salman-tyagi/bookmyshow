@@ -5,26 +5,26 @@ type Size = 'sm' | 'md' | 'lg' | 'xl';
 interface SearchBarProps {
   placeholder: string;
   rounded?: Size;
-  width?: string;
+  width?: number;
   text?: Size;
-  boldness?: 'semibold' | 'medium' | 'bold';
+  bold?: 'base' | 'semibold' | 'medium' | 'bold';
 }
 
 const SearchBar = ({
   placeholder,
-  rounded,
-  width,
-  text,
-  boldness
+  rounded = 'md',
+  width = 34.5,
+  text = 'sm',
+  bold = 'medium'
 }: SearchBarProps): JSX.Element => {
   return (
     <form
-      className={`flex w-[${width}] items-center gap-4 rounded-${rounded} border bg-white px-3 py-2`}
+      className={`flex min-w-[${width}rem] items-center gap-4 rounded-${rounded} border bg-white px-3 py-2`}
     >
       <GoSearch className='text-gray-500' />
 
       <input
-        className={`w-full text-${text} font-${boldness} text-gray-500 outline-none`}
+        className={`w-full text-${text} font-${bold} text-gray-500 outline-none`}
         type='text'
         placeholder={placeholder}
       />

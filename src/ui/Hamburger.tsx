@@ -1,10 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import HamburgerMenuList from './HamburgerMenuList';
 import { IoChevronForward } from 'react-icons/io5';
 
-import isAuthenticated from '../utils/isAuthenticated';
-import getEmail from '../utils/getEmail';
+import { getEmail, isAuthenticated, logout } from '../utils/auth';
 
 interface HamburgerMenuProps {
   onShowSignIn(): void;
@@ -15,16 +14,8 @@ function HamburgerMenu({
   onShowSignIn,
   onClose
 }: HamburgerMenuProps): JSX.Element {
-  const overlayRef = useRef<HTMLDivElement>(null);
-
   const user = isAuthenticated();
   const email = getEmail();
-
-  useEffect(() => {
-    overlayRef.current?.addEventListener('click', () => {
-      onClose();
-    });
-  }, [onClose]);
 
   useEffect(() => {
     const keyDownFn = (e: KeyboardEvent) => {
@@ -42,10 +33,11 @@ function HamburgerMenu({
   }, [onClose]);
 
   return (
-    <>
-      <div className='overlay' ref={overlayRef}></div>
-
-      <div className='no-scrollbar absolute right-0 top-0 z-20 h-full w-96 animate-slide-left overflow-y-auto bg-white shadow-[-2px_0_2px_2px_rgba(0,0,0,0.05)]'>
+    <div className='overlay' onClick={onClose}>
+      <div
+        className='no-scrollbar fixed right-0 top-0 h-full w-96 animate-slide-left overflow-y-auto bg-white shadow-[-2px_0_2px_2px_rgba(0,0,0,0.05)]'
+        onClick={e => e.stopPropagation()}
+      >
         <div className='sticky top-0 z-10 bg-inherit'>
           {!user ? (
             <p className='border-b p-4 text-2xl font-bold text-gray-800'>
@@ -95,17 +87,14 @@ function HamburgerMenu({
           <div className='absolute bottom-0 w-full border bg-white p-3'>
             <button
               className='w-full rounded border border-red-500 py-2 text-lg font-semibold text-rose-500'
-              onClick={() => {
-                localStorage.clear();
-                location.href = '/';
-              }}
+              onClick={logout}
             >
               Sign out
             </button>
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

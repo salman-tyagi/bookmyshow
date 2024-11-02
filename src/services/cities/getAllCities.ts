@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import { City } from '../../cities/citiesSlice';
+import { City } from '../../features/cities/citiesSlice';
 
 const API_URL: string = import.meta.env.VITE_API_URL;
 

@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { ResData, signup } from '../services/authentication/signup';
-import { login, ResLogin } from '../services/authentication/login';
+import { ResData, signup } from '../../services/authentication/signup';
+import { login, ResLogin } from '../../services/authentication/login';
 
 type Loading = 'idle' | 'pending' | 'success' | 'failed';
 
@@ -44,6 +44,7 @@ const userSlice = createSlice({
     builder
       .addCase(login.pending, state => {
         state.status = 'pending';
+        state.error = '';
       })
       .addCase(
         login.fulfilled,
@@ -54,7 +55,6 @@ const userSlice = createSlice({
           localStorage.setItem('token', action.payload.token!);
           state.status = 'success';
           state.email = '';
-          state.error = '';
         }
       )
       .addCase(login.rejected, (state, action) => {

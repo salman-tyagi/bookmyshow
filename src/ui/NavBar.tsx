@@ -1,16 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { GoChevronDown } from 'react-icons/go';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
 import Logo from './Logo';
 import SearchBar from './SearchBar';
 import Hamburger from './Hamburger';
-import SignIn from '../authentication/SignIn';
-import Cities from '../cities/Cities';
+import SignIn from '../features/authentication/SignIn';
+import Cities from '../features/cities/Cities';
 
-import isAuthenticated from '../utils/isAuthenticated';
-import getEmail from '../utils/getEmail';
+import { getEmail, isAuthenticated } from '../utils/auth';
+import getCity from '../utils/getCity';
 
 const NavBar = (): JSX.Element => {
   const [showSignInModal, setShowSignInModal] = useState(false);
@@ -19,11 +20,17 @@ const NavBar = (): JSX.Element => {
 
   const user = isAuthenticated();
   const email = getEmail();
+  const city = getCity();
 
   const openSignInModalHandler = (): void => {
     setShowSignInModal(true);
     setOpenBurgerMenu(false);
   };
+
+  useEffect(() => {
+    if (city) return;
+    setShowCities(true);
+  }, [city]);
 
   return (
     <>
@@ -32,19 +39,13 @@ const NavBar = (): JSX.Element => {
           <Logo />
         </Link>
 
-        <SearchBar
-          placeholder='Search for Movies, Events, Plays, Sports and Activities'
-          width='34.5rem'
-          rounded='md'
-          text='sm'
-          boldness='medium'
-        />
+        <SearchBar placeholder='Search for Movies, Events, Plays, Sports and Activities' />
 
         <div
           className='ml-auto flex items-center gap-4 text-sm'
           onClick={() => setShowCities(true)}
         >
-          <button>Delhi-NCR</button>
+          <button>{city || 'Select city'}</button>
           <GoChevronDown />
         </div>
 
@@ -56,6 +57,7 @@ const NavBar = (): JSX.Element => {
             >
               Sign in
             </button>
+
             <RxHamburgerMenu
               size={24}
               className='cursor-pointer text-gray-900'
@@ -89,7 +91,7 @@ const NavBar = (): JSX.Element => {
         />
       )}
 
-      {showCities && <Cities />}
+      {showCities && <Cities onClose={() => setShowCities(false)} />}
     </>
   );
 };

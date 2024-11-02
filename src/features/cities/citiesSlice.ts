@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getAllCities } from '../services/cities/getAllCities';
+import { getAllCities } from '../../services/cities/getAllCities';
 
 export interface City {
   _id: string;

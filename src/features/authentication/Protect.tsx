@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import isAuthenticated from '../utils/isAuthenticated';
+import { isAuthenticated } from '../../utils/auth';
 
 interface ProtectProps {
   children: React.ReactNode;
