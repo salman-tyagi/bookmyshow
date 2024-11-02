@@ -1,20 +1,33 @@
-import { Release } from '../../services/movies/getAllReleases';
-
+import { useNavigate } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
 
+import { Releases } from '../../services/movies/apiReleases';
+
+import createSlug from '../../utils/createSlug';
+
 interface RecommendedMovieItem {
-  release: Release;
+  release: Releases;
 }
 
 const RecommendedMovieItem = ({
   release: {
-    movie: { image, ratingsAverage, votes, title, genres }
+    movie: { image, ratingsAverage, votes, title, genres, slug }
   }
 }: RecommendedMovieItem): JSX.Element => {
+  const navigate = useNavigate();
+  const city = localStorage.getItem('city');
+
+  const handleMoviePreview = (): void => {
+    const citySlug = createSlug(city!);
+
+    navigate(`/${citySlug}/movies/${slug}`);
+    return;
+  };
+
   return (
-    <li className='max-w-[223.8px]'>
+    <li className='max-w-[223.8px] cursor-pointer' onClick={handleMoviePreview}>
       <div className='mb-2 overflow-clip rounded-lg bg-gray-200'>
-        <img src={`images/${image}`} alt='picture-img-name' />
+        <img src={`/images/${image}`} alt={`${title}-image`} />
         <div className='flex items-center gap-2 bg-black px-3 py-2 text-lg leading-none text-white'>
           <span>
             <FaStar className='text-red-600' />

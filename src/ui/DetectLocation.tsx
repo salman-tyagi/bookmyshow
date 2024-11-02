@@ -1,4 +1,6 @@
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { TbCurrentLocation } from 'react-icons/tb';
 
 import Spinner from './Spinner';
@@ -13,14 +15,19 @@ function DetectLocation({ onCloseCities }: DetectLocationProps): JSX.Element {
   const [loading, setLoading] = useState(false);
   const locationDeniedRef = useRef('');
 
+  const navigate = useNavigate();
+
   const handleDetectLocation = async (): Promise<void> => {
     try {
       setLoading(true);
 
       const city = await getPosition();
-      localStorage.setItem('city', city);
+
+      const _city = city === 'Delhi' ? 'Delhi-NCR' : city;
+      localStorage.setItem('city', _city);
 
       onCloseCities();
+      navigate(`/home/${_city.toLowerCase()}`);
     } catch (err) {
       if (err instanceof Error) locationDeniedRef.current = err.message;
     } finally {

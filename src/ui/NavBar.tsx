@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { GoChevronDown } from 'react-icons/go';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
@@ -19,7 +20,7 @@ const NavBar = (): JSX.Element => {
 
   const user = isAuthenticated();
   const email = getEmail();
-  const selectedCity = getCity();
+  const city = getCity();
 
   const openSignInModalHandler = (): void => {
     setShowSignInModal(true);
@@ -27,9 +28,9 @@ const NavBar = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (selectedCity) return;
+    if (city) return;
     setShowCities(true);
-  }, [selectedCity]);
+  }, [city]);
 
   return (
     <>
@@ -44,7 +45,7 @@ const NavBar = (): JSX.Element => {
           className='ml-auto flex items-center gap-4 text-sm'
           onClick={() => setShowCities(true)}
         >
-          <button>{selectedCity || 'Select city'}</button>
+          <button>{city || 'Select city'}</button>
           <GoChevronDown />
         </div>
 

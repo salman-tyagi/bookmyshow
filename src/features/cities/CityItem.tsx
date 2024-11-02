@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { City } from './citiesSlice';
 
 interface CityItemProps {
@@ -6,9 +7,14 @@ interface CityItemProps {
 }
 
 function CityItem({ city, onCloseCitiesModal }: CityItemProps): JSX.Element {
+  const navigate = useNavigate();
+
   const handleSelectCity = (city: string): void => {
     localStorage.setItem('city', city);
     onCloseCitiesModal();
+
+    navigate(`/home/${city.toLowerCase()}`);
+    return;
   };
 
   return (
