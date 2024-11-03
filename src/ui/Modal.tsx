@@ -1,22 +1,23 @@
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
+
 import getCity from '../utils/getCity';
 
 interface ModalProps {
-  open?: boolean;
-  onClose?: () => void;
-  children: React.ReactNode;
+  children: ReactNode;
+  onClose(): void;
   direction?: 'left' | 'centered' | 'right';
+  top?: number;
   rounded?: '' | 'sm' | 'md' | 'lg' | 'xl';
   animation?: string;
-  onCloseModal?(): void;
 }
 
 function Modal({
   children,
+  onClose,
   direction = 'centered',
+  top = 0,
   rounded = 'lg',
-  animation = 'animate-slide-bottom',
-  onCloseModal: closeCitiesModal
+  animation = 'animate-slide-bottom'
 }: ModalProps): JSX.Element {
   const city = getCity();
 
@@ -30,14 +31,14 @@ function Modal({
 
   const handleCloseModal = (): void => {
     if (!city) return;
-
-    closeCitiesModal?.();
+    onClose();
   };
 
   return (
     <div className={`overlay ${direction}`} onClick={handleCloseModal}>
       <div
-        className={`fixed top-24 ${rounded && `rounded-${rounded}`} overflow-hidden bg-white ${animation && animation}`}
+        className={`fixed ${rounded && `rounded-${rounded}`} overflow-hidden bg-white ${animation && animation}`}
+        style={top ? { top } : {}}
         onClick={e => e.stopPropagation()}
       >
         {children}

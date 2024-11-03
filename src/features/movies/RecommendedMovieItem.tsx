@@ -25,9 +25,9 @@ const RecommendedMovieItem = ({
   };
 
   return (
-    <li className='max-w-[223.8px] cursor-pointer' onClick={handleMoviePreview}>
+    <li className='max-w-[14rem] cursor-pointer' onClick={handleMoviePreview}>
       <div className='mb-2 overflow-clip rounded-lg bg-gray-200'>
-        <img src={`/images/${image}`} alt={`${title}-image`} />
+        <img loading='lazy' src={`/images/${image}`} alt={`${title}-image`} />
         <div className='flex items-center gap-2 bg-black px-3 py-2 text-lg leading-none text-white'>
           <span>
             <FaStar className='text-red-600' />

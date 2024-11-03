@@ -26,7 +26,7 @@ function Cities({ onClose }: CitiesProps): JSX.Element {
   }, [dispatch, cities]);
 
   return (
-    <Modal rounded='' onCloseModal={onClose}>
+    <Modal top={96} rounded='' onClose={onClose}>
       <div className='p-4'>
         <SearchBar placeholder='Search for your city' text='sm' />
       </div>
