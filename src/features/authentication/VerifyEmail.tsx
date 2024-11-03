@@ -5,11 +5,11 @@ import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 import { IoChevronBackOutline } from 'react-icons/io5';
 
-import { login } from '../../services/authentication/login';
+import { login } from './services/login';
 
 interface VerifyEmailProps {
-  showEmailLoginHandler: () => void;
-  onClose(): void;
+  onCloseEmailLoginModal: () => void;
+  onCloseSignInModal(): void;
 }
 
 interface FormValues {
@@ -17,8 +17,8 @@ interface FormValues {
 }
 
 const VerifyEmail = ({
-  showEmailLoginHandler,
-  onClose
+  onCloseEmailLoginModal,
+  onCloseSignInModal
 }: VerifyEmailProps): JSX.Element => {
   const [seconds, setSeconds] = useState(30);
   const { email } = useAppSelector(state => state.auth);
@@ -51,7 +51,7 @@ const VerifyEmail = ({
       }
 
       toast.success('Logged in successfully');
-      onClose();
+      onCloseSignInModal();
     } catch (err) {
       console.log(err);
     }
@@ -78,7 +78,7 @@ const VerifyEmail = ({
     >
       <IoChevronBackOutline
         className='mb-12 cursor-pointer text-2xl'
-        onClick={showEmailLoginHandler}
+        onClick={onCloseEmailLoginModal}
       />
 
       <h3 className='text-2xl font-bold text-gray-700'>

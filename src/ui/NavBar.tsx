@@ -22,7 +22,7 @@ const NavBar = (): JSX.Element => {
   const email = getEmail();
   const city = getCity();
 
-  const openSignInModalHandler = (): void => {
+  const handleShowSignIn = (): void => {
     setShowSignInModal(true);
     setOpenBurgerMenu(false);
   };
@@ -77,16 +77,11 @@ const NavBar = (): JSX.Element => {
         )}
       </div>
 
-      {showSignInModal && (
-        <SignIn
-          onShow={setShowSignInModal}
-          onClose={() => setShowSignInModal(false)}
-        />
-      )}
+      {showSignInModal && <SignIn onClose={() => setShowSignInModal(false)} />}
 
       {openBurgerMenu && (
         <Hamburger
-          onShowSignIn={openSignInModalHandler}
+          onShowSignIn={handleShowSignIn}
           onClose={() => setOpenBurgerMenu(false)}
         />
       )}
