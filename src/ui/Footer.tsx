@@ -1,10 +1,10 @@
+import { GiBarracksTent } from 'react-icons/gi';
+
 function Footer(): JSX.Element {
   return (
     <footer className='bg-stone-800 py-6 text-white'>
       <section className='mx-36 flex items-center gap-4 font-medium'>
-        <div>
-          <img src='' alt='footer-image' />
-        </div>
+        <GiBarracksTent size={28} />
 
         <p className='text-lg font-bold'>List your Show</p>
         <p>

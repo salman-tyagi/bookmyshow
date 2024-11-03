@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import AppLayout from './ui/AppLayout';
 import Homepage from './features/pages/Homepage';
 import Movie from './features/movies/Movie';
+import ErrorPage from './ui/ErrorPage';
 
 import store from './store';
 
@@ -14,18 +15,22 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <AppLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
-        element: <Homepage />
+        element: <Homepage />,
+        errorElement: <ErrorPage />
       },
       {
         path: 'home/:city',
-        element: <Homepage />
+        element: <Homepage />,
+        errorElement: <ErrorPage />
       },
       {
         path: ':city/movies/:slug',
-        element: <Movie />
+        element: <Movie />,
+        errorElement: <ErrorPage />
       }
     ]
   }
