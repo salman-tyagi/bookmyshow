@@ -8,6 +8,8 @@ import AppLayout from './ui/AppLayout';
 import Homepage from './features/pages/Homepage';
 import Movie from './features/movies/Movie';
 import ErrorPage from './ui/ErrorPage';
+import NavBar from './ui/NavBar';
+import Footer from './ui/Footer';
 
 import store from './store';
 
@@ -15,7 +17,13 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <AppLayout />,
-    errorElement: <ErrorPage />,
+    errorElement: (
+      <>
+        <NavBar />
+        <ErrorPage />
+        <Footer />
+      </>
+    ),
     children: [
       {
         index: true,
