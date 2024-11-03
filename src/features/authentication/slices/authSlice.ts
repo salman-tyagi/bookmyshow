@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { ResData, signup } from '../../services/authentication/signup';
-import { login, ResLogin } from '../../services/authentication/login';
+import { ResData, signup } from '../services/signup';
+import { login, ResLogin } from '../services/login';
 
 type Loading = 'idle' | 'pending' | 'success' | 'failed';
 

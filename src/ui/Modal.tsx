@@ -4,7 +4,7 @@ import getCity from '../utils/getCity';
 
 interface ModalProps {
   children: ReactNode;
-  onClose(): void;
+  onClose?(): void;
   direction?: 'left' | 'centered' | 'right';
   top?: number;
   rounded?: '' | 'sm' | 'md' | 'lg' | 'xl';
@@ -31,7 +31,7 @@ function Modal({
 
   const handleCloseModal = (): void => {
     if (!city) return;
-    onClose();
+    onClose?.();
   };
 
   return (

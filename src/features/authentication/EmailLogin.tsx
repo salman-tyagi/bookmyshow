@@ -5,11 +5,11 @@ import { useAppDispatch } from '../hooks/hooks';
 
 import VerifyEmail from './VerifyEmail';
 
-import { signup } from '../../services/authentication/signup';
+import { signup } from './services/signup';
 
 interface EmailLoginProps {
   setShowEmailLogin: React.Dispatch<SetStateAction<boolean>>;
-  onClose(): void;
+  onCloseSignInModal(): void;
 }
 
 interface FormValues {
@@ -18,7 +18,7 @@ interface FormValues {
 
 const EmailLogin = ({
   setShowEmailLogin,
-  onClose
+  onCloseSignInModal
 }: EmailLoginProps): JSX.Element => {
   const [showOTP, setShowOTP] = useState(false);
   const dispatch = useAppDispatch();
@@ -34,13 +34,8 @@ const EmailLogin = ({
   const isEmailDirty = dirtyFields.email || false;
   const validEmail = isEmailDirty && !isValid;
 
-  const showEmailLoginHandler = (): void => {
-    setShowEmailLogin(false);
-  };
-
   const emailLoginHandler = async (data: FormValues): Promise<void> => {
     dispatch(signup(data));
-
     setShowOTP(true);
   };
 
@@ -56,8 +51,8 @@ const EmailLogin = ({
     <>
       {showOTP ? (
         <VerifyEmail
-          onClose={onClose}
-          showEmailLoginHandler={showEmailLoginHandler}
+          onCloseSignInModal={onCloseSignInModal}
+          onCloseEmailLoginModal={() => setShowEmailLogin(false)}
         />
       ) : (
         <form
@@ -66,7 +61,7 @@ const EmailLogin = ({
         >
           <IoChevronBackOutline
             className='mb-12 cursor-pointer text-2xl'
-            onClick={showEmailLoginHandler}
+            onClick={() => setShowEmailLogin(false)}
           />
 
           <div className='flex h-[409px] flex-col gap-8'>
