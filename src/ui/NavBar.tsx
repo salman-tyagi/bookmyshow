@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { GoChevronDown } from 'react-icons/go';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
+import useLocalStorage from '../features/hooks/useLocalStorage';
+
 import Logo from './Logo';
 import SearchBar from './SearchBar';
 import Hamburger from './Hamburger';
@@ -11,26 +13,29 @@ import SignIn from '../features/authentication/SignIn';
 import Cities from '../features/cities/Cities';
 
 import { getEmail, isAuthenticated } from '../utils/auth';
-import getCity from '../utils/getCity';
 
 const NavBar = (): JSX.Element => {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [openBurgerMenu, setOpenBurgerMenu] = useState(false);
   const [showCities, setShowCities] = useState(false);
+  const [storedCity, setStoredCity] = useLocalStorage('city', '');
 
   const user = isAuthenticated();
   const email = getEmail();
-  const city = getCity();
 
   const handleShowSignIn = (): void => {
     setShowSignInModal(true);
     setOpenBurgerMenu(false);
   };
 
+  const handleStoreCity = (city: string) => {
+    setStoredCity(city);
+  };
+
   useEffect(() => {
-    if (city) return;
+    if (storedCity) return;
     setShowCities(true);
-  }, [city]);
+  }, [storedCity]);
 
   return (
     <>
@@ -45,7 +50,7 @@ const NavBar = (): JSX.Element => {
           className='ml-auto flex items-center gap-4 text-sm'
           onClick={() => setShowCities(true)}
         >
-          <button>{city || 'Select city'}</button>
+          <button>{storedCity || 'Select city'}</button>
           <GoChevronDown />
         </div>
 
@@ -86,7 +91,12 @@ const NavBar = (): JSX.Element => {
         />
       )}
 
-      {showCities && <Cities onClose={() => setShowCities(false)} />}
+      {showCities && (
+        <Cities
+          onStoreCity={handleStoreCity}
+          onClose={() => setShowCities(false)}
+        />
+      )}
     </>
   );
 };
