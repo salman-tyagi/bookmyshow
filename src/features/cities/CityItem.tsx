@@ -1,20 +1,25 @@
 import { useNavigate } from 'react-router-dom';
+
 import { City } from './citiesSlice';
 
 interface CityItemProps {
   city: City;
   onCloseCitiesModal(): void;
+  onStoreCity(city: string): void;
 }
 
-function CityItem({ city, onCloseCitiesModal }: CityItemProps): JSX.Element {
+function CityItem({
+  city,
+  onCloseCitiesModal,
+  onStoreCity
+}: CityItemProps): JSX.Element {
   const navigate = useNavigate();
 
   const handleSelectCity = (city: string): void => {
-    localStorage.setItem('city', city);
+    onStoreCity(city);
     onCloseCitiesModal();
 
     navigate(`/home/${city.toLowerCase()}`);
-    return;
   };
 
   return (

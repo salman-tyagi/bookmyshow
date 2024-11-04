@@ -13,9 +13,10 @@ import { getAllCities } from '../../services/cities/getAllCities';
 
 interface CitiesProps {
   onClose(): void;
+  onStoreCity(city: string): void;
 }
 
-function Cities({ onClose }: CitiesProps): JSX.Element {
+function Cities({ onClose, onStoreCity }: CitiesProps): JSX.Element {
   const dispatch = useAppDispatch();
   const { cities } = useAppSelector(state => state.cities);
 
@@ -43,6 +44,7 @@ function Cities({ onClose }: CitiesProps): JSX.Element {
                   key={city._id}
                   city={city}
                   onCloseCitiesModal={onClose}
+                  onStoreCity={onStoreCity}
                 />
               ))}
             </ul>
