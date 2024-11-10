@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-import Spinner from '../../ui/Spinner';
 import LanguageAndFormat from './LanguageAndFormat';
 import BuyOrRent from './BuyOrRent';
+import Spinner from '../ui/Spinner';
 
-import useMovie, { Movie as IMovie } from '../hooks/useMovie';
+import useMovie, { Movie as IMovie } from './hooks/useMovie';
 
 function Movie(): JSX.Element {
   const [showLanguageAndFormat, setShowLanguageAndFormat] = useState(false);

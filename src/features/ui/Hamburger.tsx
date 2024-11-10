@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import HamburgerMenuList from './HamburgerMenuList';
 import { IoChevronForward } from 'react-icons/io5';
 
-import { getEmail, isAuthenticated, logout } from '../utils/auth';
+import { getEmail, isAuthenticated, logout } from '../authentication/utils';
 
 interface HamburgerMenuProps {
   onShowSignIn(): void;

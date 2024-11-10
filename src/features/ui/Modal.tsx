@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from 'react';
 
-import getCity from '../utils/getCity';
+import { getItem } from '../utils/localStorage';
 
 interface ModalProps {
   children: ReactNode;
@@ -19,7 +19,7 @@ function Modal({
   rounded = 'lg',
   animation = 'animate-slide-bottom'
 }: ModalProps): JSX.Element {
-  const city = getCity();
+  const city = getItem('city');
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';

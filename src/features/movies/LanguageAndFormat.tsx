@@ -1,5 +1,5 @@
-import Modal from '../../ui/Modal';
-import CloseModalBtn from '../../ui/CloseModalBtn';
+import CloseModalBtn from '../ui/CloseModalBtn';
+import Modal from '../ui/Modal';
 
 interface LanguageAndFormatProps {
   onClose(): void;

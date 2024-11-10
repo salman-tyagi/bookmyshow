@@ -1,51 +1,21 @@
-import { SetStateAction, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SetStateAction } from 'react';
+
 import { IoChevronBackOutline } from 'react-icons/io5';
-import { useAppDispatch } from '../hooks/hooks';
 
 import VerifyEmail from './VerifyEmail';
 
-import { signup } from './services/signup';
+import useEmailLogin from './hooks/useEmailLogin';
 
 interface EmailLoginProps {
   setShowEmailLogin: React.Dispatch<SetStateAction<boolean>>;
   onCloseSignInModal(): void;
 }
 
-interface FormValues {
-  email: string;
-}
-
 const EmailLogin = ({
   setShowEmailLogin,
   onCloseSignInModal
 }: EmailLoginProps): JSX.Element => {
-  const [showOTP, setShowOTP] = useState(false);
-  const dispatch = useAppDispatch();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, dirtyFields, isValid },
-    reset,
-    setFocus
-  } = useForm<FormValues>();
-
-  const isEmailDirty = dirtyFields.email || false;
-  const validEmail = isEmailDirty && !isValid;
-
-  const emailLoginHandler = async (data: FormValues): Promise<void> => {
-    dispatch(signup(data));
-    setShowOTP(true);
-  };
-
-  const handleReset = (): void => {
-    reset();
-  };
-
-  useEffect(() => {
-    setFocus('email');
-  }, [setFocus]);
+  const { showOTP, handleSubmit, emailLoginHandler, register, errors, validEmail, handleReset, isValid } = useEmailLogin();
 
   return (
     <>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 import { IoChevronBackOutline } from 'react-icons/io5';
 
-import { login } from './services/login';
+import { apiLogin } from './services/apiLogin';
+import { getItem, setItem } from '../utils/localStorage';
 
 interface VerifyEmailProps {
   onCloseEmailLoginModal: () => void;
@@ -21,9 +21,6 @@ const VerifyEmail = ({
   onCloseSignInModal
 }: VerifyEmailProps): JSX.Element => {
   const [seconds, setSeconds] = useState(30);
-  const { email } = useAppSelector(state => state.auth);
-
-  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -36,25 +33,29 @@ const VerifyEmail = ({
   const watchOTP = watch('OTP');
   const OTPlength = watchOTP?.toString().length;
 
+  const email = getItem('email');
+
   const OTPSubmitHandler = async (formData: FormValues): Promise<void> => {
-    try {
-      if (!email) {
-        toast.error('Email is required');
-        return;
-      }
-
-      const data = await dispatch(login({ ...formData, email }));
-
-      if (!data.payload) {
-        toast.error(data.error.message, { id: 'failed' });
-        return;
-      }
-
-      toast.success('Logged in successfully');
-      onCloseSignInModal();
-    } catch (err) {
-      console.log(err);
+    if (!email) {
+      toast.error('Email is required');
+      return;
     }
+
+    const res = await apiLogin({ ...formData, email });
+    if (!res) {
+      toast.error('Failed to login', { id: 'failed' });
+      return;
+    }
+
+    if (res instanceof Error) {
+      toast.error(res.message, { id: 'failed' });
+      return;
+    }
+
+    toast.success('Logged in successfully', { id: 'succeed' });
+    setItem('token', res.token);
+    onCloseSignInModal();
+    return;
   };
 
   useEffect(() => {

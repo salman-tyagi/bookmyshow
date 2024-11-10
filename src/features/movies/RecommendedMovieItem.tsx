@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
 
-import { Releases } from '../../services/movies/apiReleases';
+import { Releases } from './services/apiReleases';
 
-import createSlug from '../../utils/createSlug';
+import createSlug from '../utils/createSlug';
 
 interface RecommendedMovieItem {
   release: Releases;

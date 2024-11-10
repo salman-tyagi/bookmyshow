@@ -4,7 +4,7 @@ import { MdOutlineClose } from 'react-icons/md';
 import { FaApple } from 'react-icons/fa';
 
 import EmailLogin from './EmailLogin';
-import Modal from '../../ui/Modal';
+import Modal from '../ui/Modal';
 
 interface LoginProps {
   onClose(): void;
