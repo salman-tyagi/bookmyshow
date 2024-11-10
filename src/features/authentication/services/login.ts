@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -14,22 +13,12 @@ export interface ResLogin {
   data: { email: string };
 }
 
-export const login = createAsyncThunk(
-  'auth/login',
-  async (OTP: Login): Promise<ResLogin | void> => {
-    try {
-      const res = await axios.post<ResLogin>(
-        `${API_URL}/api/v1/auth/login`,
-        OTP
-      );
+export const login = async (OTP: Login) => {
+  try {
+    const res = await axios.post<ResLogin>(`${API_URL}/api/v1/auth/login`, OTP);
 
-      if (res.status === 201) {
-        return res.data;
-      }
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        return Promise.reject(err.response?.data.message);
-      }
-    }
+    if (res.status === 201) return res.data;
+  } catch (err) {
+    if (err instanceof AxiosError) return new Error(err.response?.data.message);
   }
-);
+};

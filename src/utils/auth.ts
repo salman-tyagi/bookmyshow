@@ -1,17 +1,16 @@
+import { getItem, setItem } from './localStorage';
+
 export const isAuthenticated = (): boolean => {
-  const token = localStorage.getItem('token');
+  const token = getItem('token');
   return token ? true : false;
 };
 
-export const getEmail = (): string => {
-  const email = localStorage.getItem('email');
-  return email || '';
-};
+export const getEmail = (): string | undefined => getItem('email');
 
 export const logout = (): void => {
-  const city = localStorage.getItem('city');
+  const city = getItem('city');
   localStorage.clear();
-  localStorage.setItem('city', city!);
+  setItem('city', city);
 
   location.href = '/';
 };

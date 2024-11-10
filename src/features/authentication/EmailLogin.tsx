@@ -1,11 +1,13 @@
 import { SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+
 import { IoChevronBackOutline } from 'react-icons/io5';
-import { useAppDispatch } from '../hooks/hooks';
 
 import VerifyEmail from './VerifyEmail';
 
 import { signup } from './services/signup';
+import { setItem } from '../../utils/localStorage';
 
 interface EmailLoginProps {
   setShowEmailLogin: React.Dispatch<SetStateAction<boolean>>;
@@ -21,7 +23,6 @@ const EmailLogin = ({
   onCloseSignInModal
 }: EmailLoginProps): JSX.Element => {
   const [showOTP, setShowOTP] = useState(false);
-  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -35,8 +36,23 @@ const EmailLogin = ({
   const validEmail = isEmailDirty && !isValid;
 
   const emailLoginHandler = async (data: FormValues): Promise<void> => {
-    dispatch(signup(data));
+    const res = await signup(data);
+
+    if (!res) {
+      toast.error('Failed to create account', { id: 'failed' });
+      return;
+    }
+
+    if (res instanceof Error) {
+      toast.error(res.message);
+      return;
+    }
+
+    setItem('email', res.email);
+    toast.success(res.message, { id: 'succeed' });
+
     setShowOTP(true);
+    return;
   };
 
   const handleReset = (): void => {
