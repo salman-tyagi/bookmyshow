@@ -1,7 +1,7 @@
 import { CiLock } from 'react-icons/ci';
 import { IoChevronForward } from 'react-icons/io5';
 
-import { isAuthenticated } from '../features/authentication/utils';
+import { isAuthenticated } from '../authentication/utils';
 
 interface HamburgerMenuItemProps {
   menu: {

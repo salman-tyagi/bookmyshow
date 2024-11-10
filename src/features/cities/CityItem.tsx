@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { City } from './services/getAllCities';
+import { City } from './services/apiGetAllCities';
 
 interface CityItemProps {
   city: City;

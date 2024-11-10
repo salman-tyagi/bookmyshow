@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 
-import { City } from './citiesSlice';
+import Spinner from '../ui/Spinner';
 
-import Spinner from '../../ui/Spinner';
+import { City } from './services/apiGetAllCities';
 
 interface CityListProps {
   children: ReactNode;

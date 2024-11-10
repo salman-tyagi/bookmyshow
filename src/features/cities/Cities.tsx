@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 
-import Modal from '../../ui/Modal';
-import SearchBar from '../../ui/SearchBar';
-import DetectLocation from '../../ui/DetectLocation';
+import Modal from '../ui/Modal';
+import SearchBar from '../ui/SearchBar';
+import DetectLocation from '../ui/DetectLocation';
 import PopularCities from './PopularCities';
 import CityList from './CityList';
 import CityItem from './CityItem';
 import OtherCities from './OtherCities';
 
-import { getAllCities } from './services/getAllCities';
-import { getItem } from '../../utils/localStorage';
+import { apiGetAllCities } from './services/apiGetAllCities';
+import { getItem } from '../utils/localStorage';
 
 interface CitiesProps {
   onClose(): void;
@@ -19,7 +19,7 @@ interface CitiesProps {
 function Cities({ onClose, onStoreCity }: CitiesProps): JSX.Element | null {
   const { data: cities = [] } = useQuery({
     queryKey: ['cities'],
-    queryFn: getAllCities
+    queryFn: apiGetAllCities
   });
 
   const city = getItem('city');

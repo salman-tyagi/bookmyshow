@@ -1,67 +1,21 @@
-import { SetStateAction, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import { SetStateAction } from 'react';
 
 import { IoChevronBackOutline } from 'react-icons/io5';
 
 import VerifyEmail from './VerifyEmail';
 
-import { signup } from './services/signup';
-import { setItem } from '../../utils/localStorage';
+import useEmailLogin from './hooks/useEmailLogin';
 
 interface EmailLoginProps {
   setShowEmailLogin: React.Dispatch<SetStateAction<boolean>>;
   onCloseSignInModal(): void;
 }
 
-interface FormValues {
-  email: string;
-}
-
 const EmailLogin = ({
   setShowEmailLogin,
   onCloseSignInModal
 }: EmailLoginProps): JSX.Element => {
-  const [showOTP, setShowOTP] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, dirtyFields, isValid },
-    reset,
-    setFocus
-  } = useForm<FormValues>();
-
-  const isEmailDirty = dirtyFields.email || false;
-  const validEmail = isEmailDirty && !isValid;
-
-  const emailLoginHandler = async (data: FormValues): Promise<void> => {
-    const res = await signup(data);
-
-    if (!res) {
-      toast.error('Failed to create account', { id: 'failed' });
-      return;
-    }
-
-    if (res instanceof Error) {
-      toast.error(res.message);
-      return;
-    }
-
-    setItem('email', res.email);
-    toast.success(res.message, { id: 'succeed' });
-
-    setShowOTP(true);
-    return;
-  };
-
-  const handleReset = (): void => {
-    reset();
-  };
-
-  useEffect(() => {
-    setFocus('email');
-  }, [setFocus]);
+  const { showOTP, handleSubmit, emailLoginHandler, register, errors, validEmail, handleReset, isValid } = useEmailLogin();
 
   return (
     <>

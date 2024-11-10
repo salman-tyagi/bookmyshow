@@ -3,7 +3,7 @@ import { FaStar } from 'react-icons/fa';
 
 import { Releases } from './services/apiReleases';
 
-import createSlug from '../../utils/createSlug';
+import createSlug from '../utils/createSlug';
 
 interface RecommendedMovieItem {
   release: Releases;

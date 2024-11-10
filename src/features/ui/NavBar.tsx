@@ -4,15 +4,14 @@ import { Link } from 'react-router-dom';
 import { GoChevronDown } from 'react-icons/go';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
-import useLocalStorage from '../features/hooks/useLocalStorage';
-
+import useLocalStorage from '../hooks/useLocalStorage';
 import Logo from './Logo';
 import SearchBar from './SearchBar';
+import SignIn from '../authentication/SignIn';
 import Hamburger from './Hamburger';
-import SignIn from '../features/authentication/SignIn';
-import Cities from '../features/cities/Cities';
+import Cities from '../cities/Cities';
 
-import { getEmail, isAuthenticated } from '../features/authentication/utils';
+import { getEmail, isAuthenticated } from '../authentication/utils';
 
 const NavBar = (): JSX.Element => {
   const [showSignInModal, setShowSignInModal] = useState(false);

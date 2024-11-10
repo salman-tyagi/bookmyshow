@@ -1,4 +1,4 @@
-import { getItem, setItem } from '../../../utils/localStorage';
+import { getItem, setItem } from '../../utils/localStorage';
 
 export const logout = (): void => {
   const city = getItem('city');

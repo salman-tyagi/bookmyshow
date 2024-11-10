@@ -14,7 +14,7 @@ interface GetAllCitiesResponse {
   data: City[];
 }
 
-export const getAllCities = async () => {
+export const apiGetAllCities = async () => {
   try {
     const res = await axios.get<GetAllCitiesResponse>(
       `${API_URL}/api/v1/cities`

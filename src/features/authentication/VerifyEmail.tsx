@@ -4,8 +4,8 @@ import toast from 'react-hot-toast';
 
 import { IoChevronBackOutline } from 'react-icons/io5';
 
-import { login } from './services/login';
-import { getItem, setItem } from '../../utils/localStorage';
+import { apiLogin } from './services/apiLogin';
+import { getItem, setItem } from '../utils/localStorage';
 
 interface VerifyEmailProps {
   onCloseEmailLoginModal: () => void;
@@ -41,7 +41,7 @@ const VerifyEmail = ({
       return;
     }
 
-    const res = await login({ ...formData, email });
+    const res = await apiLogin({ ...formData, email });
     if (!res) {
       toast.error('Failed to login', { id: 'failed' });
       return;

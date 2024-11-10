@@ -1,17 +1,14 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-// import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Toaster } from 'react-hot-toast';
 
-import AppLayout from './ui/AppLayout';
+import AppLayout from './features/ui/AppLayout';
 import Homepage from './features/pages/Homepage';
 import Movie from './features/movies/Movie';
-import ErrorPage from './ui/ErrorPage';
-import NavBar from './ui/NavBar';
-import Footer from './ui/Footer';
-
-// import store from './store';
+import ErrorPage from './features/ui/ErrorPage';
+import NavBar from './features/ui/NavBar';
+import Footer from './features/ui/Footer';
 
 const router = createBrowserRouter([
   {
@@ -51,10 +48,8 @@ const queryClient = new QueryClient({
 function App(): JSX.Element {
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <Provider store={store}> */}
-        <Toaster toastOptions={{ duration: 3000 }} />
-        <RouterProvider router={router} />
-      {/* </Provider> */}
+      <Toaster toastOptions={{ duration: 3000 }} />
+      <RouterProvider router={router} />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

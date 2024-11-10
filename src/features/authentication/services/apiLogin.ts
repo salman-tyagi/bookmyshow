@@ -13,7 +13,7 @@ export interface ResLogin {
   data: { email: string };
 }
 
-export const login = async (OTP: Login) => {
+export const apiLogin = async (OTP: Login) => {
   try {
     const res = await axios.post<ResLogin>(`${API_URL}/api/v1/auth/login`, OTP);
 
