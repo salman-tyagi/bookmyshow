@@ -12,7 +12,7 @@ import Hamburger from './Hamburger';
 import SignIn from '../features/authentication/SignIn';
 import Cities from '../features/cities/Cities';
 
-import { getEmail, isAuthenticated } from '../utils/auth';
+import { getEmail, isAuthenticated } from '../features/authentication/utils';
 
 const NavBar = (): JSX.Element => {
   const [showSignInModal, setShowSignInModal] = useState(false);

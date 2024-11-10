@@ -7,7 +7,7 @@ import { IoChevronBack } from 'react-icons/io5';
 import RecommendedMovieItem from './RecommendedMovieItem';
 import Spinner from '../../ui/Spinner';
 
-import { getAllReleases } from '../../services/movies/apiReleases';
+import { getAllReleases } from './services/apiReleases';
 
 const RecommendedMovieList = (): JSX.Element => {
   const [translateCount, setTranslateCount] = useState(0);

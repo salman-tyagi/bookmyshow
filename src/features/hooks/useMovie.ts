@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-import { getRelease } from '../../services/movies/apiReleases';
+import { getRelease } from '../movies/services/apiReleases';
 
 export interface Movie {
   title: string;

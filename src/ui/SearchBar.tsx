@@ -19,7 +19,8 @@ const SearchBar = ({
 }: SearchBarProps): JSX.Element => {
   return (
     <form
-      className={`flex min-w-[${width}rem] items-center gap-4 rounded-${rounded} border bg-white px-3 py-2`}
+      className={`flex items-center gap-4 rounded-${rounded} border bg-white px-3 py-2`}
+      style={{ minWidth: `${width}rem` }}
     >
       <GoSearch className='text-gray-500' />
 

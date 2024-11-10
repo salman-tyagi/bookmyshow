@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { Provider } from 'react-redux';
+// import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -11,7 +11,7 @@ import ErrorPage from './ui/ErrorPage';
 import NavBar from './ui/NavBar';
 import Footer from './ui/Footer';
 
-import store from './store';
+// import store from './store';
 
 const router = createBrowserRouter([
   {
@@ -51,10 +51,10 @@ const queryClient = new QueryClient({
 function App(): JSX.Element {
   return (
     <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
+      {/* <Provider store={store}> */}
         <Toaster toastOptions={{ duration: 3000 }} />
         <RouterProvider router={router} />
-      </Provider>
+      {/* </Provider> */}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

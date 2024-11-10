@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { useQuery } from '@tanstack/react-query';
 
 import Modal from '../../ui/Modal';
 import SearchBar from '../../ui/SearchBar';
@@ -9,25 +8,24 @@ import CityList from './CityList';
 import CityItem from './CityItem';
 import OtherCities from './OtherCities';
 
-import { getAllCities } from '../../services/cities/getAllCities';
+import { getAllCities } from './services/getAllCities';
+import { getItem } from '../../utils/localStorage';
 
 interface CitiesProps {
   onClose(): void;
   onStoreCity(city: string): void;
 }
 
-function Cities({ onClose, onStoreCity }: CitiesProps): JSX.Element {
-  const dispatch = useAppDispatch();
-  const { cities } = useAppSelector(state => state.cities);
+function Cities({ onClose, onStoreCity }: CitiesProps): JSX.Element | null {
+  const { data: cities = [] } = useQuery({
+    queryKey: ['cities'],
+    queryFn: getAllCities
+  });
 
-  useEffect(() => {
-    if (cities.length) return;
-
-    dispatch(getAllCities());
-  }, [dispatch, cities]);
+  const city = getItem('city');
 
   return (
-    <Modal top={96} rounded='' onClose={onClose}>
+    <Modal top={96} rounded='' onClose={!city ? () => {} : onClose}>
       <div className='p-4'>
         <SearchBar placeholder='Search for your city' text='sm' />
       </div>
