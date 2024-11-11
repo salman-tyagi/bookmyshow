@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 import { IoChevronForward } from 'react-icons/io5';
 import { IoChevronBack } from 'react-icons/io5';
@@ -12,7 +13,11 @@ import Spinner from '../ui/Spinner';
 const RecommendedMovieList = (): JSX.Element => {
   const [translateCount, setTranslateCount] = useState(0);
 
-  const { isLoading, data: releases = [] } = useQuery({
+  const {
+    isLoading,
+    data: releases = [],
+    error
+  } = useQuery({
     queryKey: ['releases'],
     queryFn: getAllReleases
   });
@@ -23,6 +28,8 @@ const RecommendedMovieList = (): JSX.Element => {
         <Spinner width={50} />
       </div>
     );
+
+  if (error?.message) toast.error(error.message, { id: 'failed' });
 
   return (
     <div className='relative'>

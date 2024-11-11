@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const API_URL: string = import.meta.env.VITE_API_URL;
 
@@ -31,7 +31,8 @@ export const getAllReleases = async () => {
     );
     return res.data?.data;
   } catch (err) {
-    console.log(err);
+    if (err instanceof AxiosError)
+      throw new Error(err.response?.data.message || err.message);
   }
 };
 
