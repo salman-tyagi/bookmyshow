@@ -4,6 +4,7 @@ import { FaStar } from 'react-icons/fa';
 import { Releases } from './services/apiReleases';
 
 import createSlug from '../utils/createSlug';
+import { getItem } from '../utils/localStorage';
 
 interface RecommendedMovieItem {
   release: Releases;
@@ -15,10 +16,10 @@ const RecommendedMovieItem = ({
   }
 }: RecommendedMovieItem): JSX.Element => {
   const navigate = useNavigate();
-  const city = localStorage.getItem('city');
+  const city = getItem('city') as string;
 
   const handleMoviePreview = (): void => {
-    const citySlug = createSlug(city!);
+    const citySlug = createSlug(city);
 
     navigate(`/${citySlug}/movies/${slug}`);
     return;

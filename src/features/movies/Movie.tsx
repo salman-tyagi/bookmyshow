@@ -3,6 +3,7 @@ import { useState } from 'react';
 import LanguageAndFormat from './LanguageAndFormat';
 import BuyOrRent from './BuyOrRent';
 import Spinner from '../ui/Spinner';
+import RateMovie from './RateMovie';
 
 import useMovie, { Movie as IMovie } from './hooks/useMovie';
 
@@ -37,7 +38,10 @@ function Movie(): JSX.Element {
             </div>
 
             <div className='w-[32rem]'>
-              <p className='mb-6 text-4xl font-bold'>{title}</p>
+              <p className='mb-5 text-4xl font-bold'>{title}</p>
+
+              <RateMovie ratings={8} votes={4} />
+
               <p className='mb-2 w-fit rounded bg-stone-200 p-2 font-medium text-stone-800'>
                 {screens}
               </p>
