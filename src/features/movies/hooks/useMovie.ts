@@ -9,11 +9,11 @@ export interface Movie {
   poster: string;
   certification: string;
   releaseDate: string;
-  screens: string;
-  languages: string;
+  screen: string[];
+  languages: string[];
   durationInHours: number;
   durationInMins: number;
-  genres: string;
+  genres: string[];
 }
 
 const useMovie = (): Movie | { isLoading: boolean } => {
@@ -32,17 +32,10 @@ const useMovie = (): Movie | { isLoading: boolean } => {
     releaseDate
   } = release[0];
 
-  const screens = screen.map(scr => scr.toUpperCase()).join(', ');
-  const _languages = languages
-    .map(lan => lan[0].toUpperCase() + lan.slice(1))
-    .join(', ');
-
   const durationInHours = duration / 60;
   const durationInMins = duration % 60;
 
-  const _genres = genres
-    .map(genre => genre[0].toUpperCase() + genre.slice(1))
-    .join(', ');
+  const _genres = genres.map(genre => genre[0].toUpperCase() + genre.slice(1));
 
   return {
     title,
@@ -50,8 +43,8 @@ const useMovie = (): Movie | { isLoading: boolean } => {
     poster,
     certification,
     releaseDate,
-    screens,
-    languages: _languages,
+    screen,
+    languages,
     durationInHours,
     durationInMins,
     genres: _genres

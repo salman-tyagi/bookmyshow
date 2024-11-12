@@ -22,10 +22,10 @@ function LanguageAndFormat({
         <p>{title}</p>
         <p>Select language and format</p>
 
-        <p>{languages}</p>
+        <p className='uppercase'>{languages}</p>
 
         <ul className='flex space-x-2'>
-          <li>{screens}</li>
+          <li className='uppercase'>{screens}</li>
         </ul>
       </div>
     </Modal>
