@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 import LanguageAndFormat from './LanguageAndFormat';
 import BuyOrRent from './BuyOrRent';
@@ -12,8 +13,38 @@ function Movie(): JSX.Element {
   const [showBuyOrRent, setShowBuyOrRent] = useState(false);
 
   const { isLoading } = useMovie() as { isLoading: boolean };
+  const { city } = useParams<{ city: string; slug: string }>();
 
-  const { title, image, poster, certification, releaseDate, screens, languages, durationInHours, durationInMins, genres} = useMovie() as IMovie;
+  const {
+    title,
+    image,
+    poster,
+    certification,
+    releaseDate,
+    screen,
+    languages,
+    durationInHours,
+    durationInMins,
+    genres
+  } = useMovie() as IMovie;
+
+  const screens = screen?.map(
+    (scr, i): { id: number; scr: string; link: string } => {
+      return {
+        id: i,
+        scr,
+        link: `/explore/movies-${city}-${scr}`
+      };
+    }
+  );
+
+  const _languages = languages?.map((lang, i) => {
+    return {
+      id: i,
+      lang: lang,
+      link: `/explore/movies-${city}-${lang}`
+    };
+  });
 
   return (
     <>
@@ -42,12 +73,25 @@ function Movie(): JSX.Element {
 
               <RateMovie ratings={8} votes={4} />
 
-              <p className='mb-2 w-fit rounded bg-stone-200 p-2 font-medium text-stone-800'>
-                {screens}
-              </p>
-              <p className='mb-5 w-fit rounded bg-stone-200 px-2 py-1 font-medium text-stone-800'>
-                {languages}
-              </p>
+              {screens.length && (
+                <ul className='mb-2 flex w-fit space-x-1 rounded bg-stone-200 p-2 font-medium text-stone-800'>
+                  {screens.map(screen => (
+                    <li key={screen.id} className='uppercase hover:underline'>
+                      <Link to={screen.link}>{screen.scr},</Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {_languages.length && (
+                <ul className='mb-5 flex w-fit space-x-1 rounded bg-stone-200 px-2 py-1 font-medium text-stone-800'>
+                  {_languages.map(lang => (
+                    <li key={lang.id} className='capitalize hover:underline'>
+                      <Link to={lang.link}>{lang.lang},</Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
 
               <div className='mb-8 flex flex-wrap items-center gap-2 font-medium'>
                 <p>
@@ -100,7 +144,11 @@ function Movie(): JSX.Element {
 
       {showLanguageAndFormat && (
         <LanguageAndFormat
-          data={{ title, languages, screens }}
+          data={{
+            title,
+            languages: languages.join(''),
+            screens: screen.join('')
+          }}
           onClose={() => setShowLanguageAndFormat(false)}
         />
       )}

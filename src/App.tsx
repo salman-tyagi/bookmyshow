@@ -9,6 +9,7 @@ import Movie from './features/movies/Movie';
 import ErrorPage from './features/ui/ErrorPage';
 import NavBar from './features/ui/NavBar';
 import Footer from './features/ui/Footer';
+import ExploreMovies from './features/movies/ExploreMovies';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,11 @@ const router = createBrowserRouter([
       {
         path: ':city/movies/:slug',
         element: <Movie />,
+        errorElement: <ErrorPage />
+      },
+      {
+        path: 'explore/:movies',
+        element: <ExploreMovies />,
         errorElement: <ErrorPage />
       }
     ]
