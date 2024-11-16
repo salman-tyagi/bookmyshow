@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
+import { useAppSelector } from '../hooks/hooks';
 
 import { Releases } from './services/apiReleases';
-
 import createSlug from '../utils/createSlug';
-import { getItem } from '../utils/localStorage';
 
 interface RecommendedMovieItem {
   release: Releases;
@@ -16,11 +15,11 @@ const RecommendedMovieItem = ({
   }
 }: RecommendedMovieItem): JSX.Element => {
   const navigate = useNavigate();
-  const city = getItem('city') as string;
+
+  const { storedCity } = useAppSelector(state => state.cities);
 
   const handleMoviePreview = (): void => {
-    const citySlug = createSlug(city);
-
+    const citySlug = createSlug(storedCity);
     navigate(`/${citySlug}/movies/${slug}`);
     return;
   };

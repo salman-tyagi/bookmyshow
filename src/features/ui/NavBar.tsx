@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../hooks/hooks';
 
 import { GoChevronDown } from 'react-icons/go';
 import { RxHamburgerMenu } from 'react-icons/rx';
@@ -10,6 +11,8 @@ import SearchBar from './SearchBar';
 import SignIn from '../authentication/SignIn';
 import Hamburger from './Hamburger';
 import Cities from '../cities/Cities';
+
+import { setCity } from '../cities/slices/citySlice';
 
 import { getEmail, isAuthenticated } from '../authentication/utils';
 
@@ -53,6 +56,8 @@ const NavBar = (): JSX.Element => {
   const [{ showSignInModal, openBurgerMenu, showCities }, dispatch] =
     useReducer(reducer, initialState);
 
+  const reduxDispatch = useAppDispatch();
+
   const [storedCity, setStoredCity] = useLocalStorage('city', '');
 
   const user = isAuthenticated();
@@ -91,6 +96,10 @@ const NavBar = (): JSX.Element => {
     if (storedCity) return;
     handleShowCities();
   }, [storedCity]);
+
+  useEffect(() => {
+    reduxDispatch(setCity(storedCity));
+  }, [storedCity, reduxDispatch]);
 
   return (
     <>

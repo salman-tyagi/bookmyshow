@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useAppSelector } from '../hooks/hooks';
 
 import Modal from '../ui/Modal';
 import SearchBar from '../ui/SearchBar';
@@ -9,7 +10,6 @@ import CityItem from './CityItem';
 import OtherCities from './OtherCities';
 
 import { apiGetAllCities } from './services/apiGetAllCities';
-import { getItem } from '../utils/localStorage';
 
 interface CitiesProps {
   onClose(): void;
@@ -22,10 +22,10 @@ function Cities({ onClose, onStoreCity }: CitiesProps): JSX.Element | null {
     queryFn: apiGetAllCities
   });
 
-  const city = getItem('city');
+  const { storedCity } = useAppSelector(state => state.cities);
 
   return (
-    <Modal top={96} rounded='' onClose={!city ? () => {} : onClose}>
+    <Modal top={96} rounded='' onClose={!storedCity ? () => {} : onClose}>
       <div className='p-4'>
         <SearchBar placeholder='Search for your city' text='sm' />
       </div>

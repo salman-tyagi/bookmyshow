@@ -20,6 +20,7 @@ function CityItem({
     onCloseCitiesModal();
 
     navigate(`/home/${city.toLowerCase()}`);
+    return;
   };
 
   return (
