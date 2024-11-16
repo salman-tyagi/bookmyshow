@@ -22,7 +22,6 @@ const HamburgerMenuItem = ({
   return (
     <li
       className={`flex items-center gap-4 border-b p-4 ${lockedMenu ? 'pointer-events-none opacity-50' : 'cursor-pointer hover:bg-gray-100'}`}
-      onClick={() => console.log('clicked')}
     >
       {typeof icon === 'string' ? (
         <img className='w-[20px]' src={`${icon}`} alt={`${desc}-img`} />
