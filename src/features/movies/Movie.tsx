@@ -145,10 +145,10 @@ function Movie(): JSX.Element {
 
       {showLanguageAndFormat && (
         <LanguageAndFormat
-          data={{
+          movieData={{
             title,
-            languages: languages.join(''),
-            screens: screen.join('')
+            languages: languages,
+            screens: screen
           }}
           onClose={() => setShowLanguageAndFormat(false)}
         />
