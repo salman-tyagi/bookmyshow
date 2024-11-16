@@ -1,14 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-// import userReducer from './features/authentication/slices/authSlice';
-// import citiesReducer from './features/cities/citiesSlice';
-// import releasesReducer from './features/movies/moviesSlice';
+import citiesReducer from './features/cities/slices/citySlice';
 
 const store = configureStore({
   reducer: {
-    // auth: userReducer
-    // cities: citiesReducer,
-    // releases: releasesReducer
+    cities: citiesReducer
   }
 });
 

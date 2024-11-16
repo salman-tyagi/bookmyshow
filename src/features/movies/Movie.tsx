@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useAppSelector } from '../hooks/hooks';
 
 import LanguageAndFormat from './LanguageAndFormat';
 import BuyOrRent from './BuyOrRent';
@@ -13,7 +14,7 @@ function Movie(): JSX.Element {
   const [showBuyOrRent, setShowBuyOrRent] = useState(false);
 
   const { isLoading } = useMovie() as { isLoading: boolean };
-  const { city } = useParams<{ city: string; slug: string }>();
+  const { storedCity } = useAppSelector(state => state.cities);
 
   const {
     title,
@@ -33,7 +34,7 @@ function Movie(): JSX.Element {
       return {
         id: i,
         scr,
-        link: `/explore/movies-${city}-${scr}`
+        link: `/explore/movies-${storedCity}-${scr}`
       };
     }
   );
@@ -42,7 +43,7 @@ function Movie(): JSX.Element {
     return {
       id: i,
       lang: lang,
-      link: `/explore/movies-${city}-${lang}`
+      link: `/explore/movies-${storedCity}-${lang}`
     };
   });
 
