@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 
 import { GoChevronDown } from 'react-icons/go';
@@ -13,27 +13,83 @@ import Cities from '../cities/Cities';
 
 import { getEmail, isAuthenticated } from '../authentication/utils';
 
+type ActionTypes =
+  | 'setShowSignInModal'
+  | 'setOpenBurgerMenu'
+  | 'setShowCitiesModal';
+
+interface State {
+  showSignInModal: boolean;
+  openBurgerMenu: boolean;
+  showCities: boolean;
+}
+
+const initialState: State = {
+  showSignInModal: false,
+  openBurgerMenu: false,
+  showCities: false
+};
+
+const reducer = (
+  state: State,
+  action: { type: ActionTypes; payload: boolean }
+): State => {
+  switch (action.type) {
+    case 'setShowSignInModal':
+      return { ...state, showSignInModal: action.payload };
+
+    case 'setOpenBurgerMenu':
+      return { ...state, openBurgerMenu: action.payload };
+
+    case 'setShowCitiesModal':
+      return { ...state, showCities: action.payload };
+
+    default:
+      throw new Error('Unknown action');
+  }
+};
+
 const NavBar = (): JSX.Element => {
-  const [showSignInModal, setShowSignInModal] = useState(false);
-  const [openBurgerMenu, setOpenBurgerMenu] = useState(false);
-  const [showCities, setShowCities] = useState(false);
+  const [{ showSignInModal, openBurgerMenu, showCities }, dispatch] =
+    useReducer(reducer, initialState);
+
   const [storedCity, setStoredCity] = useLocalStorage('city', '');
 
   const user = isAuthenticated();
   const email = getEmail();
 
-  const handleShowSignIn = (): void => {
-    setShowSignInModal(true);
-    setOpenBurgerMenu(false);
-  };
-
   const handleStoreCity = (city: string) => {
     setStoredCity(city);
   };
 
+  const handleShowSignIn = (): void => {
+    dispatch({ type: 'setShowSignInModal', payload: true });
+    handleCloseBurgerMenu();
+  };
+
+  const handleShowBurgerMenu = (): void => {
+    dispatch({ type: 'setOpenBurgerMenu', payload: true });
+  };
+
+  const handleShowCities = (): void => {
+    dispatch({ type: 'setShowCitiesModal', payload: true });
+  };
+
+  const handleCloseSignIn = (): void => {
+    dispatch({ type: 'setShowSignInModal', payload: false });
+  };
+
+  function handleCloseBurgerMenu(): void {
+    dispatch({ type: 'setOpenBurgerMenu', payload: false });
+  }
+
+  const handleCloseCities = (): void => {
+    dispatch({ type: 'setShowCitiesModal', payload: false });
+  };
+
   useEffect(() => {
     if (storedCity) return;
-    setShowCities(true);
+    handleShowCities();
   }, [storedCity]);
 
   return (
@@ -47,7 +103,7 @@ const NavBar = (): JSX.Element => {
 
         <div
           className='ml-auto flex items-center gap-4 text-sm'
-          onClick={() => setShowCities(true)}
+          onClick={handleShowCities}
         >
           <button>{storedCity || 'Select city'}</button>
           <GoChevronDown />
@@ -57,7 +113,7 @@ const NavBar = (): JSX.Element => {
           <>
             <button
               className='rounded bg-rose-500 px-4 py-1 text-xs text-white transition-all hover:bg-rose-600 active:bg-rose-500'
-              onClick={() => setShowSignInModal(true)}
+              onClick={handleShowSignIn}
             >
               Sign in
             </button>
@@ -65,13 +121,13 @@ const NavBar = (): JSX.Element => {
             <RxHamburgerMenu
               size={24}
               className='cursor-pointer text-gray-900'
-              onClick={() => setOpenBurgerMenu(true)}
+              onClick={handleShowBurgerMenu}
             />
           </>
         ) : (
           <button
             className='flex items-center gap-3'
-            onClick={() => setOpenBurgerMenu(true)}
+            onClick={handleShowBurgerMenu}
           >
             <img className='w-7' src='/images/default-photo.webp' alt='photo' />
             <span className='max-w-24 truncate text-sm font-medium'>
@@ -81,20 +137,17 @@ const NavBar = (): JSX.Element => {
         )}
       </div>
 
-      {showSignInModal && <SignIn onClose={() => setShowSignInModal(false)} />}
+      {showSignInModal && <SignIn onClose={handleCloseSignIn} />}
 
       {openBurgerMenu && (
         <Hamburger
           onShowSignIn={handleShowSignIn}
-          onClose={() => setOpenBurgerMenu(false)}
+          onClose={handleCloseBurgerMenu}
         />
       )}
 
       {showCities && (
-        <Cities
-          onStoreCity={handleStoreCity}
-          onClose={() => setShowCities(false)}
-        />
+        <Cities onStoreCity={handleStoreCity} onClose={handleCloseCities} />
       )}
     </>
   );
