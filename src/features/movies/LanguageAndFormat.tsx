@@ -9,6 +9,7 @@ import createSlug from '../utils/createSlug';
 interface LanguageAndFormatProps {
   onClose(): void;
   movieData: {
+    releaseId: string;
     title: string;
     languages: string[];
     screens: string[];
@@ -17,7 +18,7 @@ interface LanguageAndFormatProps {
 
 function LanguageAndFormat({
   onClose,
-  movieData: { title, languages, screens }
+  movieData: { releaseId, title, languages, screens }
 }: LanguageAndFormatProps): JSX.Element {
   const navigate = useNavigate();
   const { storedCity } = useAppSelector(state => state.cities);
@@ -27,7 +28,7 @@ function LanguageAndFormat({
 
   const handleBuyTickets = (language: string, screen: string): void => {
     navigate(
-      `/buytickets/${titleSlug}-${language}-${screen}-${storedCity}/${currentDate}`
+      `/buytickets/${titleSlug}-${language}-${screen}-${storedCity}/movie-${releaseId}/${currentDate}`
     );
     return;
   };

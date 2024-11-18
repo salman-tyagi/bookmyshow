@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { getRelease } from '../services/apiReleases';
 
 export interface Movie {
+  releaseId: string;
   title: string;
   image: string;
   poster: string;
@@ -27,6 +28,7 @@ const useMovie = (): Movie | { isLoading: boolean } => {
   if (isLoading) return { isLoading };
 
   const {
+    _id,
     movie: { title, image, poster, certification, genres, duration, languages },
     screen,
     releaseDate
@@ -38,6 +40,7 @@ const useMovie = (): Movie | { isLoading: boolean } => {
   const _genres = genres.map(genre => genre[0].toUpperCase() + genre.slice(1));
 
   return {
+    releaseId: _id,
     title,
     image,
     poster,

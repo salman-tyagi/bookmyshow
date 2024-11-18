@@ -71,3 +71,80 @@ export const getRelease = async (slug: string) => {
     console.log(err);
   }
 };
+
+export type MultiplexChain = 'inox' | 'pvr' | 'cinepolis';
+
+interface ReleaseDetails {
+  status: string;
+  data: {
+    _id: string;
+    movie: {
+      title: string;
+      image: string;
+      poster: string;
+      languages: string[];
+      duration: number; // in mins
+      ratingsQuantity: number;
+      ratingsAverage: number;
+      votes: number;
+      genres: string[];
+      certification: string;
+      about: string;
+      cast: { actor: string[]; actress: string[] };
+      crew: {
+        director: string[];
+        actionDirector: string[];
+        producer: string[];
+        creativeProducer: string[];
+        executiveProducer: string[];
+        cinematographer: string[];
+        editor: string[];
+        writer: string[];
+        musician: string[];
+        singer: string[];
+        lyricist: string[];
+        screenplay: string[];
+      };
+    };
+    theatre: {
+      theatre: string;
+      multiplexChain: MultiplexChain;
+      location: { lat: number; lng: number };
+      address: string;
+      locality: string;
+      city: string;
+      state: string;
+      pincode: number;
+      region: string;
+      country: string;
+      facilities: {
+        ticketCancellation: boolean;
+        foodAndBeverages: boolean;
+        mTicket: boolean;
+        wheelChair: boolean;
+        parking: boolean;
+        foodCourt: boolean;
+      };
+      seats: {
+        vip: { row: number; column: number };
+        executive: { row: number; column: number };
+        normal: { row: number; column: number };
+      };
+    };
+    screen: string[];
+    releaseDate: string;
+    movieDateAndTime: string[];
+  };
+}
+
+export const getReleaseDetails = async (id: string) => {
+  try {
+    const res = await axios.get<ReleaseDetails>(
+      `${API_URL}/api/v1/releases/release-details/${id}`
+    );
+
+    if (res.data.status === 'success') return res.data.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
