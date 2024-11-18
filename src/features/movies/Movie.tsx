@@ -17,6 +17,7 @@ function Movie(): JSX.Element {
   const { storedCity } = useAppSelector(state => state.cities);
 
   const {
+    releaseId,
     title,
     image,
     poster,
@@ -146,6 +147,7 @@ function Movie(): JSX.Element {
       {showLanguageAndFormat && (
         <LanguageAndFormat
           movieData={{
+            releaseId,
             title,
             languages: languages,
             screens: screen
