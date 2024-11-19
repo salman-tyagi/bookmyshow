@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
 import NavBar from './NavBar';
-import Footer from './Footer';
+// import Footer from './Footer';
 import TopBar from './TopBar';
 
 function AppLayout(): JSX.Element {
@@ -10,7 +10,7 @@ function AppLayout(): JSX.Element {
       <NavBar />
       <TopBar />
       <Outlet />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
