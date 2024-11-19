@@ -11,7 +11,7 @@ import ErrorPage from './features/ui/ErrorPage';
 import NavBar from './features/ui/NavBar';
 import Footer from './features/ui/Footer';
 import ExploreMovies from './features/movies/ExploreMovies';
-import BuyTickets from './features/bookings/BuyTickets';
+import BuyTickets from './features/pages/BuyTickets';
 
 import store from './store';
 

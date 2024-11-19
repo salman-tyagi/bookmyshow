@@ -4,29 +4,29 @@
 
 @layer base {
   html {
-    @apply no-scrollbar
+    @apply no-scrollbar;
   }
 
   body {
-    @apply font-sans text-stone-800
+    @apply font-sans text-stone-800;
   }
 }
 
 @layer components {
   .overlay {
-    @apply fixed top-0 h-screen w-full bg-black/35 animate-overlay-smooth z-10 flex
+    @apply fixed top-0 z-10 flex h-screen w-full animate-overlay-smooth bg-black/35;
   }
 
   .centered {
-    @apply justify-center items-center
+    @apply items-center justify-center;
   }
 
   .right {
-    @apply justify-end
+    @apply justify-end;
   }
 
   .bottom {
-    @apply items-end
+    @apply items-end;
   }
 }
 
