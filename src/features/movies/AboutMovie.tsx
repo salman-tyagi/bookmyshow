@@ -1,8 +1,8 @@
-interface IAboutMovie {
-  about: string;
-}
+import { useReleaseMovie } from './hooks/useReleaseMovie';
 
-function AboutMovie({ about }: IAboutMovie): JSX.Element {
+function AboutMovie(): JSX.Element {
+  const { about } = useReleaseMovie();
+
   return (
     <div className='mx-36 flex'>
       <div className='w-[57rem] border-b border-stone-300 py-9'>
