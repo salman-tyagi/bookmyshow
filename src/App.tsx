@@ -57,7 +57,7 @@ const router = createBrowserRouter([
 ]);
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { gcTime: 10 * 1000 } }
+  defaultOptions: { queries: { gcTime: 0 } }
 });
 
 function App(): JSX.Element {
