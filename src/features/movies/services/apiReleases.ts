@@ -34,10 +34,8 @@ export const getAllReleases = async () => {
   }
 };
 
-/**
- * Get Release
- */
-export interface Release {
+// Get Release
+export interface IReleaseMovie {
   _id: string;
   title: string;
   image: string;
@@ -46,25 +44,40 @@ export interface Release {
   certification: string;
   languages: string[];
   genres: string[];
+  about: string;
+  cast: { actor: string[]; actress: string[] };
+  crew: {
+    director: string[];
+    producer: string[];
+    creativeProducer: string[];
+    executiveProducer: string[];
+    cinematographer: string[];
+    editor: string[];
+    writer: string[];
+    musician: string[];
+    singer: string[];
+    lyricist: string[];
+    screenplay: string[];
+  };
 }
 
-interface ReleaseRes {
+interface ReleaseTheatre {
   status: string;
   data: {
     _id: string;
-    movie: Release;
+    movie: IReleaseMovie;
     releaseDate: string;
     screen: string[];
-  }[];
+  };
 }
 
 export const getRelease = async (slug: string) => {
   try {
-    const res = await axios.get<ReleaseRes>(
-      `${API_URL}/api/v1/releases/${slug}?fields=movie,screen,releaseDate`
+    const res = await axios.get<ReleaseTheatre>(
+      `${API_URL}/api/v1/releases/${slug}`
     );
 
-    return res.data.data;
+    if (res.data.status === 'success') return res.data.data;
   } catch (err) {
     console.log(err);
   }

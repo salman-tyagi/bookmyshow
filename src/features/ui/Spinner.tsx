@@ -16,7 +16,8 @@ function Spinner({
     height: width,
     border: `${borderWidth}px solid ${color}`,
     borderTop: `${borderWidth}px solid ${borderTopColor}`,
-    borderRadius: '50%'
+    borderRadius: '50%',
+    margin: '0 auto'
   };
 
   return <div style={spinnerStyle} className='animate-spin'></div>;
