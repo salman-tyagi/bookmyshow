@@ -4,16 +4,10 @@ import CloseModalBtn from '../ui/CloseModalBtn';
 import Modal from '../ui/Modal';
 
 import createSlug from '../utils/createSlug';
+import { useReleaseMovie } from './hooks/useReleaseMovie';
 
 interface LanguageAndFormatProps {
   onClose(): void;
-  movieData: {
-    releaseId: string;
-    title: string;
-    languages: string[];
-    screens: string[];
-    releaseDate: string;
-  };
 }
 
 export const formatDate = (date: string): string => {
@@ -28,19 +22,18 @@ export const formatDate = (date: string): string => {
 };
 
 export default function LanguageAndFormat({
-  onClose,
-  movieData: { title, languages, screens, releaseDate }
+  onClose
 }: LanguageAndFormatProps): JSX.Element {
-  const dateString = formatDate(releaseDate);
-
+  const { title, releaseDate, languages, screen } = useReleaseMovie();
   const navigate = useNavigate();
+
+  const dateString = formatDate(releaseDate);
   const titleSlug = createSlug(title);
 
   const handleBuyTickets = (language: string, screen: string): void => {
     navigate(
       `/buytickets/${titleSlug}-${language}-${screen}?releasedate=${dateString}`
     );
-    return;
   };
 
   return (
@@ -56,17 +49,17 @@ export default function LanguageAndFormat({
         {languages.map((language, i) => (
           <div key={i}>
             <p className='bg-stone-100 px-4 pb-1 pt-4 text-sm font-medium uppercase text-stone-600'>
-              {language}
+              {language.lang}
             </p>
 
             <div className='flex gap-4 px-4 py-4'>
-              {screens.map((screen, i) => (
+              {screen.map((scr, i) => (
                 <p
                   className='cursor-pointer rounded-2xl border border-stone-300 px-4 py-2 text-sm font-medium uppercase text-rose-600'
                   key={i}
-                  onClick={() => handleBuyTickets(language, screen)}
+                  onClick={() => handleBuyTickets(language.lang, scr)}
                 >
-                  {screen}
+                  {scr}
                 </p>
               ))}
             </div>

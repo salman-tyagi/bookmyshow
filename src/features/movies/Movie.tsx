@@ -1,70 +1,25 @@
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { useAppSelector } from '../hooks/hooks';
+import { Link } from 'react-router-dom';
 
 import LanguageAndFormat from './LanguageAndFormat';
 import BuyOrRent from './BuyOrRent';
 import Spinner from '../ui/Spinner';
 import RateMovie from './RateMovie';
 import AboutMovie from './AboutMovie';
+import MovieCast from './MovieCast';
+import MovieCrew from './MovieCrew';
+import MovieReviews from './MovieReviews';
 
-import { getRelease } from './services/apiReleases';
+import { useReleaseMovie } from './hooks/useReleaseMovie';
 
 export default function Movie(): JSX.Element {
   const [showLanguageAndFormat, setShowLanguageAndFormat] = useState(false);
   const [showBuyOrRent, setShowBuyOrRent] = useState(false);
-  const { slug } = useParams<{ slug: string }>();
 
-  const { storedCity } = useAppSelector(state => state.cities);
-
-  const { isLoading, data: release } = useQuery({
-    queryKey: ['movie'],
-    queryFn: () => getRelease(slug!)
-  });
+  // prettier-ignore
+  const { isLoading, poster, image, title, screens, languages, durationInHours, durationInMins, genres, certification, releaseDate } = useReleaseMovie();
 
   if (isLoading) return <Spinner width={38} />;
-
-  const {
-    _id: releaseId = '',
-    movie: {
-      title = '',
-      image = '',
-      poster = '',
-      duration = 0,
-      certification = '',
-      languages = [],
-      genres = [],
-      about = ''
-    } = {},
-    screen = [],
-    releaseDate = ''
-  } = release || {};
-
-  const durationInHours = duration / 60;
-  const durationInMins = duration % 60;
-
-  const screens = screen.map(
-    (scr, i): { id: number; scr: string; link: string } => {
-      return {
-        id: i,
-        scr,
-        link: `/explore/movies-${storedCity}-${scr}`
-      };
-    }
-  );
-
-  const _languages = languages.map((lang, i) => {
-    return {
-      id: i,
-      lang: lang,
-      link: `/explore/movies-${storedCity}-${lang}`
-    };
-  });
-
-  const _genres = genres
-    .map(genre => genre[0].toUpperCase() + genre.slice(1))
-    .join(', ');
 
   return (
     <>
@@ -101,9 +56,9 @@ export default function Movie(): JSX.Element {
             </ul>
           )}
 
-          {_languages.length && (
+          {languages.length && (
             <ul className='mb-5 flex w-fit space-x-1 rounded bg-stone-200 px-2 py-1 font-medium text-stone-800'>
-              {_languages.map(lang => (
+              {languages.map(lang => (
                 <li key={lang.id} className='capitalize hover:underline'>
                   <Link to={lang.link}>{lang.lang},</Link>
                 </li>
@@ -119,7 +74,7 @@ export default function Movie(): JSX.Element {
 
             <span className='text-xs'>&bull;</span>
 
-            <p>{_genres}</p>
+            <p>{genres}</p>
 
             <span className='text-xs'>&bull;</span>
 
@@ -155,21 +110,15 @@ export default function Movie(): JSX.Element {
       </section>
 
       {showLanguageAndFormat && (
-        <LanguageAndFormat
-          movieData={{
-            releaseId,
-            title,
-            languages: languages,
-            screens: screen,
-            releaseDate
-          }}
-          onClose={() => setShowLanguageAndFormat(false)}
-        />
+        <LanguageAndFormat onClose={() => setShowLanguageAndFormat(false)} />
       )}
 
       {showBuyOrRent && <BuyOrRent onClose={() => setShowBuyOrRent(false)} />}
 
-      <AboutMovie about={about} />
+      <AboutMovie />
+      <MovieCast />
+      <MovieCrew />
+      <MovieReviews />
     </>
   );
 }

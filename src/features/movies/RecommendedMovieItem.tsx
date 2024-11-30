@@ -19,7 +19,7 @@ const RecommendedMovieItem = ({
 
   return (
     <li className='max-w-[14rem] cursor-pointer'>
-      <Link to={`${citySlug}/movies/${slug}`}>
+      <Link to={`/${citySlug}/movies/${slug}`}>
         <div className='mb-2 overflow-clip rounded-lg bg-gray-200'>
           <img loading='lazy' src={`/images/${image}`} alt={`${title}-image`} />
           <div className='flex items-center gap-2 bg-black px-3 py-2 text-lg leading-none text-white'>
