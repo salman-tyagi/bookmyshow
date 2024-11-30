@@ -2,9 +2,7 @@ import axios, { AxiosError } from 'axios';
 
 import API_URL from '../../utils/API_URL';
 
-/**
- * Get All Releases
- */
+// Get All Releases
 export interface Releases {
   _id: string;
   movie: {
@@ -77,70 +75,33 @@ export type MultiplexChain = 'inox' | 'pvr' | 'cinepolis';
 interface ReleaseDetails {
   status: string;
   data: {
-    _id: string;
-    movie: {
-      title: string;
-      image: string;
-      poster: string;
-      languages: string[];
-      duration: number; // in mins
-      ratingsQuantity: number;
-      ratingsAverage: number;
-      votes: number;
-      genres: string[];
-      certification: string;
-      about: string;
-      cast: { actor: string[]; actress: string[] };
-      crew: {
-        director: string[];
-        actionDirector: string[];
-        producer: string[];
-        creativeProducer: string[];
-        executiveProducer: string[];
-        cinematographer: string[];
-        editor: string[];
-        writer: string[];
-        musician: string[];
-        singer: string[];
-        lyricist: string[];
-        screenplay: string[];
-      };
-    };
-    theatre: {
-      theatre: string;
-      multiplexChain: MultiplexChain;
-      location: { lat: number; lng: number };
-      address: string;
-      locality: string;
-      city: string;
-      state: string;
-      pincode: number;
-      region: string;
-      country: string;
-      facilities: {
-        ticketCancellation: boolean;
-        foodAndBeverages: boolean;
-        mTicket: boolean;
-        wheelChair: boolean;
-        parking: boolean;
-        foodCourt: boolean;
-      };
-      seats: {
-        vip: { row: number; column: number };
-        executive: { row: number; column: number };
-        normal: { row: number; column: number };
-      };
-    };
-    screen: string[];
+    timings: string[];
+    theatre: string;
+    movieTitle: string;
+    certification: string;
+    genres: string[];
     releaseDate: string;
-    movieDateAndTime: string[];
-  };
+    facilities: {
+      ticketCancellation: boolean;
+      foodAndBeverages: boolean;
+      mTicket: boolean;
+      wheelChair: boolean;
+      parking: boolean;
+      foodCourt: boolean;
+    };
+    locality: string;
+  }[];
 }
 
-export const getReleaseDetails = async (id: string) => {
+export const getReleaseTheatres = async (
+  movieSlug: string,
+  date: string,
+  screen: string
+) => {
   try {
     const res = await axios.get<ReleaseDetails>(
-      `${API_URL}/api/v1/releases/release-details/${id}`
+      `${API_URL}/api/v1/releases/theatres/${movieSlug}`,
+      { params: { dateString: date, screen } }
     );
 
     if (res.data.status === 'success') return res.data.data;

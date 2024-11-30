@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />
       },
       {
-        path: 'buytickets/:movieData/:releaseId/:date',
+        path: 'buytickets/:movieData',
         element: <BuyTickets />,
         errorElement: <ErrorPage />
       }

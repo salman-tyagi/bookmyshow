@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../hooks/hooks';
 
 import CloseModalBtn from '../ui/CloseModalBtn';
 import Modal from '../ui/Modal';
@@ -13,22 +12,33 @@ interface LanguageAndFormatProps {
     title: string;
     languages: string[];
     screens: string[];
+    releaseDate: string;
   };
 }
 
-function LanguageAndFormat({
-  onClose,
-  movieData: { releaseId, title, languages, screens }
-}: LanguageAndFormatProps): JSX.Element {
-  const navigate = useNavigate();
-  const { storedCity } = useAppSelector(state => state.cities);
+export const formatDate = (date: string): string => {
+  const dateString = new Intl.DateTimeFormat('en-IN')
+    .format(new Date(date))
+    .slice()
+    .split('/')
+    .map(item => item.padStart(2, '0'))
+    .reverse()
+    .join('');
+  return dateString;
+};
 
+export default function LanguageAndFormat({
+  onClose,
+  movieData: { title, languages, screens, releaseDate }
+}: LanguageAndFormatProps): JSX.Element {
+  const dateString = formatDate(releaseDate);
+
+  const navigate = useNavigate();
   const titleSlug = createSlug(title);
-  const currentDate = new Date().toLocaleDateString().split('/').join('');
 
   const handleBuyTickets = (language: string, screen: string): void => {
     navigate(
-      `/buytickets/${titleSlug}-${language}-${screen}-${storedCity}/movie-${releaseId}/${currentDate}`
+      `/buytickets/${titleSlug}-${language}-${screen}?releasedate=${dateString}`
     );
     return;
   };
@@ -66,5 +76,3 @@ function LanguageAndFormat({
     </Modal>
   );
 }
-
-export default LanguageAndFormat;
