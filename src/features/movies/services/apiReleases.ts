@@ -48,6 +48,7 @@ export interface IReleaseMovie {
   cast: { actor: string[]; actress: string[] };
   crew: {
     director: string[];
+    actionDirector: string[];
     producer: string[];
     creativeProducer: string[];
     executiveProducer: string[];
@@ -115,6 +116,32 @@ export const getReleaseTheatres = async (
     const res = await axios.get<ReleaseDetails>(
       `${API_URL}/api/v1/releases/theatres/${movieSlug}`,
       { params: { dateString: date, screen } }
+    );
+
+    if (res.data.status === 'success') return res.data.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export interface MovieReview {
+  _id: string;
+  rating: number;
+  review: string;
+  email: string;
+  createdAt: string;
+}
+
+interface MovieReviewsRes {
+  status: string;
+  result: number;
+  data: MovieReview[];
+}
+
+export const getMovieReviews = async (movieId: string) => {
+  try {
+    const res = await axios.get<MovieReviewsRes>(
+      `${API_URL}/api/v1/movies/${movieId}/reviews`
     );
 
     if (res.data.status === 'success') return res.data.data;
