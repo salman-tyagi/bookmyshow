@@ -16,19 +16,7 @@ function Movie(): JSX.Element {
   const { isLoading } = useMovie() as { isLoading: boolean };
   const { storedCity } = useAppSelector(state => state.cities);
 
-  const {
-    releaseId,
-    title,
-    image,
-    poster,
-    certification,
-    releaseDate,
-    screen,
-    languages,
-    durationInHours,
-    durationInMins,
-    genres
-  } = useMovie() as IMovie;
+  const { releaseId, title, image, poster, certification, releaseDate, screen, languages, durationInHours, durationInMins, genres } = useMovie() as IMovie;
 
   const screens = screen?.map(
     (scr, i): { id: number; scr: string; link: string } => {
@@ -150,7 +138,8 @@ function Movie(): JSX.Element {
             releaseId,
             title,
             languages: languages,
-            screens: screen
+            screens: screen,
+            releaseDate
           }}
           onClose={() => setShowLanguageAndFormat(false)}
         />
