@@ -1,10 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
 import { IoChevronForward } from 'react-icons/io5';
 
 import { useAppSelector } from '../hooks/hooks';
-import { useReleaseMovie } from './hooks/useReleaseMovie';
 
 import Spinner from '../ui/Spinner';
 import RelatedReleaseItem from './RelatedReleaseItem';
@@ -12,11 +11,11 @@ import RelatedReleaseItem from './RelatedReleaseItem';
 import { getAllRelatedReleases } from './services/apiReleases';
 
 function RelatedReleases(): JSX.Element {
-  const { movieSlug } = useReleaseMovie();
+  const { slug: movieSlug } = useParams<{ slug: string }>();
 
   const { isLoading, data: relatedReleases = [] } = useQuery({
     queryKey: ['relatedReleases'],
-    queryFn: () => getAllRelatedReleases(movieSlug)
+    queryFn: () => getAllRelatedReleases(movieSlug!)
   });
 
   const { storedCity } = useAppSelector(state => state.cities);

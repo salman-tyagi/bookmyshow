@@ -10,19 +10,19 @@ const menuList = [
     desc: 'Notifications'
   },
   {
-    icon: '/images/hamburgerMenu/purchase-history.png',
+    icon: '/images/purchase-history.png',
     desc: 'Your orders'
   },
   {
-    icon: '/images/hamburgerMenu/stream-library.png',
+    icon: '/images/stream-library.png',
     desc: 'Stream library'
   },
   {
-    icon: '/images/hamburgerMenu/play-credit-card.png',
+    icon: '/images/play-credit-card.png',
     desc: 'Play credit card'
   },
   {
-    icon: '/images/hamburgerMenu/help-and-support.png',
+    icon: '/images/help-and-support.png',
     desc: 'Help & support'
   },
   {
@@ -34,7 +34,7 @@ const menuList = [
     desc: 'Rewards'
   },
   {
-    icon: '/images/hamburgerMenu/book-a-change.png',
+    icon: '/images/book-a-change.png',
     desc: 'BookAChange'
   }
 ];

@@ -56,7 +56,6 @@ export const useReleaseMovie = () => {
   return {
     isLoading,
     movieId,
-    movieSlug: slug,
     releaseId,
     releaseDate,
     title,

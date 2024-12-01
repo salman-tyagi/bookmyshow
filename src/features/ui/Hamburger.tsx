@@ -65,7 +65,7 @@ function HamburgerMenu({
             <div className='flex items-center justify-between p-4 leading-none shadow-md'>
               <img
                 className='w-[40px]'
-                src='/images/hamburgerMenu/rewards-login.png'
+                src='/images/rewards-login.png'
                 alt='rewards-img'
               />
               <p className='text-violet-500'>

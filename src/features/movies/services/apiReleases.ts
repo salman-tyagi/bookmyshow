@@ -160,6 +160,7 @@ export interface RelatedRelease {
     image: string;
     ratingsAverage: number;
     votes: number;
+    slug: string;
   };
 }
 
