@@ -40,6 +40,8 @@ export interface IReleaseMovie {
   title: string;
   image: string;
   poster: string;
+  ratingsAverage: number;
+  votes: number;
   duration: number;
   certification: string;
   languages: string[];
@@ -142,6 +144,35 @@ export const getMovieReviews = async (movieId: string) => {
   try {
     const res = await axios.get<MovieReviewsRes>(
       `${API_URL}/api/v1/movies/${movieId}/reviews`
+    );
+
+    if (res.data.status === 'success') return res.data.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export interface RelatedRelease {
+  _id: string;
+  movie: {
+    _id: string;
+    title: string;
+    image: string;
+    ratingsAverage: number;
+    votes: number;
+  };
+}
+
+interface RelatedReleasesRes {
+  status: string;
+  result: number;
+  data: RelatedRelease[];
+}
+
+export const getAllRelatedReleases = async (movieSlug: string) => {
+  try {
+    const res = await axios.get<RelatedReleasesRes>(
+      `${API_URL}/api/v1/releases/${movieSlug}/related-releases`
     );
 
     if (res.data.status === 'success') return res.data.data;

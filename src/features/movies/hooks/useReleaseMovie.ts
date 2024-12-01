@@ -1,17 +1,11 @@
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { useAppSelector } from '../../hooks/hooks';
-
-import { getRelease } from '../services/apiReleases';
+import { useReleasesQuery } from './queries/useReleasesQuery';
 
 export const useReleaseMovie = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug = '' } = useParams<{ slug: string }>();
   const { storedCity } = useAppSelector(state => state.cities);
-
-  const { isLoading, data: release } = useQuery({
-    queryKey: ['movie'],
-    queryFn: () => getRelease(slug!)
-  });
+  const { isLoading, release } = useReleasesQuery(slug);
 
   const {
     _id: releaseId = '',
@@ -19,6 +13,8 @@ export const useReleaseMovie = () => {
       _id: movieId = '',
       title = '',
       image = '',
+      ratingsAverage = 0,
+      votes = 0,
       poster = '',
       duration = 0,
       certification = '',
@@ -60,10 +56,13 @@ export const useReleaseMovie = () => {
   return {
     isLoading,
     movieId,
+    movieSlug: slug,
     releaseId,
     releaseDate,
     title,
     image,
+    ratingsAverage,
+    votes,
     poster,
     certification,
     languages: _languages,

@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import LanguageAndFormat from './LanguageAndFormat';
-import BuyOrRent from './BuyOrRent';
+import LanguageAndFormat from '../movies/LanguageAndFormat';
+import BuyOrRent from '../movies/BuyOrRent';
 import Spinner from '../ui/Spinner';
-import RateMovie from './RateMovie';
-import AboutMovie from './AboutMovie';
-import MovieCast from './MovieCast';
-import MovieCrew from './MovieCrew';
-import MovieReviews from './MovieReviews';
+import RateMovie from '../movies/RateMovie';
+import AboutMovie from '../movies/AboutMovie';
+import MovieCast from '../movies/MovieCast';
+import MovieCrew from '../movies/MovieCrew';
+import MovieReviews from '../movies/MovieReviews';
+import RelatedReleases from '../movies/RelatedReleases';
 
-import { useReleaseMovie } from './hooks/useReleaseMovie';
+import { useReleaseMovie } from '../movies/hooks/useReleaseMovie';
 
 export default function Movie(): JSX.Element {
   const [showLanguageAndFormat, setShowLanguageAndFormat] = useState(false);
@@ -44,7 +45,7 @@ export default function Movie(): JSX.Element {
         <div className='w-[32rem]'>
           <p className='mb-5 text-4xl font-bold'>{title}</p>
 
-          <RateMovie ratings={8} votes={4} />
+          <RateMovie />
 
           {screens.length && (
             <ul className='mb-2 flex w-fit space-x-1 rounded bg-stone-200 p-2 font-medium text-stone-800'>
@@ -119,6 +120,7 @@ export default function Movie(): JSX.Element {
       <MovieCast />
       <MovieCrew />
       <MovieReviews />
+      <RelatedReleases />
     </>
   );
 }

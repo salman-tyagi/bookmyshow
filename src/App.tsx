@@ -6,12 +6,13 @@ import { Toaster } from 'react-hot-toast';
 
 import AppLayout from './features/ui/AppLayout';
 import Homepage from './features/pages/Homepage';
-import Movie from './features/movies/Movie';
+import Movie from './features/pages/Movie';
 import ErrorPage from './features/ui/ErrorPage';
 import NavBar from './features/ui/NavBar';
 import Footer from './features/ui/Footer';
 import ExploreMovies from './features/movies/ExploreMovies';
 import BuyTickets from './features/pages/BuyTickets';
+import UserReviews from './features/pages/UserReviews';
 
 import store from './store';
 
@@ -43,13 +44,18 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />
       },
       {
-        path: 'explore/:movies',
+        path: 'explore/:movieDetails',
         element: <ExploreMovies />,
         errorElement: <ErrorPage />
       },
       {
         path: 'buytickets/:movieData',
         element: <BuyTickets />,
+        errorElement: <ErrorPage />
+      },
+      {
+        path: ':city/movies/:movieSlug/:movieId/user-reviews',
+        element: <UserReviews />,
         errorElement: <ErrorPage />
       }
     ]
