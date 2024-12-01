@@ -26,10 +26,7 @@ function MovieReviews(): JSX.Element {
         <div className='mb-5 flex items-center justify-between'>
           <p className='text-2xl font-bold text-black'>Top reviews</p>
 
-          <Link
-            to=''
-            className='inline-block space-x-1 text-xl font-semibold text-rose-600'
-          >
+          <Link to='' className='space-x-1 text-xl font-semibold text-rose-600'>
             <span>
               {reviews.length} {reviews.length > 1 ? 'reviews' : 'review'}
             </span>
@@ -44,7 +41,7 @@ function MovieReviews(): JSX.Element {
 
         {reviews.length > 0 && (
           <ul className='flex min-w-full gap-10 overflow-auto'>
-            {reviews.map(review => (
+            {reviews.slice(0, 5).map(review => (
               <MovieReviewItem key={review.email} review={review} />
             ))}
           </ul>
