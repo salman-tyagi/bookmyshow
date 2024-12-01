@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 
 import { IoChevronForward } from 'react-icons/io5';
@@ -8,15 +7,13 @@ import { useReleaseMovie } from './hooks/useReleaseMovie';
 import Spinner from '../ui/Spinner';
 import MovieReviewItem from './MovieReviewItem';
 
-import { getMovieReviews } from './services/apiReleases';
+import { useAppSelector } from '../hooks/hooks';
+import { useMovieReviewsQuery } from './hooks/queries/useMovieReviewsQuery';
 
 function MovieReviews(): JSX.Element {
-  const { movieId } = useReleaseMovie();
-
-  const { isLoading, data: reviews = [] } = useQuery({
-    queryKey: ['reviews'],
-    queryFn: () => getMovieReviews(movieId)
-  });
+  const { movieId, movieSlug } = useReleaseMovie();
+  const { isLoading, reviews } = useMovieReviewsQuery(movieId);
+  const { storedCity } = useAppSelector(state => state.cities);
 
   if (isLoading) return <Spinner width={32} />;
 
@@ -26,7 +23,10 @@ function MovieReviews(): JSX.Element {
         <div className='mb-5 flex items-center justify-between'>
           <p className='text-2xl font-bold text-black'>Top reviews</p>
 
-          <Link to='' className='space-x-1 text-xl font-semibold text-rose-600'>
+          <Link
+            to={`/${storedCity}/movies/${movieSlug}/${movieId}/user-reviews`}
+            className='space-x-1 text-xl font-semibold text-rose-600'
+          >
             <span>
               {reviews.length} {reviews.length > 1 ? 'reviews' : 'review'}
             </span>

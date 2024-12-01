@@ -16,7 +16,7 @@ function MovieReviewItem({
   review: { email, rating, review, createdAt }
 }: MovieReviewItemProps) {
   return (
-    <li className='min-w-[28rem] rounded border border-stone-300 px-6 py-8'>
+    <li className='min-w-[28rem] rounded border border-stone-300 p-6'>
       <div className='mb-8 flex items-center gap-3'>
         <div className='h-10 w-10 rounded-full bg-stone-100'>
           <img src='/images/default-photo.webp' alt={`${email} photo`} />
