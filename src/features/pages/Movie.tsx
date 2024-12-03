@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import LanguageAndFormat from '../movies/LanguageAndFormat';
@@ -16,14 +16,51 @@ import { useReleaseMovie } from '../movies/hooks/useReleaseMovie';
 export default function Movie(): JSX.Element {
   const [showLanguageAndFormat, setShowLanguageAndFormat] = useState(false);
   const [showBuyOrRent, setShowBuyOrRent] = useState(false);
+  const [showHeader, setShowHeader] = useState(false);
+
+  const buyRef = useRef<HTMLButtonElement>(null);
 
   // prettier-ignore
   const { isLoading, poster, image, title, screens, languages, durationInHours, durationInMins, genres, certification, releaseDate } = useReleaseMovie();
+
+  useEffect(() => {
+    const header = buyRef.current;
+
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        entries.forEach(entry => {
+          // TODO:
+          if (!entry.isIntersecting) setShowHeader(true);
+          else setShowHeader(false);
+        });
+      },
+      {
+        root: null,
+        rootMargin: '22px',
+        threshold: 1
+      }
+    );
+
+    if (header) observer.observe(header);
+
+    return () => {
+      if (header) observer.unobserve(header);
+    };
+  });
 
   if (isLoading) return <Spinner width={38} />;
 
   return (
     <>
+      {showHeader && (
+        <header className='fixed top-0 flex w-full animate-overlay-smooth items-center justify-between bg-white p-5 px-36 shadow-md'>
+          <p className='text-2xl font-black'>{title}</p>
+          <button className='rounded-lg bg-rose-500 px-14 py-3 font-semibold text-white'>
+            Book tickets
+          </button>
+        </header>
+      )}
+
       <section
         className='flex h-[30rem] items-center gap-8 bg-black bg-right bg-no-repeat px-36 py-6 text-white'
         style={{
@@ -101,6 +138,7 @@ export default function Movie(): JSX.Element {
             </button>
 
             <button
+              ref={buyRef}
               className='w-52 rounded-md bg-rose-500 px-2 py-3 font-semibold text-white hover:bg-rose-600 active:bg-rose-500'
               onClick={() => setShowBuyOrRent(true)}
             >
