@@ -121,7 +121,7 @@ const NavBar = (): JSX.Element => {
         {!user ? (
           <>
             <button
-              className='rounded bg-rose-500 px-4 py-1 text-xs text-white transition-all hover:bg-rose-600 active:bg-rose-500'
+              className='rounded-sm bg-rose-500 px-4 py-1 text-xs text-white transition-all hover:bg-rose-600 active:bg-rose-500'
               onClick={handleShowSignIn}
             >
               Sign in

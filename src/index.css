@@ -1,6 +1,96 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --animate-overlay-smooth: overlaySmooth 0.3s ease-out;
+  --animate-slide-bottom: slideBottom 0.3s ease-out;
+  --animate-slide-left: slideLeft 0.3s ease-in-out;
+  --animate-slide-top: slideTop 0.3s ease-out;
+
+  @keyframes overlaySmooth {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideBottom {
+    from {
+      opacity: 0;
+      transform: translateY(-7rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideLeft {
+    from {
+      opacity: 0.2;
+      transform: translateX(24rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideTop {
+    from {
+      opacity: 0.2;
+      transform: translateY(50rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@utility overlay {
+  @apply fixed top-0 z-10 flex h-screen w-full animate-overlay-smooth bg-black/35;
+}
+
+@utility centered {
+  @apply items-center justify-center;
+}
+
+@utility right {
+  @apply justify-end;
+}
+
+@utility bottom {
+  @apply items-end;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+}
 
 @layer base {
   html {
@@ -9,29 +99,5 @@
 
   body {
     @apply font-sans text-stone-800;
-  }
-}
-
-@layer components {
-  .overlay {
-    @apply fixed top-0 z-10 flex h-screen w-full animate-overlay-smooth bg-black/35;
-  }
-
-  .centered {
-    @apply items-center justify-center;
-  }
-
-  .right {
-    @apply justify-end;
-  }
-
-  .bottom {
-    @apply items-end;
-  }
-}
-
-@layer utilities {
-  .no-scrollbar {
-    scrollbar-width: none;
   }
 }

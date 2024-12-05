@@ -16,7 +16,7 @@ function Footer(): JSX.Element {
 
           <a
             href=''
-            className='ml-auto inline-block rounded bg-rose-500 px-5 py-2 hover:bg-rose-600 active:bg-rose-500'
+            className='ml-auto inline-block rounded-sm bg-rose-500 px-5 py-2 hover:bg-rose-600 active:bg-rose-500'
           >
             Contact today!
           </a>
