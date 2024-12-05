@@ -23,18 +23,18 @@ function SignIn({ onClose }: LoginProps): JSX.Element {
         />
       ) : (
         <form className='w-[26rem] p-10 text-center'>
-          <h3 className='mb-8 w-full text-lg font-bold capitalize text-gray-800'>
+          <h3 className='mb-8 w-full text-lg font-bold text-gray-800 capitalize'>
             Get started
           </h3>
 
           <MdOutlineClose
-            className='absolute right-6 top-4 cursor-pointer text-2xl text-gray-500 hover:text-gray-700'
+            className='absolute top-4 right-6 cursor-pointer text-2xl text-gray-500 hover:text-gray-700'
             onClick={onClose}
           />
 
-          <div className='relative mb-4 cursor-pointer rounded border border-gray-400 px-3 py-3 text-sm font-semibold transition-all hover:border-gray-200 hover:bg-gray-100'>
+          <div className='relative mb-4 cursor-pointer rounded-sm border border-gray-400 px-3 py-3 text-sm font-semibold transition-all hover:border-gray-200 hover:bg-gray-100'>
             <img
-              className='absolute left-5 top-1/2 inline-block -translate-y-1/2'
+              className='absolute top-1/2 left-5 inline-block -translate-y-1/2'
               src='/images/googlelogo.svg'
               alt='google-logo'
             />
@@ -42,20 +42,20 @@ function SignIn({ onClose }: LoginProps): JSX.Element {
           </div>
 
           <div
-            className='relative mb-4 cursor-pointer rounded border border-gray-400 px-3 py-3 text-sm font-semibold transition-all hover:border-gray-200 hover:bg-gray-100'
+            className='relative mb-4 cursor-pointer rounded-sm border border-gray-400 px-3 py-3 text-sm font-semibold transition-all hover:border-gray-200 hover:bg-gray-100'
             onClick={() => setShowEmailLogin(true)}
           >
             <img
-              className='absolute left-5 top-1/2 inline-block -translate-y-1/2'
+              className='absolute top-1/2 left-5 inline-block -translate-y-1/2'
               src='/images/email.svg'
               alt='email-logo'
             />
             <span>Continue with Email</span>
           </div>
 
-          <div className='relative mb-4 cursor-pointer rounded border border-gray-400 px-3 py-3 text-sm font-semibold transition-all hover:border-gray-200 hover:bg-gray-100'>
+          <div className='relative mb-4 cursor-pointer rounded-sm border border-gray-400 px-3 py-3 text-sm font-semibold transition-all hover:border-gray-200 hover:bg-gray-100'>
             <FaApple
-              className='absolute left-5 top-1/2 inline-block -translate-y-1/2'
+              className='absolute top-1/2 left-5 inline-block -translate-y-1/2'
               size={22}
             />
             <span>Continue with Apple</span>
@@ -66,7 +66,7 @@ function SignIn({ onClose }: LoginProps): JSX.Element {
           <div className='mb-24 flex gap-3 py-6'>
             <span className='pb-1 text-sm'>+91</span>
             <input
-              className='w-full border-b border-gray-300 pb-1 text-sm outline-none focus:border-rose-400'
+              className='w-full border-b border-gray-300 pb-1 text-sm outline-hidden focus:border-rose-400'
               type='number'
               placeholder='Continue with mobile number'
               onClick={() => setShowContinue(true)}

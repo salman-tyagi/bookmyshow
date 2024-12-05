@@ -35,7 +35,7 @@ function HamburgerMenu({
   return (
     <div className='overlay' onClick={onClose}>
       <div
-        className='no-scrollbar fixed right-0 top-0 h-full w-96 animate-slide-left overflow-y-auto bg-white shadow-[-2px_0_2px_2px_rgba(0,0,0,0.05)]'
+        className='no-scrollbar animate-slide-left fixed top-0 right-0 h-full w-96 overflow-y-auto bg-white shadow-[-2px_0_2px_2px_rgba(0,0,0,0.05)]'
         onClick={e => e.stopPropagation()}
       >
         <div className='sticky top-0 z-10 bg-inherit'>
@@ -86,7 +86,7 @@ function HamburgerMenu({
         {user && (
           <div className='absolute bottom-0 w-full border bg-white p-3'>
             <button
-              className='w-full rounded border border-red-500 py-2 text-lg font-semibold text-rose-500'
+              className='w-full rounded-sm border border-red-500 py-2 text-lg font-semibold text-rose-500'
               onClick={logout}
             >
               Sign out

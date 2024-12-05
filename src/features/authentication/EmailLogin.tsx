@@ -47,7 +47,7 @@ const EmailLogin = ({
               <div className='relative'>
                 <input
                   id='email'
-                  className={`text-md w-full rounded-md border border-gray-300 px-3 py-2 outline-none ${validEmail && 'border-red-600'} leading-none`}
+                  className={`text-md w-full rounded-md border border-gray-300 px-3 py-2 outline-hidden ${validEmail && 'border-red-600'} leading-none`}
                   {...register('email', {
                     required: 'Email is required',
                     pattern: {
@@ -60,7 +60,7 @@ const EmailLogin = ({
 
                 {validEmail && (
                   <button
-                    className='absolute right-2 top-1/2 -translate-y-1/2 text-3xl font-extralight leading-none'
+                    className='absolute top-1/2 right-2 -translate-y-1/2 text-3xl leading-none font-extralight'
                     onClick={handleReset}
                   >
                     &times;

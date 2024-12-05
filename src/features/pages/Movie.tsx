@@ -53,7 +53,7 @@ export default function Movie(): JSX.Element {
   return (
     <>
       {showHeader && (
-        <header className='fixed top-0 flex w-full animate-overlay-smooth items-center justify-between bg-white p-5 px-36 shadow-md'>
+        <header className='animate-overlay-smooth fixed top-0 flex w-full items-center justify-between bg-white p-5 px-36 shadow-md'>
           <p className='text-2xl font-black'>{title}</p>
           <button className='rounded-lg bg-rose-500 px-14 py-3 font-semibold text-white'>
             Book tickets
@@ -74,7 +74,7 @@ export default function Movie(): JSX.Element {
             alt={`${title}-image`}
           />
 
-          <p className='pb-1 pt-2 text-sm'>
+          <p className='pt-2 pb-1 text-sm'>
             In cinemas <span className='text-xs'>&bull;</span> Streaming now
           </p>
         </div>
@@ -85,7 +85,7 @@ export default function Movie(): JSX.Element {
           <RateMovie />
 
           {screens.length && (
-            <ul className='mb-2 flex w-fit space-x-1 rounded bg-stone-200 p-2 font-medium text-stone-800'>
+            <ul className='mb-2 flex w-fit space-x-1 rounded-sm bg-stone-200 p-2 font-medium text-stone-800'>
               {screens.map(screen => (
                 <li key={screen.id} className='uppercase hover:underline'>
                   <Link to={screen.link}>{screen.scr},</Link>
@@ -95,7 +95,7 @@ export default function Movie(): JSX.Element {
           )}
 
           {languages.length && (
-            <ul className='mb-5 flex w-fit space-x-1 rounded bg-stone-200 px-2 py-1 font-medium text-stone-800'>
+            <ul className='mb-5 flex w-fit space-x-1 rounded-sm bg-stone-200 px-2 py-1 font-medium text-stone-800'>
               {languages.map(lang => (
                 <li key={lang.id} className='capitalize hover:underline'>
                   <Link to={lang.link}>{lang.lang},</Link>

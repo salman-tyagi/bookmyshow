@@ -25,7 +25,7 @@ const SearchBar = ({
       <GoSearch className='text-gray-500' />
 
       <input
-        className={`w-full text-${text} font-${bold} text-gray-500 outline-none`}
+        className={`w-full text-${text} font-${bold} text-gray-500 outline-hidden`}
         type='text'
         placeholder={placeholder}
       />
