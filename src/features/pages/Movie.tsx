@@ -53,7 +53,7 @@ export default function Movie(): JSX.Element {
   return (
     <>
       {showHeader && (
-        <header className='animate-overlay-smooth fixed top-0 flex w-full items-center justify-between bg-white p-5 px-36 shadow-md'>
+        <header className='animate-overlay-smooth fixed top-0 flex w-full items-center justify-between bg-white px-36 py-5 shadow-md'>
           <p className='text-2xl font-black'>{title}</p>
           <button className='rounded-lg bg-rose-500 px-14 py-3 font-semibold text-white'>
             Book tickets

@@ -11,8 +11,6 @@ import ErrorPage from './features/ui/ErrorPage';
 import BuyTickets from './features/pages/BuyTickets';
 import UserReviews from './features/pages/UserReviews';
 
-import NavBar from './features/ui/NavBar';
-import Footer from './features/ui/Footer';
 import ExploreMovies from './features/movies/ExploreMovies';
 import Spinner from './features/ui/Spinner';
 
@@ -22,20 +20,10 @@ const AppLayout = lazy(() => import('./features/ui/AppLayout'));
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: (
-      <Suspense fallback={<Spinner />}><AppLayout /></Suspense>
-    ),
-    errorElement: (
-      <>
-        <NavBar />
-        <ErrorPage />
-        <Footer />
-      </>
-    ),
+    element: <Suspense fallback={<Spinner />}><AppLayout /></Suspense>,
     children: [
       {
-        index: true,
+        path: '/',
         element: <Homepage />,
         errorElement: <ErrorPage />
       },

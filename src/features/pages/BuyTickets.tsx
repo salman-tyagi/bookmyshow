@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useAppSelector } from '../hooks/hooks';
 
 import Spinner from '../ui/Spinner';
+import Message from '../ui/Message';
 
 import { getReleaseTheatres } from '../movies/services/apiReleases';
 
@@ -10,37 +11,32 @@ export default function BuyTickets(): JSX.Element {
   const params = useParams<{ movieData: string; releaseId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const { storedCity } = useAppSelector(state => state.cities);
-  console.log(searchParams);
 
-  const year = searchParams.get('releasedate')?.slice(0, 4);
-  const month = searchParams.get('releasedate')?.slice(4, 6);
-  const day = searchParams.get('releasedate')?.slice(-2);
+  const year = searchParams.get('releaseDate')?.slice(0, 4);
+  const month = searchParams.get('releaseDate')?.slice(4, 6);
+  const day = searchParams.get('releaseDate')?.slice(-2);
 
   const movieParams = params.movieData?.split('-');
   const selectedScreen = movieParams?.splice(-1).join('');
   const selectedLanguage = movieParams?.splice(-1).join('');
   const movieSlug = movieParams?.join('-');
 
-  const { isLoading, data: releaseTheatres = [] } = useQuery({
+  const { isLoading, data: releaseTheatres = [], error } = useQuery({
     queryKey: ['release'],
-    queryFn: () =>
-      getReleaseTheatres(movieSlug!, `${year}-${month}-${day}`, selectedScreen!)
+    queryFn: () => getReleaseTheatres(movieSlug!, `${year}-${month}-${day}`, selectedScreen!)
   });
 
   const movieTitle = releaseTheatres.map(release => release.movieTitle)[0];
-
-  const certification = releaseTheatres.map(
-    release => release.certification
-  )[0];
-
+  const certification = releaseTheatres.map(release => release.certification)[0];
   const genres = releaseTheatres.map(release => release.genres)[0];
-
+  
+  if (error) return <Message message={error.message} />;
   if (isLoading) return <Spinner />;
 
   return (
     <>
       <div className='border-b border-stone-300'>
-        <header className='pb-3 pt-7 xl:px-36'>
+        <header className='pt-7 pb-3 xl:px-36'>
           <Link
             to={`/${storedCity}/movies/${movieSlug}`}
             className='space-x-2 text-4xl font-semibold text-stone-700 hover:underline'
@@ -51,7 +47,7 @@ export default function BuyTickets(): JSX.Element {
           </Link>
 
           <div className='mt-2 flex items-center gap-3'>
-            <p className='flex h-6 w-6 items-center justify-center rounded-full border-2 border-stone-500 p-3 text-sm font-semibold text-stone-500'>
+            <p className='flex h-6 w-6 items-center justify-center rounded-full border-1 border-stone-500 p-3 text-sm font-semibold text-stone-500'>
               {certification}
             </p>
 
@@ -59,7 +55,7 @@ export default function BuyTickets(): JSX.Element {
               {genres?.map((genre, i) => (
                 <li
                   key={i}
-                  className='rounded-full border border-stone-600 px-2 py-[2px] text-[10px] uppercase text-stone-600'
+                  className='rounded-full border border-stone-600 px-2 py-[0.5px] text-[10px] text-stone-600 uppercase'
                 >
                   {genre}
                 </li>
