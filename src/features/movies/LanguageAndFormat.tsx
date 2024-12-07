@@ -32,7 +32,7 @@ export default function LanguageAndFormat({
 
   const handleBuyTickets = (language: string, screen: string): void => {
     navigate(
-      `/buytickets/${titleSlug}-${language}-${screen}?releasedate=${dateString}`
+      `/buytickets/${titleSlug}-${language}-${screen}?releaseDate=${dateString}`
     );
   };
 

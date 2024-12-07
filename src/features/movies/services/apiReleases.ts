@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, isAxiosError } from 'axios';
 
 import API_URL from '../../utils/API_URL';
 
@@ -122,7 +122,7 @@ export const getReleaseTheatres = async (
 
     if (res.data.status === 'success') return res.data.data;
   } catch (err) {
-    console.log(err);
+    if (isAxiosError(err)) throw new Error(err.response?.data.message);
   }
 };
 
