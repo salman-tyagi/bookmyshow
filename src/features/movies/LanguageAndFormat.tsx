@@ -3,23 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import CloseModalBtn from '../ui/CloseModalBtn';
 import Modal from '../ui/Modal';
 
-import createSlug from '../utils/createSlug';
 import { useReleaseMovie } from './hooks/useReleaseMovie';
+
+import createSlug from '../utils/createSlug';
+import { formatDate } from '../utils/helpers';
 
 interface LanguageAndFormatProps {
   onClose(): void;
 }
-
-export const formatDate = (date: string): string => {
-  const dateString = new Intl.DateTimeFormat('en-IN')
-    .format(new Date(date))
-    .slice()
-    .split('/')
-    .map(item => item.padStart(2, '0'))
-    .reverse()
-    .join('');
-  return dateString;
-};
 
 export default function LanguageAndFormat({
   onClose
@@ -48,14 +39,14 @@ export default function LanguageAndFormat({
 
         {languages.map((language, i) => (
           <div key={i}>
-            <p className='bg-stone-100 px-4 pb-1 pt-4 text-sm font-medium uppercase text-stone-600'>
+            <p className='bg-stone-100 px-4 pt-4 pb-1 text-sm font-medium text-stone-600 uppercase'>
               {language.lang}
             </p>
 
             <div className='flex gap-4 px-4 py-4'>
               {screen.map((scr, i) => (
                 <p
-                  className='cursor-pointer rounded-2xl border border-stone-300 px-4 py-2 text-sm font-medium uppercase text-rose-600'
+                  className='cursor-pointer rounded-2xl border border-stone-300 px-4 py-2 text-sm font-medium text-rose-600 uppercase'
                   key={i}
                   onClick={() => handleBuyTickets(language.lang, scr)}
                 >
