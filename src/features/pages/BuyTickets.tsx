@@ -2,10 +2,15 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAppSelector } from '../hooks/hooks';
 
+import { GoHeartFill } from 'react-icons/go';
+import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2';
+import { IoFastFoodOutline } from 'react-icons/io5';
+
 import Spinner from '../ui/Spinner';
 import Message from '../ui/Message';
 
 import { getReleaseTheatres } from '../movies/services/apiReleases';
+import { formatTime } from '../utils/helpers';
 
 export default function BuyTickets(): JSX.Element {
   const params = useParams<{ movieData: string; releaseId: string }>();
@@ -21,21 +26,26 @@ export default function BuyTickets(): JSX.Element {
   const selectedLanguage = movieParams?.splice(-1).join('');
   const movieSlug = movieParams?.join('-');
 
-  const { isLoading, data: releaseTheatres = [], error } = useQuery({
+  const {
+    isLoading,
+    data: releaseTheatres = [],
+    error
+  } = useQuery({
     queryKey: ['release'],
-    queryFn: () => getReleaseTheatres(movieSlug!, `${year}-${month}-${day}`, selectedScreen!)
+    queryFn: () =>
+      getReleaseTheatres(movieSlug!, `${year}-${month}-${day}`, selectedScreen!)
   });
 
-  const movieTitle = releaseTheatres.map(release => release.movieTitle)[0];
+  const movieTitle = releaseTheatres.map(release => release.title)[0];
   const certification = releaseTheatres.map(release => release.certification)[0];
   const genres = releaseTheatres.map(release => release.genres)[0];
-  
-  if (error) return <Message message={error.message} />;
+
   if (isLoading) return <Spinner />;
+  if (error) return <Message message={error.message} />;
 
   return (
     <>
-      <div className='border-b border-stone-300'>
+      <section className='border-b border-stone-300'>
         <header className='pt-7 pb-3 xl:px-36'>
           <Link
             to={`/${storedCity}/movies/${movieSlug}`}
@@ -63,7 +73,7 @@ export default function BuyTickets(): JSX.Element {
             </ul>
           </div>
         </header>
-      </div>
+      </section>
 
       <section className='xl:px-36'>
         {/* <ul className='inline-flex text-center'>
@@ -91,6 +101,67 @@ export default function BuyTickets(): JSX.Element {
             </li>
           ))}
         </ul> */}
+      </section>
+
+      <section className='bg-stone-100 px-36 py-3'>
+        <ul className='bg-white'>
+          {releaseTheatres.map((release, i) => (
+            <li
+              key={i}
+              className='flex gap-5 border-b-1 px-5 py-4 last:border-none'
+            >
+              <GoHeartFill className='cursor-pointer fill-white stroke-1 transition delay-40 hover:fill-rose-500 hover:stroke-rose-500' />
+
+              <div className='basis-1/5 text-sm'>
+                <p className='mb-3 leading-4 font-semibold text-stone-800 capitalize'>
+                  {release.theatre}: {release.locality}
+                </p>
+
+                {release.mTicket ? (
+                  <span className='inline-flex items-center gap-1 text-green-400'>
+                    <HiOutlineDevicePhoneMobile size={18} />
+                    <p className='mr-6'>M-Ticket</p>
+                  </span>
+                ) : null}
+
+                {release.foodAndBeverages ? (
+                  <span className='inline-flex items-center gap-2 text-orange-400'>
+                    <IoFastFoodOutline size={18} />
+                    <p>Food & Beverage</p>
+                  </span>
+                ) : null}
+              </div>
+
+              <button className='space-x-1 self-start pr-6 text-sm font-medium text-stone-500 uppercase'>
+                <span>&#128712;</span>
+                <span className='text-xs'>info</span>
+              </button>
+
+              <div>
+                <ul className='flex gap-4 py-1.5'>
+                  {release.timings.map((timing, i) => (
+                    <li key={i} className='cursor-pointer'>
+                      <div className='rounded border border-stone-400 px-7 py-2.5 text-[13px] text-green-500'>
+                        {formatTime(timing).toUpperCase()}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className='mt-2 flex items-center gap-3'>
+                  <span className='text-3xl leading-3 text-yellow-400'>
+                    &bull;
+                  </span>
+                  <p className='text-xs text-stone-600'>
+                    {release.ticketCancellation
+                      ? 'Cancellation Available'
+                      : 'Non-cancellable'}
+                  </p>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </section>
     </>
   );

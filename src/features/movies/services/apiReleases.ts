@@ -71,6 +71,7 @@ interface ReleaseTheatre {
     movie: IReleaseMovie;
     releaseDate: string;
     screen: string[];
+    movieDateAndTime: string[];
   };
 }
 
@@ -88,24 +89,19 @@ export const getRelease = async (slug: string) => {
 
 export type MultiplexChain = 'inox' | 'pvr' | 'cinepolis';
 
-interface ReleaseDetails {
+interface IReleaseTheatres {
   status: string;
   data: {
-    timings: string[];
     theatre: string;
-    movieTitle: string;
-    certification: string;
-    genres: string[];
-    releaseDate: string;
-    facilities: {
-      ticketCancellation: boolean;
-      foodAndBeverages: boolean;
-      mTicket: boolean;
-      wheelChair: boolean;
-      parking: boolean;
-      foodCourt: boolean;
-    };
     locality: string;
+    mTicket: boolean;
+    foodAndBeverages: boolean;
+    ticketCancellation: boolean;
+    timings: string[];
+    title: string;
+    languages: string[];
+    genres: string[];
+    certification: string;
   }[];
 }
 
@@ -115,7 +111,7 @@ export const getReleaseTheatres = async (
   screen: string
 ) => {
   try {
-    const res = await axios.get<ReleaseDetails>(
+    const res = await axios.get<IReleaseTheatres>(
       `${API_URL}/api/v1/releases/theatres/${movieSlug}`,
       { params: { dateString: date, screen } }
     );

@@ -25,7 +25,8 @@ export const useReleaseMovie = () => {
       crew
     } = {},
     screen = [],
-    releaseDate = ''
+    releaseDate = '',
+    movieDateAndTime = []
   } = release || {};
 
   const durationInHours = duration / 60;
@@ -58,6 +59,7 @@ export const useReleaseMovie = () => {
     movieId,
     releaseId,
     releaseDate,
+    movieDateAndTime,
     title,
     image,
     ratingsAverage,
