@@ -26,11 +26,7 @@ export default function BuyTickets(): JSX.Element {
   const selectedLanguage = movieParams?.splice(-1).join('');
   const movieSlug = movieParams?.join('-');
 
-  const {
-    isLoading,
-    data: releaseTheatres = [],
-    error
-  } = useQuery({
+  const { isLoading, data: releaseTheatres = [], error } = useQuery({
     queryKey: ['release'],
     queryFn: () =>
       getReleaseTheatres(movieSlug!, `${year}-${month}-${day}`, selectedScreen!)
@@ -101,15 +97,27 @@ export default function BuyTickets(): JSX.Element {
             </li>
           ))}
         </ul> */}
+
+        <div></div>
       </section>
 
       <section className='bg-stone-100 px-36 py-3'>
+        <div className='flex items-center justify-end gap-2 bg-white px-5 py-2 text-[10px] text-stone-600 uppercase'>
+          <span className='h-2 w-2 rounded-full bg-green-500'></span>
+          <p>Available</p>
+
+          <span className='h-2 w-2 rounded-full bg-orange-400'></span>
+          <p>Fast filling</p>
+
+          <span className='before:content-() after:content-() relative border border-green-500 px-0.5 leading-3 font-medium text-green-500 before:absolute before:top-full before:left-4 before:border-3 before:border-green-500 before:border-r-transparent before:border-b-transparent before:border-l-transparent after:absolute after:top-full after:left-4 after:-mt-px after:border-3 after:border-white after:border-r-transparent after:border-b-transparent after:border-l-transparent'>
+            LAN
+          </span>
+          <p>Subtitles language</p>
+        </div>
+
         <ul className='bg-white'>
           {releaseTheatres.map((release, i) => (
-            <li
-              key={i}
-              className='flex gap-5 border-b-1 px-5 py-4 last:border-none'
-            >
+            <li key={i} className='flex gap-5 border-t-1 px-5 py-4'>
               <GoHeartFill className='cursor-pointer fill-white stroke-1 transition delay-40 hover:fill-rose-500 hover:stroke-rose-500' />
 
               <div className='basis-1/5 text-sm'>
