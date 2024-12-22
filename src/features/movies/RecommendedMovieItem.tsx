@@ -2,18 +2,20 @@ import { Link } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
 import { useAppSelector } from '../hooks/hooks';
 
-import { Releases } from './services/apiReleases';
+import { RecommendedReleases } from './services/apiReleases';
+
 import createSlug from '../utils/createSlug';
 
-interface RecommendedMovieItem {
-  release: Releases;
+interface RecommendedMovieItemProps {
+  release: RecommendedReleases;
 }
 
 const RecommendedMovieItem = ({
   release: {
-    movie: { image, ratingsAverage, votes, title, genres, slug }
+    movie: { image, ratingsAverage, votes, title, genres },
+    slug
   }
-}: RecommendedMovieItem): JSX.Element => {
+}: RecommendedMovieItemProps): JSX.Element => {
   const { storedCity } = useAppSelector(state => state.cities);
   const citySlug = createSlug(storedCity);
 

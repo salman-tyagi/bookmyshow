@@ -18,33 +18,28 @@ export const useReleaseMovie = () => {
       poster = '',
       duration = 0,
       certification = '',
-      languages = [],
       genres = [],
       about = '',
       cast,
       crew
     } = {},
     screen = [],
+    language = [],
     releaseDate = '',
-    movieDateAndTime = []
   } = release || {};
 
   const durationInHours = duration / 60;
   const durationInMins = duration % 60;
 
-  const screens = screen.map(
-    (scr, i): { id: number; scr: string; link: string } => {
-      return {
-        id: i,
-        scr,
-        link: `/explore/movies-${storedCity}-${scr}`
-      };
-    }
-  );
-
-  const _languages = languages.map((lang, i) => {
+  const screens = screen.map((scr): { scr: string; link: string } => {
     return {
-      id: i,
+      scr,
+      link: `/explore/movies-${storedCity}-${scr}`
+    };
+  });
+
+  const _languages = language.map(lang => {
+    return {
       lang: lang,
       link: `/explore/movies-${storedCity}-${lang}`
     };
@@ -59,7 +54,6 @@ export const useReleaseMovie = () => {
     movieId,
     releaseId,
     releaseDate,
-    movieDateAndTime,
     title,
     image,
     ratingsAverage,
@@ -69,7 +63,6 @@ export const useReleaseMovie = () => {
     languages: _languages,
     genres: _genres,
     screens,
-    screen,
     about,
     cast,
     crew,

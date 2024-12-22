@@ -8,18 +8,14 @@ import { IoChevronBack } from 'react-icons/io5';
 import RecommendedMovieItem from './RecommendedMovieItem';
 import Spinner from '../ui/Spinner';
 
-import { getAllReleases } from './services/apiReleases';
+import { getAllRecommendedReleases } from './services/apiReleases';
 
 const RecommendedMovieList = (): JSX.Element => {
   const [translateCount, setTranslateCount] = useState(0);
 
-  const {
-    isLoading,
-    data: releases = [],
-    error
-  } = useQuery({
-    queryKey: ['releases'],
-    queryFn: getAllReleases
+  const { isLoading, data: recommendedReleases = [], error } = useQuery({ 
+    queryKey: ['recommendedReleases'],
+    queryFn: getAllRecommendedReleases
   });
 
   if (isLoading)
@@ -41,13 +37,13 @@ const RecommendedMovieList = (): JSX.Element => {
             transform: `translateX(-${translateCount ? `${50.5 * translateCount}%` : 0})`
           }}
         >
-          {releases.map(release => (
+          {recommendedReleases.map(release => (
             <RecommendedMovieItem key={release._id} release={release} />
           ))}
         </ul>
       </div>
 
-      {releases.length > 5 &&
+      {recommendedReleases.length > 5 &&
         (translateCount > 0 ? (
           <button
             className='absolute -left-4 top-[42%] flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-stone-400 text-xl font-bold text-white'
