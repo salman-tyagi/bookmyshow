@@ -7,7 +7,7 @@ import { HiOutlineDevicePhoneMobile } from 'react-icons/hi2';
 import { IoFastFoodOutline } from 'react-icons/io5';
 
 import Spinner from '../ui/Spinner';
-import Message from '../ui/Message';
+import ErrorPage from '../ui/ErrorPage';
 
 import { getReleaseTheatres } from '../movies/services/apiReleases';
 import { formatTime } from '../utils/helpers';
@@ -37,7 +37,7 @@ export default function BuyTickets(): JSX.Element {
   const genres = releaseTheatres.map(release => release.genres)[0];
 
   if (isLoading) return <Spinner />;
-  if (error) return <Message message={error.message} />;
+  if (error) return <ErrorPage message={error.message} />;
 
   return (
     <>

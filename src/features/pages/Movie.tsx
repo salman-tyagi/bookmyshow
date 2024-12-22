@@ -98,7 +98,7 @@ export default function Movie(): JSX.Element {
           {languages.length > 0 && (
             <ul className='mb-5 flex w-fit space-x-1 rounded-sm bg-stone-200 px-2 py-1 font-medium text-stone-800'>
               {languages.map((lang, i) => (
-                <li key={i} className='capitalize hover:underline'>
+                <li key={i} className='uppercase hover:underline'>
                   <Link to={lang.link}>
                     {lang.lang}
                     {i !== languages.length - 1 && ','}
