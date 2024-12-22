@@ -23,22 +23,23 @@ export const useReleaseMovie = () => {
       cast,
       crew
     } = {},
-    screen = [],
-    language = [],
-    releaseDate = '',
+    languageAndScreen = {},
+    releaseDate = ''
   } = release || {};
 
   const durationInHours = duration / 60;
   const durationInMins = duration % 60;
 
-  const screens = screen.map((scr): { scr: string; link: string } => {
+  const screens = Object.keys(languageAndScreen).map((scr: string) => {
     return {
       scr,
       link: `/explore/movies-${storedCity}-${scr}`
     };
   });
 
-  const _languages = language.map(lang => {
+  const _languages = Array.from(
+    new Set(Object.values(languageAndScreen).flat())
+  ).map(lang => {
     return {
       lang: lang,
       link: `/explore/movies-${storedCity}-${lang}`
@@ -63,6 +64,7 @@ export const useReleaseMovie = () => {
     languages: _languages,
     genres: _genres,
     screens,
+    languageAndScreen,
     about,
     cast,
     crew,

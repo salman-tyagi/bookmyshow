@@ -70,9 +70,7 @@ interface ReleaseRes {
     _id: string;
     movie: IReleaseMovie;
     releaseDate: string;
-    screen: string[];
-    language: string[];
-    // movieDateAndTime: string[];
+    languageAndScreen: { [key: string]: string[] };
   };
 }
 

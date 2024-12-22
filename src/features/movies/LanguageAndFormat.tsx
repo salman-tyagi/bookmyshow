@@ -15,7 +15,7 @@ interface LanguageAndFormatProps {
 export default function LanguageAndFormat({
   onClose
 }: LanguageAndFormatProps): JSX.Element {
-  const { title, releaseDate, languages, screen } = useReleaseMovie();
+  const { title, releaseDate, languageAndScreen } = useReleaseMovie();
   const navigate = useNavigate();
 
   const dateString = formatDate(releaseDate);
@@ -37,25 +37,29 @@ export default function LanguageAndFormat({
           Select language and format
         </p>
 
-        {languages.map((language, i) => (
-          <div key={i}>
-            <p className='bg-stone-100 px-4 pt-4 pb-1 text-sm font-medium text-stone-600 uppercase'>
-              {language.lang}
-            </p>
+        {Object.entries(languageAndScreen).map(([language, screens], i) => {
+          return (
+            <div key={i}>
+              <p className='bg-stone-100 p-4 pb-1 text-sm font-medium text-stone-600 uppercase'>
+                {language}
+              </p>
 
-            <div className='flex gap-4 px-4 py-4'>
-              {screen.map((scr, i) => (
-                <p
-                  className='cursor-pointer rounded-2xl border border-stone-300 px-4 py-2 text-sm font-medium text-rose-600 uppercase'
-                  key={i}
-                  onClick={() => handleBuyTickets(language.lang, scr)}
-                >
-                  {scr}
-                </p>
-              ))}
+              <ul className='flex gap-4 p-4'>
+                {Array.from(new Set(screens)).map((screen, i) => (
+                  <li key={i}>
+                    <p
+                      className='cursor-pointer rounded-2xl border border-stone-300 px-4 py-2 text-sm font-medium text-rose-600 uppercase'
+                      key={i}
+                      onClick={() => handleBuyTickets(language, screen)}
+                    >
+                      {screen}
+                    </p>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </Modal>
   );
