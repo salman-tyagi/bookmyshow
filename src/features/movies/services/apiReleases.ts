@@ -3,31 +3,32 @@ import axios, { AxiosError, isAxiosError } from 'axios';
 import API_URL from '../../utils/API_URL';
 
 // Get All Releases
-export interface Releases {
+export interface RecommendedRelease {
   _id: string;
   movie: {
     _id: string;
     title: string;
     image: string;
+    genres: string[];
     ratingsAverage: number;
     votes: number;
-    genres: string[];
-    slug: string;
   };
+  slug: string;
 }
 
-interface ReleasesRes {
+interface RecommendedReleasesRes {
   status: string;
   result: number;
-  data: Releases[];
+  data: RecommendedRelease[];
 }
 
-export const getAllReleases = async () => {
+export const getAllRecommendedReleases = async () => {
   try {
-    const res = await axios.get<ReleasesRes>(
-      `${API_URL}/api/v1/releases?fields=movie`
+    const res = await axios.get<RecommendedReleasesRes>(
+      `${API_URL}/api/v1/releases/recommended-releases`
     );
-    return res.data?.data;
+
+    return res.data?.status === 'success' ? res.data?.data : [];
   } catch (err) {
     if (err instanceof AxiosError)
       throw new Error(err.response?.data.message || err.message);
@@ -44,7 +45,6 @@ export interface IReleaseMovie {
   votes: number;
   duration: number;
   certification: string;
-  languages: string[];
   genres: string[];
   about: string;
   cast: { actor: string[]; actress: string[] };
@@ -64,20 +64,21 @@ export interface IReleaseMovie {
   };
 }
 
-interface ReleaseTheatre {
+interface ReleaseRes {
   status: string;
   data: {
     _id: string;
     movie: IReleaseMovie;
     releaseDate: string;
     screen: string[];
-    movieDateAndTime: string[];
+    language: string[];
+    // movieDateAndTime: string[];
   };
 }
 
 export const getRelease = async (slug: string) => {
   try {
-    const res = await axios.get<ReleaseTheatre>(
+    const res = await axios.get<ReleaseRes>(
       `${API_URL}/api/v1/releases/${slug}`
     );
 

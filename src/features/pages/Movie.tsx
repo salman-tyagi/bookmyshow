@@ -17,7 +17,6 @@ export default function Movie(): JSX.Element {
   const [showLanguageAndFormat, setShowLanguageAndFormat] = useState(false);
   const [showBuyOrRent, setShowBuyOrRent] = useState(false);
   const [showHeader, setShowHeader] = useState(false);
-
   const buyRef = useRef<HTMLButtonElement>(null);
 
   // prettier-ignore
@@ -42,7 +41,6 @@ export default function Movie(): JSX.Element {
     );
 
     if (header) observer.observe(header);
-
     return () => {
       if (header) observer.unobserve(header);
     };
@@ -84,21 +82,27 @@ export default function Movie(): JSX.Element {
 
           <RateMovie />
 
-          {screens.length && (
+          {screens.length > 0 && (
             <ul className='mb-2 flex w-fit space-x-1 rounded-sm bg-stone-200 p-2 font-medium text-stone-800'>
-              {screens.map(screen => (
-                <li key={screen.id} className='uppercase hover:underline'>
-                  <Link to={screen.link}>{screen.scr},</Link>
+              {screens.map((screen, i) => (
+                <li key={i} className='uppercase hover:underline'>
+                  <Link to={screen.link}>
+                    {screen.scr}
+                    {i !== screens.length - 1 && ','}
+                  </Link>
                 </li>
               ))}
             </ul>
           )}
 
-          {languages.length && (
+          {languages.length > 0 && (
             <ul className='mb-5 flex w-fit space-x-1 rounded-sm bg-stone-200 px-2 py-1 font-medium text-stone-800'>
-              {languages.map(lang => (
-                <li key={lang.id} className='capitalize hover:underline'>
-                  <Link to={lang.link}>{lang.lang},</Link>
+              {languages.map((lang, i) => (
+                <li key={i} className='capitalize hover:underline'>
+                  <Link to={lang.link}>
+                    {lang.lang}
+                    {i !== languages.length - 1 && ','}
+                  </Link>
                 </li>
               ))}
             </ul>
