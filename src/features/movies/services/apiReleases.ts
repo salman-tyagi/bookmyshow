@@ -98,21 +98,22 @@ interface IReleaseTheatres {
     ticketCancellation: boolean;
     timings: string[];
     title: string;
-    languages: string[];
     genres: string[];
     certification: string;
+    filteredMovieDates: string[];
   }[];
 }
 
 export const getReleaseTheatres = async (
   movieSlug: string,
-  date: string,
+  date: string | null,
+  language: string,
   screen: string
 ) => {
   try {
     const res = await axios.get<IReleaseTheatres>(
       `${API_URL}/api/v1/releases/theatres/${movieSlug}`,
-      { params: { dateString: date, screen } }
+      { params: { date, language, screen } }
     );
 
     if (res.data.status === 'success') return res.data.data;

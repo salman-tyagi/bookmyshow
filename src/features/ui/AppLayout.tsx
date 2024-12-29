@@ -9,7 +9,9 @@ function AppLayout(): JSX.Element {
     <>
       <NavBar />
       <TopBar />
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
       <Footer />
     </>
   );

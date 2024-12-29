@@ -1,12 +1,13 @@
-const days = ['sun', 'mon', 'tues', 'wed', 'thurs', 'fri', 'sat'];
+const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
 // prettier-ignore
-const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sept', 'oct', 'nov', 'dec'];
+const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
 export interface IDateWithWords {
   day: string;
   date: number;
   month: string;
+  year: number;
 }
 
 export const dateWithWords = (dates: string[]): IDateWithWords[] => {
@@ -14,8 +15,9 @@ export const dateWithWords = (dates: string[]): IDateWithWords[] => {
     const day = days[new Date(dateString).getDay()];
     const date = new Date(dateString).getDate();
     const month = months[new Date(dateString).getMonth()];
+    const year = new Date(dateString).getFullYear();
 
-    return { day, date, month };
+    return { day, date, month, year };
   });
 
   return parsedDates;
