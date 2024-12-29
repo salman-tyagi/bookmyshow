@@ -6,25 +6,19 @@ import Modal from '../ui/Modal';
 import { useReleaseMovie } from './hooks/useReleaseMovie';
 
 import createSlug from '../utils/createSlug';
-import { formatDate } from '../utils/helpers';
 
 interface LanguageAndFormatProps {
   onClose(): void;
 }
 
-export default function LanguageAndFormat({
-  onClose
-}: LanguageAndFormatProps): JSX.Element {
-  const { title, releaseDate, languageAndScreen } = useReleaseMovie();
+export default function LanguageAndFormat({ onClose }: LanguageAndFormatProps): JSX.Element {
+  const { title, languageAndScreen } = useReleaseMovie();
   const navigate = useNavigate();
 
-  const dateString = formatDate(releaseDate);
   const titleSlug = createSlug(title);
 
   const handleBuyTickets = (language: string, screen: string): void => {
-    navigate(
-      `/buytickets/${titleSlug}-${language}-${screen}?releaseDate=${dateString}`
-    );
+    navigate(`/buytickets/${titleSlug}-${language}-${screen}`);
   };
 
   return (

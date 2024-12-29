@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAppSelector } from '../hooks/hooks';
@@ -10,34 +11,62 @@ import Spinner from '../ui/Spinner';
 import ErrorPage from '../ui/ErrorPage';
 
 import { getReleaseTheatres } from '../movies/services/apiReleases';
-import { formatTime } from '../utils/helpers';
+import { dateWithWords, formatTime } from '../utils/helpers';
 
 export default function BuyTickets(): JSX.Element {
   const params = useParams<{ movieData: string; releaseId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [dateIndex, setDateIndex] = useState(0);
   const { storedCity } = useAppSelector(state => state.cities);
-
-  const year = searchParams.get('releaseDate')?.slice(0, 4);
-  const month = searchParams.get('releaseDate')?.slice(4, 6);
-  const day = searchParams.get('releaseDate')?.slice(-2);
 
   const movieParams = params.movieData?.split('-');
   const selectedScreen = movieParams?.splice(-1).join('');
   const selectedLanguage = movieParams?.splice(-1).join('');
   const movieSlug = movieParams?.join('-');
 
+  const date = searchParams.get('date');
+
   const { isLoading, data: releaseTheatres = [], error } = useQuery({
-    queryKey: ['release'],
+    queryKey: [`release-${date}`],
     queryFn: () =>
-      getReleaseTheatres(movieSlug!, `${year}-${month}-${day}`, selectedScreen!)
+      getReleaseTheatres(movieSlug!, date, selectedLanguage!, selectedScreen!)
   });
 
   const movieTitle = releaseTheatres.map(release => release.title)[0];
   const certification = releaseTheatres.map(release => release.certification)[0];
   const genres = releaseTheatres.map(release => release.genres)[0];
 
-  if (isLoading) return <Spinner />;
+  const movieDates = dateWithWords([
+    ...new Set(
+      releaseTheatres
+        .flatMap(item => item.timings)
+        .map(date => date.slice(0, 10))
+    )
+  ]);
+
+  const handleReleaseByDate = (i: number, date: number, month: string, year: number ): void => {
+    if (i === dateIndex) return;
+
+    setDateIndex(i);
+    setSearchParams(`date=${year}-${month}-${date}`);
+  };
+
+  if (isLoading)
+    return (
+      <div className='grid h-dvh place-items-center backdrop-blur-lg'>
+        <Spinner />
+      </div>
+    );
+
   if (error) return <ErrorPage message={error.message} />;
+
+  if (!date) {
+    setTimeout(() => {
+      setSearchParams(
+        `date=${movieDates[0].year}-${movieDates[0].month}-${movieDates[0].date}`
+      );
+    }, 10);
+  }
 
   return (
     <>
@@ -48,8 +77,8 @@ export default function BuyTickets(): JSX.Element {
             className='space-x-2 text-4xl font-semibold text-stone-700 hover:underline'
           >
             <span>{movieTitle}</span>
-            <span className='capitalize'>({selectedLanguage})</span>
-            <span className='uppercase'>- {selectedScreen}</span>
+            <span className='uppercase'>({selectedScreen})</span>
+            <span className='capitalize'>- {selectedLanguage}</span>
           </Link>
 
           <div className='mt-2 flex items-center gap-3'>
@@ -58,7 +87,7 @@ export default function BuyTickets(): JSX.Element {
             </p>
 
             <ul className='flex items-center gap-2'>
-              {genres?.map((genre, i) => (
+              {genres.map((genre, i) => (
                 <li
                   key={i}
                   className='rounded-full border border-stone-600 px-2 py-[0.5px] text-[10px] text-stone-600 uppercase'
@@ -71,34 +100,65 @@ export default function BuyTickets(): JSX.Element {
         </header>
       </section>
 
-      <section className='xl:px-36'>
-        {/* <ul className='inline-flex text-center'>
-          {movieDates.map((date, i) => (
+      <section className='flex items-center justify-between py-1.5 xl:px-36'>
+        <ul className='inline-flex text-center'>
+          {movieDates.map(({ day, date, month, year }, i) => (
             <li
-              className={`${i === 0 ? 'bg-rose-500' : 'group'} rounded-lg px-2 py-1 font-medium leading-none`}
+              className={`${i === dateIndex ? 'bg-rose-500' : 'group cursor-pointer'} w-12 rounded-lg py-1 leading-none font-medium`}
               key={i}
-              onClick={() => setSearchParams(`releasedate=${formatDate(date)}`)}
+              onClick={() => handleReleaseByDate(i, date, month, year)}
             >
               <p
-                className={`text-xs ${i === 0 ? 'text-white' : 'text-stone-500'} group-hover:text-rose-500`}
+                className={`text-xs ${i === dateIndex ? 'text-white' : 'text-stone-500'} group-hover:text-rose-500`}
               >
-                {date.toUpperCase()}
+                {day.toUpperCase()}
               </p>
               <p
-                className={`font-medium ${i === 0 ? 'text-white' : 'text-stone-700'} group-hover:text-rose-500`}
+                className={`font-medium ${i === dateIndex ? 'text-white' : 'text-stone-700'} group-hover:text-rose-500`}
               >
                 {date}
               </p>
               <p
-                className={`text-xs ${i === 0 ? 'text-white' : 'text-stone-500'} group-hover:text-rose-500`}
+                className={`text-xs ${i === dateIndex ? 'text-white' : 'text-stone-500'} group-hover:text-rose-500`}
               >
-                {date.toUpperCase()}
+                {month.toUpperCase()}
               </p>
             </li>
           ))}
-        </ul> */}
+        </ul>
 
-        <div></div>
+        <div className='flex gap-5 text-sm'>
+          <select>
+            <option>
+              {selectedLanguage} - {selectedScreen}
+            </option>
+            <option>hindi 2d</option>
+            <option>english 3d</option>
+            <option>english imax4d</option>
+          </select>
+
+          <select>
+            <option>Filter sub-regions</option>
+            <option>delhi</option>
+            <option>gurgaon</option>
+            <option>delhi-ncr</option>
+          </select>
+
+          <select>
+            <option>Filter price range</option>
+            <option>Rs. 0-300</option>
+            <option>Rs. 301-700</option>
+            <option>Rs. 701-1200</option>
+          </select>
+
+          <select>
+            <option>Filter show timings</option>
+            <option>08AM-12PM</option>
+            <option>12PM-04PM</option>
+            <option>04PM-08PM</option>
+            <option>08PM-12AM</option>
+          </select>
+        </div>
       </section>
 
       <section className='bg-stone-100 px-36 py-3'>
@@ -147,11 +207,23 @@ export default function BuyTickets(): JSX.Element {
 
               <div>
                 <ul className='flex gap-4 py-1.5'>
-                  {release.timings.map((timing, i) => (
-                    <li key={i} className='cursor-pointer'>
+                  {release.filteredMovieDates.map((timing, i) => (
+                    <li key={i} className='group relative cursor-pointer'>
                       <div className='rounded border border-stone-400 px-7 py-2.5 text-[13px] text-green-500'>
                         {formatTime(timing).toUpperCase()}
                       </div>
+
+                      <ul className='before:content-() after:content-() absolute -top-[50%] -left-[-50%] hidden -translate-x-[50%] -translate-y-[98%] justify-center gap-5 border bg-white p-3 text-center shadow-md group-hover:flex before:absolute before:top-full before:left-[48%] before:border-8 before:border-r-transparent before:border-b-transparent before:border-l-transparent after:absolute after:top-full after:left-[48%] after:-mt-px after:border-8 after:border-white after:border-r-transparent after:border-b-transparent after:border-l-transparent'>
+                        {Array.from({ length: 3 }).map((_, i) => (
+                          <li key={i} className=''>
+                            <div className='min-w-[90px]'>
+                              <p className='font-medium'>Rs. 2800.00</p>
+                              <p className='text-xs'>Executive</p>
+                              <p className='text-sm text-stone-500'>Sold out</p>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
                     </li>
                   ))}
                 </ul>
