@@ -214,15 +214,26 @@ export default function BuyTickets(): JSX.Element {
                       </div>
 
                       <ul className='before:content-() after:content-() absolute -top-[50%] -left-[-50%] hidden -translate-x-[50%] -translate-y-[98%] justify-center gap-5 border bg-white p-3 text-center shadow-md group-hover:flex before:absolute before:top-full before:left-[48%] before:border-8 before:border-r-transparent before:border-b-transparent before:border-l-transparent after:absolute after:top-full after:left-[48%] after:-mt-px after:border-8 after:border-white after:border-r-transparent after:border-b-transparent after:border-l-transparent'>
-                        {Array.from({ length: 3 }).map((_, i) => (
-                          <li key={i} className=''>
-                            <div className='min-w-[90px]'>
-                              <p className='font-medium'>Rs. 2800.00</p>
-                              <p className='text-xs'>Executive</p>
-                              <p className='text-sm text-stone-500'>Sold out</p>
-                            </div>
-                          </li>
-                        ))}
+                        {Object.entries(release.price).map(
+                          ([seatType, price]) => (
+                            <li className='min-w-[90px]' key={seatType}>
+                              <p>Rs. {price.toFixed(2)}</p>
+                              <p className='text-xs'>
+                                {seatType.replace(
+                                  seatType[0],
+                                  seatType[0].toUpperCase()
+                                )}
+                              </p>
+                              <p
+                                className={`text-sm ${seatType === 'vip' ? 'text-green-600' : seatType === 'executive' ? 'text-orange-600' : 'text-stone-600'}`}
+                              >
+                                {seatType === 'vip' && 'Available'}
+                                {seatType === 'executive' && 'Sold out'}
+                                {seatType === 'normal' && 'Fast filling'}
+                              </p>
+                            </li>
+                          )
+                        )}
                       </ul>
                     </li>
                   ))}

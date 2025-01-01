@@ -101,6 +101,7 @@ interface IReleaseTheatres {
     genres: string[];
     certification: string;
     filteredMovieDates: string[];
+    price: { [key: string]: number };
   }[];
 }
 
