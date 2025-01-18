@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useAppDispatch } from '../hooks/hooks';
 
 import { IoChevronBackOutline } from 'react-icons/io5';
 
 import { apiLogin } from './services/apiLogin';
 import { getItem, setItem } from '../utils/localStorage';
+import { login } from './userSlice';
 
 interface VerifyEmailProps {
   onCloseEmailLoginModal: () => void;
@@ -21,6 +23,7 @@ const VerifyEmail = ({
   onCloseSignInModal
 }: VerifyEmailProps): JSX.Element => {
   const [seconds, setSeconds] = useState(30);
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -53,7 +56,12 @@ const VerifyEmail = ({
     }
 
     toast.success('Logged in successfully', { id: 'succeed' });
+    // Set token in the local storage
     setItem('token', res.token);
+
+    // Set user object in the store
+    dispatch(login(res.data));
+
     onCloseSignInModal();
     return;
   };

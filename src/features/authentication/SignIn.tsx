@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { MdOutlineClose } from 'react-icons/md';
 import { FaApple } from 'react-icons/fa';
 
 import EmailLogin from './EmailLogin';
 import Modal from '../ui/Modal';
+import Spinner from '../ui/Spinner';
+
+import { googleLogin } from './services/apiGoogleLogin';
 
 interface LoginProps {
   onClose(): void;
@@ -13,9 +17,23 @@ interface LoginProps {
 function SignIn({ onClose }: LoginProps): JSX.Element {
   const [showEmailLogin, setShowEmailLogin] = useState(false);
   const [showContinue, setShowContinue] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
+
+  const initGoogleLogin = async (): Promise<void> => {
+    setGoogleLoading(true);
+
+    const googleInitUrl = await googleLogin();
+    if (!googleInitUrl) {
+      toast.error('Failed to login');
+      setGoogleLoading(false);
+      return;
+    }
+
+    window.location.href = googleInitUrl;
+  };
 
   return (
-    <Modal>
+    <Modal className={googleLoading ? 'pointer-events-none' : ''}>
       {showEmailLogin ? (
         <EmailLogin
           onCloseSignInModal={onClose}
@@ -32,13 +50,22 @@ function SignIn({ onClose }: LoginProps): JSX.Element {
             onClick={onClose}
           />
 
-          <div className='relative mb-4 cursor-pointer rounded-sm border border-gray-400 px-3 py-3 text-sm font-semibold transition-all hover:border-gray-200 hover:bg-gray-100'>
-            <img
-              className='absolute top-1/2 left-5 inline-block -translate-y-1/2'
-              src='/images/googlelogo.svg'
-              alt='google-logo'
-            />
-            <span>Continue with Google</span>
+          <div
+            className='relative mb-4 cursor-pointer rounded-sm border border-gray-400 px-3 py-3 text-sm font-semibold transition-all hover:border-gray-200 hover:bg-gray-100'
+            onClick={initGoogleLogin}
+          >
+            {!googleLoading ? (
+              <>
+                <img
+                  className='absolute top-1/2 left-5 inline-block -translate-y-1/2'
+                  src='/images/googlelogo.svg'
+                  alt='google-logo'
+                />
+                <span>Continue with Google</span>
+              </>
+            ) : (
+              <Spinner width={20} />
+            )}
           </div>
 
           <div

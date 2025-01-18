@@ -9,6 +9,7 @@ interface ModalProps {
   top?: number;
   rounded?: '' | 'sm' | 'md' | 'lg' | 'xl';
   animation?: string;
+  className?: string;
 }
 
 function Modal({
@@ -17,7 +18,8 @@ function Modal({
   direction = 'centered',
   top = 0,
   rounded = 'lg',
-  animation = 'animate-slide-bottom'
+  animation = 'animate-slide-bottom',
+  className
 }: ModalProps): JSX.Element {
   const city = getItem('city');
 
@@ -35,7 +37,10 @@ function Modal({
   };
 
   return (
-    <div className={`overlay ${direction}`} onClick={handleCloseModal}>
+    <div
+      className={`overlay ${direction} ${className}`}
+      onClick={handleCloseModal}
+    >
       <div
         className={`fixed ${rounded && `rounded-${rounded}`} overflow-hidden bg-white ${animation && animation}`}
         style={top ? { top } : {}}

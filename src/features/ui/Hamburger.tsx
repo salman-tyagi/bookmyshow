@@ -3,7 +3,9 @@ import { useEffect } from 'react';
 import HamburgerMenuList from './HamburgerMenuList';
 import { IoChevronForward } from 'react-icons/io5';
 
-import { getEmail, isAuthenticated, logout } from '../authentication/utils';
+import { useAppSelector } from '../hooks/hooks';
+
+import { getEmail, logout } from '../authentication/utils';
 
 interface HamburgerMenuProps {
   onShowSignIn(): void;
@@ -14,8 +16,10 @@ function HamburgerMenu({
   onShowSignIn,
   onClose
 }: HamburgerMenuProps): JSX.Element {
-  const user = isAuthenticated();
+  const { isAuthenticated, user: { firstName, lastName, photo } } = useAppSelector(state => state.users);
+
   const email = getEmail();
+  const fullName = `${firstName} ${lastName}`;
 
   useEffect(() => {
     const keyDownFn = (e: KeyboardEvent) => {
@@ -39,14 +43,16 @@ function HamburgerMenu({
         onClick={e => e.stopPropagation()}
       >
         <div className='sticky top-0 z-10 bg-inherit'>
-          {!user ? (
+          {!isAuthenticated ? (
             <p className='border-b p-4 text-2xl font-bold text-gray-800'>
               Hey!
             </p>
           ) : (
             <div className='flex items-center justify-between border-b px-4 py-3'>
               <div>
-                <p className='text-xl font-bold text-gray-800'>Hi, {email}</p>
+                <p className='text-xl font-bold text-gray-800'>
+                  Hi, {fullName || email}
+                </p>
                 <button className='flex items-center text-xs'>
                   <span>Edit Profile</span>
                   <IoChevronForward />
@@ -54,14 +60,14 @@ function HamburgerMenu({
               </div>
 
               <img
-                className='max-w-10'
-                src='/images/default-photo.webp'
+                className='max-w-10 rounded-full'
+                src={photo || '/images/default-photo.webp'}
                 alt="user's photo"
               />
             </div>
           )}
 
-          {!user && (
+          {!isAuthenticated && (
             <div className='flex items-center justify-between p-4 leading-none shadow-md'>
               <img
                 className='w-[40px]'
@@ -83,7 +89,7 @@ function HamburgerMenu({
 
         <HamburgerMenuList />
 
-        {user && (
+        {isAuthenticated && (
           <div className='absolute bottom-0 w-full border bg-white p-3'>
             <button
               className='w-full rounded-sm border border-red-500 py-2 text-lg font-semibold text-rose-500'

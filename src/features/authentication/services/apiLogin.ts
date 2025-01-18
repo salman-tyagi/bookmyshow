@@ -10,7 +10,7 @@ interface Login {
 export interface ResLogin {
   status: string;
   token: string;
-  data: { email: string };
+  data: { firstName: string; lastName: string; email: string; photo: string };
 }
 
 export const apiLogin = async (OTP: Login) => {
