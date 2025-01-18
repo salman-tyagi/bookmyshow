@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 import { GoChevronDown } from 'react-icons/go';
 import { RxHamburgerMenu } from 'react-icons/rx';
@@ -14,7 +14,7 @@ import Cities from '../cities/Cities';
 
 import { setCity } from '../cities/slices/citySlice';
 
-import { getEmail, isAuthenticated } from '../authentication/utils';
+import { getEmail } from '../authentication/utils';
 
 type ActionTypes =
   | 'setShowSignInModal'
@@ -56,12 +56,14 @@ const NavBar = (): JSX.Element => {
   const [{ showSignInModal, openBurgerMenu, showCities }, dispatch] =
     useReducer(reducer, initialState);
 
+  const { isAuthenticated, user: { firstName, lastName, photo } } = useAppSelector(state => state.users);
+
   const reduxDispatch = useAppDispatch();
 
   const [storedCity, setStoredCity] = useLocalStorage('city', '');
 
-  const user = isAuthenticated();
   const email = getEmail();
+  const fullName = `${firstName} ${lastName}`;
 
   const handleStoreCity = (city: string) => {
     setStoredCity(city);
@@ -118,7 +120,7 @@ const NavBar = (): JSX.Element => {
           <GoChevronDown />
         </div>
 
-        {!user ? (
+        {!isAuthenticated ? (
           <>
             <button
               className='rounded-sm bg-rose-500 px-4 py-1 text-xs text-white transition-all hover:bg-rose-600 active:bg-rose-500'
@@ -138,9 +140,13 @@ const NavBar = (): JSX.Element => {
             className='flex items-center gap-3'
             onClick={handleShowBurgerMenu}
           >
-            <img className='w-7' src='/images/default-photo.webp' alt='photo' />
+            <img
+              className='w-7 rounded-full'
+              src={photo || '/images/default-photo.webp'}
+              alt='photo'
+            />
             <span className='max-w-24 truncate text-sm font-medium'>
-              Hi, {email}
+              Hi, {fullName || email}
             </span>
           </button>
         )}

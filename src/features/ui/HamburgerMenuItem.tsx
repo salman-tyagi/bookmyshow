@@ -1,7 +1,6 @@
 import { CiLock } from 'react-icons/ci';
 import { IoChevronForward } from 'react-icons/io5';
-
-import { isAuthenticated } from '../authentication/utils';
+import { useAppSelector } from '../hooks/hooks';
 
 interface HamburgerMenuItemProps {
   menu: {
@@ -15,9 +14,10 @@ const HamburgerMenuItem = ({
   menu: { icon, desc },
   index
 }: HamburgerMenuItemProps): JSX.Element => {
-  const user = isAuthenticated();
+  const { isAuthenticated } = useAppSelector(state => state.users);
 
-  const lockedMenu = !user && (index === 1 || index === 2 || index === 5);
+  const lockedMenu =
+    !isAuthenticated && (index === 1 || index === 2 || index === 5);
 
   return (
     <li
