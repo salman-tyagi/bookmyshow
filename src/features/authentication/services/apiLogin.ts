@@ -7,10 +7,18 @@ interface Login {
   OTP: number;
 }
 
+export interface User {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  photo: string;
+}
+
 export interface ResLogin {
   status: string;
   token: string;
-  data: { firstName: string; lastName: string; email: string; photo: string };
+  data: User;
 }
 
 export const apiLogin = async (OTP: Login) => {
@@ -19,6 +27,6 @@ export const apiLogin = async (OTP: Login) => {
 
     if (res.status === 201) return res.data;
   } catch (err) {
-    if (err instanceof AxiosError) return new Error(err.response?.data.message);
+    if (err instanceof AxiosError) throw new Error(err.response?.data.message);
   }
 };

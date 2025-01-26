@@ -1,33 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getItem } from '../utils/localStorage';
+
+import { User } from './services/apiLogin';
+
+const token = getItem('token');
+const user = getItem('user');
+const isAuthenticated = token && user ? true : false;
 
 interface IUserState {
   isAuthenticated: boolean;
-  user: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    photo: string;
-  };
+  user: User;
 }
 
 const initialState = {
-  isAuthenticated: false,
-  user: {}
+  isAuthenticated,
+  user: isAuthenticated ? JSON.parse(user) : {}
 } as IUserState;
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login(
-      state,
-      action: PayloadAction<{
-        firstName: string;
-        lastName: string;
-        email: string;
-        photo: string;
-      }>
-    ) {
+    login(state, action: PayloadAction<User>) {
       state.isAuthenticated = true;
       state.user = action.payload;
     }

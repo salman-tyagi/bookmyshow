@@ -56,12 +56,12 @@ const VerifyEmail = ({
     }
 
     toast.success('Logged in successfully', { id: 'succeed' });
-    // Set token in the local storage
+    // Set token in the local storage and user
     setItem('token', res.token);
+    setItem('user', JSON.stringify(res.data));
 
     // Set user object in the store
     dispatch(login(res.data));
-
     onCloseSignInModal();
     return;
   };
