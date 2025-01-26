@@ -1,11 +1,15 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../hooks/hooks';
 
 import { TbCurrentLocation } from 'react-icons/tb';
 
 import Spinner from './Spinner';
 
-import getPosition from '../utils/getPosition';
+import fetchCity from '../utils/fetchCity';
+import createSlug from '../utils/createSlug';
+import { setItem } from '../utils/localStorage';
+import { setCity } from '../cities/slices/citySlice';
 
 interface DetectLocationProps {
   onCloseCities(): void;
@@ -14,20 +18,21 @@ interface DetectLocationProps {
 function DetectLocation({ onCloseCities }: DetectLocationProps): JSX.Element {
   const [loading, setLoading] = useState(false);
   const locationDeniedRef = useRef('');
-
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleDetectLocation = async (): Promise<void> => {
     try {
       setLoading(true);
 
-      const city = await getPosition();
+      const city = createSlug(await fetchCity());
+      const _city = city === 'delhi' ? 'delhi-ncr' : city;
 
-      const _city = city === 'Delhi' ? 'Delhi-NCR' : city;
-      localStorage.setItem('city', _city);
+      setItem('city', _city);
+      dispatch(setCity(_city));
 
       onCloseCities();
-      navigate(`/home/${_city.toLowerCase()}`);
+      navigate(`/home/${_city}`);
     } catch (err) {
       if (err instanceof Error) locationDeniedRef.current = err.message;
     } finally {
@@ -45,7 +50,7 @@ function DetectLocation({ onCloseCities }: DetectLocationProps): JSX.Element {
         <span className='text-sm font-medium'>Detect my location</span>
       </button>
 
-      {loading && <Spinner width={18} borderWidth={3} />}
+      {loading && <Spinner position='left' width={18} borderWidth={3} />}
 
       {!loading && locationDeniedRef.current && (
         <em className='text-xs text-rose-500'>{locationDeniedRef.current}</em>

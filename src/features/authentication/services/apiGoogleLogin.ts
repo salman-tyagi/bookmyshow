@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import API_URL from '../../utils/API_URL';
 
+import { User } from './apiLogin';
+
 interface IGoogleLoginRes {
   status: string;
   data: { url: string };
@@ -21,13 +23,7 @@ export const googleLogin = async (): Promise<string | undefined> => {
 
 interface UserGoogle {
   status: string;
-  data: {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    photo: string;
-  };
+  data: User;
 }
 
 export const getGoogleUser = async (email: string) => {

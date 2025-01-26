@@ -16,8 +16,8 @@ const RecommendedMovieItem = ({
     slug
   }
 }: RecommendedMovieItemProps): JSX.Element => {
-  const { storedCity } = useAppSelector(state => state.cities);
-  const citySlug = createSlug(storedCity);
+  const { city } = useAppSelector(state => state.cities);
+  const citySlug = createSlug(city);
 
   return (
     <li className='max-w-[14rem] cursor-pointer'>

@@ -3,13 +3,17 @@ interface SpinnerProps {
   borderTopColor?: string;
   width?: number;
   borderWidth?: number;
+  position?: string;
+  className?: string;
 }
 
 function Spinner({
   color = '#f43f5e',
   borderTopColor = '#ffaebb',
   width = 24,
-  borderWidth = 5
+  borderWidth = 5,
+  position = 'center',
+  className = ''
 }: SpinnerProps): JSX.Element {
   const spinnerStyle = {
     width: width,
@@ -17,10 +21,12 @@ function Spinner({
     border: `${borderWidth}px solid ${color}`,
     borderTop: `${borderWidth}px solid ${borderTopColor}`,
     borderRadius: '50%',
-    margin: '0 auto'
+    margin: `${position === 'left' ? 0 : position === 'right' ? '0 0 0 auto' : '0 auto'}`
   };
 
-  return <div style={spinnerStyle} className='animate-spin'></div>;
+  return (
+    <div style={spinnerStyle} className={`animate-spin ${className}`}></div>
+  );
 }
 
 export default Spinner;

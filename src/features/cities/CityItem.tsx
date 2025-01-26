@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import { City } from './services/apiGetAllCities';
+import createSlug from '../utils/createSlug';
 
 interface CityItemProps {
   city: City;
@@ -14,30 +15,31 @@ function CityItem({
   onStoreCity
 }: CityItemProps): JSX.Element {
   const navigate = useNavigate();
+  const slugCity = createSlug(city.city);
 
   const handleSelectCity = (city: string): void => {
     onStoreCity(city);
     onCloseCitiesModal();
 
-    navigate(`/home/${city.toLowerCase()}`);
+    navigate(`/home/${city}`);
     return;
   };
 
   return (
     <li
       className='group cursor-pointer text-center'
-      onClick={() => handleSelectCity(city.city)}
+      onClick={() => handleSelectCity(slugCity)}
     >
       <div className='mb-1 max-w-16 justify-self-center'>
         <img
           className='w-full'
           src={`/images/${city.cityImage}`}
-          alt={`${city.city}-image`}
+          alt={`${slugCity}-image`}
         />
       </div>
 
       <p className='text-sm font-medium text-stone-500 group-hover:text-stone-700'>
-        {city.city}
+        {slugCity.replace(slugCity[0], slugCity[0].toUpperCase())}
       </p>
     </li>
   );
