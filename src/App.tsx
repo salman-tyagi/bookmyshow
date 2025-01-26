@@ -10,6 +10,7 @@ import Movie from './features/pages/Movie';
 import ErrorPage from './features/ui/ErrorPage';
 import BuyTickets from './features/pages/BuyTickets';
 import UserReviews from './features/pages/UserReviews';
+import SeatLayout from './features/pages/SeatLayout';
 
 import ExploreMovies from './features/movies/ExploreMovies';
 import Spinner from './features/ui/Spinner';
@@ -53,6 +54,11 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />
       }
     ]
+  },
+  {
+    path: 'buytickets/:movieData/:date/seatlayout',
+    element: <SeatLayout />,
+    errorElement: <ErrorPage />
   }
 ]);
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAppSelector } from '../hooks/hooks';
 
@@ -11,13 +11,14 @@ import Spinner from '../ui/Spinner';
 import ErrorPage from '../ui/ErrorPage';
 
 import { getReleaseTheatres } from '../movies/services/apiReleases';
-import { dateWithWords, formatTime } from '../utils/helpers';
+import { dateWithWords, formatDate, formatTime } from '../utils/helpers';
 
 export default function BuyTickets(): JSX.Element {
   const params = useParams<{ movieData: string; releaseId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const [dateIndex, setDateIndex] = useState(0);
-  const { storedCity } = useAppSelector(state => state.cities);
+  const { city } = useAppSelector(state => state.cities);
+  const navigate = useNavigate();
 
   const movieParams = params.movieData?.split('-');
   const selectedScreen = movieParams?.splice(-1).join('');
@@ -73,7 +74,7 @@ export default function BuyTickets(): JSX.Element {
       <section className='border-b border-stone-300'>
         <header className='pt-7 pb-3 xl:px-36'>
           <Link
-            to={`/${storedCity}/movies/${movieSlug}`}
+            to={`/${city}/movies/${movieSlug}`}
             className='space-x-2 text-4xl font-semibold text-stone-700 hover:underline'
           >
             <span>{movieTitle}</span>
@@ -208,7 +209,22 @@ export default function BuyTickets(): JSX.Element {
               <div>
                 <ul className='flex gap-4 py-1.5'>
                   {release.filteredMovieDates.map((timing, i) => (
-                    <li key={i} className='group relative cursor-pointer'>
+                    <li
+                      key={i}
+                      className='group relative cursor-pointer'
+                      onClick={() =>
+                        navigate(
+                          `/buytickets/${movieSlug}-${selectedLanguage}-${selectedScreen}/${formatDate(timing)}/seatlayout`,
+                          {
+                            state: {
+                              title: movieTitle,
+                              theatre: 'Theatre',
+                              timing: `${dateWithWords([timing])[0].date} ${dateWithWords([timing])[0].day} ${formatTime(timing)}`
+                            }
+                          }
+                        )
+                      }
+                    >
                       <div className='rounded border border-stone-400 px-7 py-2.5 text-[13px] text-green-500'>
                         {formatTime(timing).toUpperCase()}
                       </div>
