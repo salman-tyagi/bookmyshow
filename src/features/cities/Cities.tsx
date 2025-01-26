@@ -22,10 +22,10 @@ function Cities({ onClose, onStoreCity }: CitiesProps): JSX.Element | null {
     queryFn: apiGetAllCities
   });
 
-  const { storedCity } = useAppSelector(state => state.cities);
+  const { city } = useAppSelector(state => state.cities);
 
   return (
-    <Modal top={96} rounded='' onClose={!storedCity ? () => {} : onClose}>
+    <Modal top={96} rounded='' onClose={!city ? () => {} : onClose}>
       <div className='p-4'>
         <SearchBar placeholder='Search for your city' text='sm' />
       </div>

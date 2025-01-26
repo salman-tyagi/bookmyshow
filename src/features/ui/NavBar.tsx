@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { GoChevronDown } from 'react-icons/go';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
-import useLocalStorage from '../hooks/useLocalStorage';
 import Logo from './Logo';
 import SearchBar from './SearchBar';
 import SignIn from '../authentication/SignIn';
@@ -15,6 +14,8 @@ import Cities from '../cities/Cities';
 import { setCity } from '../cities/slices/citySlice';
 
 import { getEmail } from '../authentication/utils';
+import { setItem } from '../utils/localStorage';
+import createSlug from '../utils/createSlug';
 
 type ActionTypes =
   | 'setShowSignInModal'
@@ -57,16 +58,17 @@ const NavBar = (): JSX.Element => {
     useReducer(reducer, initialState);
 
   const { isAuthenticated, user: { firstName, lastName, photo } } = useAppSelector(state => state.users);
+  const { city } = useAppSelector(state => state.cities);
 
   const reduxDispatch = useAppDispatch();
-
-  const [storedCity, setStoredCity] = useLocalStorage('city', '');
 
   const email = getEmail();
   const fullName = `${firstName} ${lastName}`;
 
   const handleStoreCity = (city: string) => {
-    setStoredCity(city);
+    const slugCity = createSlug(city);
+    setItem('city', slugCity);
+    reduxDispatch(setCity(slugCity));
   };
 
   const handleShowSignIn = (): void => {
@@ -95,13 +97,9 @@ const NavBar = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (storedCity) return;
+    if (city) return;
     handleShowCities();
-  }, [storedCity]);
-
-  useEffect(() => {
-    reduxDispatch(setCity(storedCity));
-  }, [storedCity, reduxDispatch]);
+  }, [city]);
 
   return (
     <>
@@ -116,7 +114,9 @@ const NavBar = (): JSX.Element => {
           className='ml-auto flex items-center gap-4 text-sm'
           onClick={handleShowCities}
         >
-          <button>{storedCity || 'Select city'}</button>
+          <button>
+            {city?.replace(city[0], city[0]?.toUpperCase()) || 'Select city'}
+          </button>
           <GoChevronDown />
         </div>
 

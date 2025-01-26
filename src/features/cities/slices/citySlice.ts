@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getItem } from '../../utils/localStorage';
 
 interface CitiesState {
-  storedCity: string;
+  city: string;
 }
 
 const initialState: CitiesState = {
-  storedCity: ''
+  city: getItem('city') || ''
 };
 
 const citySlice = createSlice({
@@ -13,7 +14,7 @@ const citySlice = createSlice({
   initialState,
   reducers: {
     setCity(state, action: PayloadAction<string>) {
-      state.storedCity = action.payload.toLowerCase();
+      state.city = action.payload;
     }
   }
 });

@@ -14,7 +14,7 @@ const getCoords = (): Promise<number[]> => {
   });
 };
 
-const getPosition = async (): Promise<string> => {
+const fetchCity = async (): Promise<string> => {
   try {
     const [lat, lng] = await getCoords();
 
@@ -28,4 +28,4 @@ const getPosition = async (): Promise<string> => {
   }
 };
 
-export default getPosition;
+export default fetchCity;
