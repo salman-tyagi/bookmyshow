@@ -13,11 +13,11 @@ function RelatedReleaseItem({
     movie: { title, image, ratingsAverage, votes, slug }
   }
 }: RelatedReleaseItemProps): JSX.Element {
-  const { storedCity } = useAppSelector(state => state.cities);
+  const { city } = useAppSelector(state => state.cities);
 
   return (
     <li className='min-w-56 max-w-56'>
-      <Link to={`/${storedCity}/movies/${slug}`}>
+      <Link to={`/${city}/movies/${slug}`}>
         <div className='mb-2 overflow-hidden rounded-md'>
           <img src={`/images/${image}`} alt={`image of movie ${title}`} />
           <div className='flex items-center gap-2 bg-stone-900 px-3 py-1 font-medium text-white'>
