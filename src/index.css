@@ -62,7 +62,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-
   *,
   ::after,
   ::before,
@@ -73,7 +72,7 @@
 }
 
 @utility overlay {
-  @apply fixed top-0 z-10 flex h-screen w-full animate-overlay-smooth bg-black/35;
+  @apply animate-overlay-smooth fixed top-0 z-10 flex h-screen w-full bg-black/35;
 }
 
 @utility centered {
@@ -90,6 +89,10 @@
 
 @utility no-scrollbar {
   scrollbar-width: none;
+}
+
+@utility btn {
+  @apply w-full cursor-pointer rounded-md bg-rose-500 py-2.5 font-medium text-white;
 }
 
 @layer base {

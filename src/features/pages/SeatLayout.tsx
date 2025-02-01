@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { Location, useLocation, useNavigate } from 'react-router-dom';
 
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { SlPencil } from 'react-icons/sl';
 
 import MovieTime from '../ui/MovieTime';
+import SelectSeats from '../bookings/SelectSeats';
 import { INavigateState } from './BuyTickets';
 
 import { atWhatDay, dateWithWords, formatTime } from '../utils/helpers';
@@ -13,7 +15,10 @@ interface ILocation extends Location {
 }
 
 function SeatLayout(): JSX.Element {
+  const [showSelectSeats, setShowSelectSeats] = useState(true);
+  const [numSeats, setNumSeats] = useState(2);
   const navigate = useNavigate();
+
   const {
     state: { movieTitle, certification, theatre, filteredMovieDates, timing }
   } = useLocation() as ILocation;
@@ -26,6 +31,10 @@ function SeatLayout(): JSX.Element {
 
   const movieTime = (movieDate: string): string => {
     return formatTime(movieDate).toUpperCase();
+  };
+
+  const handleSeatCount = (numSeats: number): void => {
+    setNumSeats(numSeats);
   };
 
   return (
@@ -52,13 +61,16 @@ function SeatLayout(): JSX.Element {
           </div>
         </div>
 
-        <button className='ml-auto cursor-pointer space-x-2 rounded border border-stone-400 px-2 py-1 text-sm font-semibold text-stone-600'>
-          <span>2 Tickets</span>
+        <button
+          className='ml-auto cursor-pointer space-x-2 rounded border border-stone-400 px-2 py-1 text-sm font-semibold text-stone-600'
+          onClick={() => setShowSelectSeats(true)}
+        >
+          <span>{numSeats} Tickets</span>
           <SlPencil className='inline' size={10} />
         </button>
 
         <span
-          className='ml-10 inline-block cursor-pointer pr-4 text-3xl'
+          className='mr-6 ml-10 inline-block cursor-pointer text-3xl'
           onClick={goBack}
         >
           &times;
@@ -76,6 +88,14 @@ function SeatLayout(): JSX.Element {
           </MovieTime>
         ))}
       </div>
+
+      {showSelectSeats && (
+        <SelectSeats
+          onClose={() => setShowSelectSeats(false)}
+          numSeats={numSeats}
+          onSelectSeats={handleSeatCount}
+        />
+      )}
     </div>
   );
 }

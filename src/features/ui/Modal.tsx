@@ -21,7 +21,7 @@ function Modal({
   animation = 'animate-slide-bottom',
   className
 }: ModalProps): JSX.Element {
-  const city = getItem('city');
+  const city = getItem<string>('city');
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
