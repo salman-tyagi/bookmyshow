@@ -1,7 +1,8 @@
-const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+// prettier-ignore
+const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 // prettier-ignore
-const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
 export interface IDateWithWords {
   day: string;
@@ -12,9 +13,9 @@ export interface IDateWithWords {
 
 export const dateWithWords = (dates: string[]): IDateWithWords[] => {
   const parsedDates = dates.map(dateString => {
-    const day = days[new Date(dateString).getDay()];
+    const day = days[new Date(dateString).getDay()].slice(0, 3);
     const date = new Date(dateString).getDate();
-    const month = months[new Date(dateString).getMonth()];
+    const month = months[new Date(dateString).getMonth()].slice(0, 3);
     const year = new Date(dateString).getFullYear();
 
     return { day, date, month, year };
@@ -48,4 +49,13 @@ export const formatTime = (date: string): string => {
     hour: '2-digit',
     minute: '2-digit'
   });
+};
+
+export const atWhatDay = (dateString: string): string => {
+  const numDate = new Date(dateString).getDate();
+  const numCurrentDate = new Date().getDate();
+
+  if (numDate === numCurrentDate) return 'today';
+  if (numDate === numCurrentDate + 1) return 'tomorrow';
+  return days[new Date(dateString).getDay()];
 };
