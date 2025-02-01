@@ -3,8 +3,8 @@ import { getItem } from '../utils/localStorage';
 
 import { User } from './services/apiLogin';
 
-const token = getItem('token');
-const user = getItem('user');
+const token = getItem<string>('token');
+const user = getItem<string>('user');
 const isAuthenticated = token && user ? true : false;
 
 interface IUserState {
@@ -14,7 +14,7 @@ interface IUserState {
 
 const initialState = {
   isAuthenticated,
-  user: isAuthenticated ? JSON.parse(user) : {}
+  user: isAuthenticated ? JSON.parse(user!) : {}
 } as IUserState;
 
 const userSlice = createSlice({

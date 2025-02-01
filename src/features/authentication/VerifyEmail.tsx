@@ -34,9 +34,9 @@ const VerifyEmail = ({
   } = useForm<FormValues>();
 
   const watchOTP = watch('OTP');
-  const OTPlength = watchOTP?.toString().length;
+  const OTPLength = watchOTP?.toString().length;
 
-  const email = getItem('email');
+  const email = getItem<string>('email');
 
   const OTPSubmitHandler = async (formData: FormValues): Promise<void> => {
     if (!email) {
@@ -128,7 +128,7 @@ const VerifyEmail = ({
 
         <button
           className='text-md w-full rounded-lg bg-rose-500 py-2 font-semibold text-white transition-all hover:bg-rose-600 active:bg-rose-500 disabled:bg-rose-100'
-          disabled={OTPlength !== 6}
+          disabled={OTPLength !== 6}
         >
           Continue
         </button>

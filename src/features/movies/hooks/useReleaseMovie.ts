@@ -4,7 +4,7 @@ import { useReleasesQuery } from './queries/useReleasesQuery';
 
 export const useReleaseMovie = () => {
   const { slug = '' } = useParams<{ slug: string }>();
-  const { storedCity } = useAppSelector(state => state.cities);
+  const { city } = useAppSelector(state => state.cities);
   const { isLoading, release } = useReleasesQuery(slug);
 
   const {
@@ -33,7 +33,7 @@ export const useReleaseMovie = () => {
   const screens = Object.keys(languageAndScreen).map((scr: string) => {
     return {
       scr,
-      link: `/explore/movies-${storedCity}-${scr}`
+      link: `/explore/movies-${city}-${scr}`
     };
   });
 
@@ -42,7 +42,7 @@ export const useReleaseMovie = () => {
   ).map(lang => {
     return {
       lang: lang,
-      link: `/explore/movies-${storedCity}-${lang}`
+      link: `/explore/movies-${city}-${lang}`
     };
   });
 
@@ -69,6 +69,7 @@ export const useReleaseMovie = () => {
     cast,
     crew,
     durationInHours,
-    durationInMins
+    durationInMins,
+    movieSlug: slug
   };
 };

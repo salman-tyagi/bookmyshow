@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
 import { useAppSelector } from '../hooks/hooks';
 
-import { RecommendedReleases } from './services/apiReleases';
+import { RecommendedRelease } from './services/apiReleases';
 
 import createSlug from '../utils/createSlug';
 
 interface RecommendedMovieItemProps {
-  release: RecommendedReleases;
+  release: RecommendedRelease;
 }
 
 const RecommendedMovieItem = ({
