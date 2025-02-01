@@ -13,8 +13,7 @@ import Cities from '../cities/Cities';
 
 import { setCity } from '../cities/slices/citySlice';
 
-import { getEmail } from '../authentication/utils';
-import { setItem } from '../utils/localStorage';
+import { getItem, setItem } from '../utils/localStorage';
 import createSlug from '../utils/createSlug';
 
 type ActionTypes =
@@ -62,7 +61,7 @@ const NavBar = (): JSX.Element => {
 
   const reduxDispatch = useAppDispatch();
 
-  const email = getEmail();
+  const email = getItem<string>('email');
   const fullName = `${firstName} ${lastName}`;
 
   const handleStoreCity = (city: string) => {

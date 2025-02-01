@@ -13,7 +13,7 @@ import { useMovieReviewsQuery } from './hooks/queries/useMovieReviewsQuery';
 function MovieReviews(): JSX.Element {
   const { movieId, movieSlug } = useReleaseMovie();
   const { isLoading, reviews } = useMovieReviewsQuery(movieId);
-  const { storedCity } = useAppSelector(state => state.cities);
+  const { city } = useAppSelector(state => state.cities);
 
   if (isLoading) return <Spinner width={32} />;
 
@@ -24,7 +24,7 @@ function MovieReviews(): JSX.Element {
           <p className='text-2xl font-bold text-black'>Top reviews</p>
 
           <Link
-            to={`/${storedCity}/movies/${movieSlug}/${movieId}/user-reviews`}
+            to={`/${city}/movies/${movieSlug}/${movieId}/user-reviews`}
             className='space-x-1 text-xl font-semibold text-rose-600'
           >
             <span>

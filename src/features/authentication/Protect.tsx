@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { isAuthenticated } from './utils';
+import { useAppSelector } from '../hooks/hooks';
 
 interface ProtectProps {
   children: React.ReactNode;
@@ -9,11 +8,11 @@ interface ProtectProps {
 
 function Protect({ children }: ProtectProps): React.ReactNode {
   const navigate = useNavigate();
-  const token = isAuthenticated();
+  const { isAuthenticated } = useAppSelector(state => state.users);
 
   useEffect(() => {
-    if (!token) return navigate('/');
-  }, [token, navigate]);
+    if (!isAuthenticated) return navigate('/');
+  }, [isAuthenticated, navigate]);
 
   return children;
 }

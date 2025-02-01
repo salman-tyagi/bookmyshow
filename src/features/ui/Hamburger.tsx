@@ -5,7 +5,8 @@ import { IoChevronForward } from 'react-icons/io5';
 
 import { useAppSelector } from '../hooks/hooks';
 
-import { getEmail, logout } from '../authentication/utils';
+import { logout } from '../authentication/utils/logout';
+import { getItem } from '../utils/localStorage';
 
 interface HamburgerMenuProps {
   onShowSignIn(): void;
@@ -18,7 +19,7 @@ function HamburgerMenu({
 }: HamburgerMenuProps): JSX.Element {
   const { isAuthenticated, user: { firstName, lastName, photo } } = useAppSelector(state => state.users);
 
-  const email = getEmail();
+  const email = getItem<string>('email');
   const fullName = `${firstName} ${lastName}`;
 
   useEffect(() => {

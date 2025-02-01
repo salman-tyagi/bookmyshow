@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../hooks/hooks';
 
 function TopBar(): JSX.Element {
-  const { storedCity } = useAppSelector(state => state.cities);
+  const { city } = useAppSelector(state => state.cities);
 
   return (
     <div className='flex items-center justify-between bg-gray-50 px-4 py-3 md:px-6 xl:px-36'>
       <div className='flex gap-5 text-sm'>
-        <Link to={`explore/movies-${storedCity}`} className='cursor-pointer'>
+        <Link to={`explore/movies-${city}`} className='cursor-pointer'>
           Movies
         </Link>
         <p className='cursor-pointer'>Stream</p>

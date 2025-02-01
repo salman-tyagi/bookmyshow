@@ -18,7 +18,7 @@ function RelatedReleases(): JSX.Element {
     queryFn: () => getAllRelatedReleases(movieSlug!)
   });
 
-  const { storedCity } = useAppSelector(state => state.cities);
+  const { city } = useAppSelector(state => state.cities);
 
   if (isLoading) return <Spinner />;
 
@@ -28,7 +28,7 @@ function RelatedReleases(): JSX.Element {
         <div className='mb-5 flex items-center justify-between'>
           <p className='text-2xl font-bold text-black'>You might also like</p>
           <Link
-            to={`/explore/movies-${storedCity}`}
+            to={`/explore/movies-${city}`}
             className='space-x-1 text-xl font-semibold text-rose-600'
           >
             <span className='text-lg'>View All</span>
