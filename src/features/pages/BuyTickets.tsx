@@ -9,9 +9,18 @@ import { IoFastFoodOutline } from 'react-icons/io5';
 
 import Spinner from '../ui/Spinner';
 import ErrorPage from '../ui/ErrorPage';
+import MovieTime from '../ui/MovieTime';
 
-import { getReleaseTheatres } from '../movies/services/apiReleases';
+import { getReleaseTheatres, IReleaseTheatre } from '../movies/services/apiReleases';
 import { dateWithWords, formatDate, formatTime } from '../utils/helpers';
+
+export interface INavigateState {
+  movieTitle: string;
+  certification: string;
+  theatre: string;
+  filteredMovieDates: string[];
+  timing: string;
+}
 
 export default function BuyTickets(): JSX.Element {
   const params = useParams<{ movieData: string; releaseId: string }>();
@@ -68,6 +77,21 @@ export default function BuyTickets(): JSX.Element {
       );
     }, 10);
   }
+
+  const gotoSeatLayout = (timing: string, release: IReleaseTheatre): void => {
+    navigate(
+      `/buytickets/${movieSlug}-${selectedLanguage}-${selectedScreen}/${formatDate(timing)}/seatlayout`,
+      {
+        state: {
+          movieTitle,
+          certification,
+          theatre: `${release.theatre}, ${release.locality}`,
+          filteredMovieDates: release.filteredMovieDates,
+          timing
+        } as INavigateState
+      }
+    );
+  };
 
   return (
     <>
@@ -212,22 +236,9 @@ export default function BuyTickets(): JSX.Element {
                     <li
                       key={i}
                       className='group relative cursor-pointer'
-                      onClick={() =>
-                        navigate(
-                          `/buytickets/${movieSlug}-${selectedLanguage}-${selectedScreen}/${formatDate(timing)}/seatlayout`,
-                          {
-                            state: {
-                              title: movieTitle,
-                              theatre: 'Theatre',
-                              timing: `${dateWithWords([timing])[0].date} ${dateWithWords([timing])[0].day} ${formatTime(timing)}`
-                            }
-                          }
-                        )
-                      }
+                      onClick={() => gotoSeatLayout(timing, release)}
                     >
-                      <div className='rounded border border-stone-400 px-7 py-2.5 text-[13px] text-green-500'>
-                        {formatTime(timing).toUpperCase()}
-                      </div>
+                      <MovieTime>{formatTime(timing).toUpperCase()}</MovieTime>
 
                       <ul className='before:content-() after:content-() absolute -top-[50%] -left-[-50%] hidden -translate-x-[50%] -translate-y-[98%] justify-center gap-5 border bg-white p-3 text-center shadow-md group-hover:flex before:absolute before:top-full before:left-[48%] before:border-8 before:border-r-transparent before:border-b-transparent before:border-l-transparent after:absolute after:top-full after:left-[48%] after:-mt-px after:border-8 after:border-white after:border-r-transparent after:border-b-transparent after:border-l-transparent'>
                         {Object.entries(release.price).map(

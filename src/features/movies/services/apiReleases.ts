@@ -88,21 +88,23 @@ export const getRelease = async (slug: string) => {
 
 export type MultiplexChain = 'inox' | 'pvr' | 'cinepolis';
 
+export interface IReleaseTheatre {
+  theatre: string;
+  locality: string;
+  mTicket: boolean;
+  foodAndBeverages: boolean;
+  ticketCancellation: boolean;
+  timings: string[];
+  title: string;
+  genres: string[];
+  certification: string;
+  filteredMovieDates: string[];
+  price: { [key: string]: number };
+}
+
 interface IReleaseTheatres {
   status: string;
-  data: {
-    theatre: string;
-    locality: string;
-    mTicket: boolean;
-    foodAndBeverages: boolean;
-    ticketCancellation: boolean;
-    timings: string[];
-    title: string;
-    genres: string[];
-    certification: string;
-    filteredMovieDates: string[];
-    price: { [key: string]: number };
-  }[];
+  data: IReleaseTheatre[];
 }
 
 export const getReleaseTheatres = async (
