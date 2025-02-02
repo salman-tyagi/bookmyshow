@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Location, useLocation, useNavigate } from 'react-router-dom';
+import { Location, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { SlPencil } from 'react-icons/sl';
@@ -11,27 +11,23 @@ import { INavigateState } from './BuyTickets';
 import { atWhatDay, dateWithWords, formatTime } from '../utils/helpers';
 
 interface ILocation extends Location {
-  state: INavigateState;
+  state: INavigateState | null;
 }
 
 function SeatLayout(): JSX.Element {
   const [showSelectSeats, setShowSelectSeats] = useState(true);
   const [numSeats, setNumSeats] = useState(2);
   const navigate = useNavigate();
+  const { state } = useLocation() as ILocation;
+  const { movieData } = useParams<{ movieData: string; date: string }>();
 
-  const {
-    state: {
-      movieTitle,
-      certification,
-      theatre,
-      price,
-      filteredMovieDates,
-      timing
-    }
-  } = useLocation() as ILocation;
+  // If you copy and try to open url in another tab, there will be state variable null and the page will get break so redirected to buy tickets page
+  if (!state) return <Navigate to={`/buytickets/${movieData}`} replace />;
+
+  // prettier-ignore
+  const { movieTitle, certification, theatre, price, filteredMovieDates, timing } = state;
 
   const selectedTime = formatTime(timing).toUpperCase();
-
   const dateMonth = `${dateWithWords([timing])[0].date} ${dateWithWords([timing])[0].month}`;
 
   const goBack = (): void => navigate(-1);

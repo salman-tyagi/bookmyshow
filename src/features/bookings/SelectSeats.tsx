@@ -36,7 +36,7 @@ function SelectSeats({
 
         <div className='my-16 text-center'>
           <img
-            className='inline-block w-[30%]'
+            className='inline-block w-[28%]'
             src={imagesSeat[numSeatImage]}
             alt='seat-image'
           />
