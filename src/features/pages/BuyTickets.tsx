@@ -18,6 +18,7 @@ export interface INavigateState {
   movieTitle: string;
   certification: string;
   theatre: string;
+  price: { [key: string]: number };
   filteredMovieDates: string[];
   timing: string;
 }
@@ -86,6 +87,7 @@ export default function BuyTickets(): JSX.Element {
           movieTitle,
           certification,
           theatre: `${release.theatre}, ${release.locality}`,
+          price: release.price,
           filteredMovieDates: release.filteredMovieDates,
           timing
         } as INavigateState

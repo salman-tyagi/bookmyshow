@@ -20,7 +20,14 @@ function SeatLayout(): JSX.Element {
   const navigate = useNavigate();
 
   const {
-    state: { movieTitle, certification, theatre, filteredMovieDates, timing }
+    state: {
+      movieTitle,
+      certification,
+      theatre,
+      price,
+      filteredMovieDates,
+      timing
+    }
   } = useLocation() as ILocation;
 
   const selectedTime = formatTime(timing).toUpperCase();
@@ -94,6 +101,7 @@ function SeatLayout(): JSX.Element {
           onClose={() => setShowSelectSeats(false)}
           numSeats={numSeats}
           onSelectSeats={handleSeatCount}
+          price={price}
         />
       )}
     </div>
